@@ -4,66 +4,62 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bub's Burgers</title>
-  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    :root {
-      --primary: #ff4e50;
-      --secondary: #fc913a;
-      --bg: #fff8f0;
-      --text: #3e3e3e;
-    }
-
     body {
       margin: 0;
-      font-family: 'Open Sans', sans-serif;
-      background: var(--bg);
-      color: var(--text);
+      font-family: 'Inter', sans-serif;
+      background-color: #fdf8f3;
+      display: flex;
+      height: 100vh;
+      overflow: hidden;
     }
 
-    header {
-      background: var(--primary);
+    /* Sidebar */
+    .sidebar {
+      width: 30%;
+      background: #ffe8b6;
       padding: 2rem;
-      text-align: center;
-      color: white;
+      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      position: sticky;
+      top: 0;
     }
 
-    header h1 {
-      font-family: 'Pacifico', cursive;
-      font-size: 3rem;
-      margin: 0;
-      animation: flicker 3s infinite;
+    .sidebar h1 {
+      font-family: 'Rubik Mono One', sans-serif;
+      font-size: 2.5rem;
+      margin-bottom: 0.5rem;
+      color: #ff5f2e;
     }
 
-    @keyframes flicker {
-      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
-        opacity: 1;
-      }
-      20%, 24%, 55% {
-        opacity: 0.4;
-      }
+    .sidebar p {
+      font-size: 1rem;
+      color: #3e3e3e;
     }
 
-    .intro {
-      max-width: 800px;
-      margin: 2rem auto;
-      padding: 1rem;
-      text-align: center;
+    .sidebar footer {
+      font-size: 0.8rem;
+      color: #6b6b6b;
     }
 
-    .menu {
+    /* Main content */
+    .content {
+      flex-grow: 1;
+      padding: 2rem;
+      overflow-y: auto;
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
-      max-width: 1000px;
-      margin: 2rem auto;
-      padding: 0 1rem;
     }
 
     .menu-item {
       background: white;
-      border-radius: 15px;
-      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      border-radius: 20px;
       overflow: hidden;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
       transition: transform 0.3s ease;
     }
 
@@ -77,80 +73,87 @@
       object-fit: cover;
     }
 
-    .menu-item .details {
-      padding: 1rem;
+    .details {
+      padding: 1.2rem;
     }
 
-    .menu-item h2 {
-      font-family: 'Pacifico', cursive;
-      color: var(--primary);
+    .details h2 {
       margin-top: 0;
+      font-size: 1.3rem;
+      color: #ff5f2e;
+    }
+
+    .details p {
+      color: #555;
+      margin: 0.3rem 0;
     }
 
     .price {
-      color: var(--secondary);
-      font-weight: bold;
-      font-size: 1.2rem;
+      font-weight: 600;
+      color: #6dc1b3;
     }
 
-    footer {
-      background: var(--secondary);
-      color: white;
-      text-align: center;
-      padding: 1rem;
-      margin-top: 2rem;
+    @media (max-width: 768px) {
+      .sidebar {
+        display: none;
+      }
+
+      body {
+        flex-direction: column;
+      }
+
+      .content {
+        padding: 1rem;
+      }
     }
   </style>
 </head>
 <body>
 
-  <header>
-    <h1>Bub's Burgers</h1>
-    <p>Family-owned & Flippin' Fresh Since 1982 🍔</p>
-  </header>
-
-  <div class="intro">
-    <p>Step into the heart of comfort food! At Bub's Burgers, we serve up time-tested classics with a playful twist. Handcrafted burgers, old-school shakes, and fries just like Grandma used to make (if Grandma deep-fried everything). 💖</p>
+  <div class="sidebar">
+    <div>
+      <h1>Bub's</h1>
+      <p>Retro road-trip diner meets burger artistry. Grab a seat. We’re cookin’ something special.</p>
+    </div>
+    <footer>
+      © 2025 Bub’s Burgers • Built with grill marks.
+    </footer>
   </div>
 
-  <section class="menu">
+  <div class="content">
     <div class="menu-item">
       <img src="https://source.unsplash.com/featured/?burger" alt="Burger">
       <div class="details">
-        <h2>The Classic Bub</h2>
-        <p>100% Angus beef, melted cheddar, pickles & love.</p>
-        <p class="price">$9.95</p>
+        <h2>Roadhouse Classic</h2>
+        <p>Angus beef, sharp cheddar, grilled onions.</p>
+        <p class="price">$9.50</p>
       </div>
     </div>
     <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?burger+fries" alt="Burger and Fries">
+      <img src="https://source.unsplash.com/featured/?fries" alt="Fries">
       <div class="details">
-        <h2>Granny's Fry Basket</h2>
-        <p>Crispy fries tossed in herby goodness.</p>
+        <h2>Truck Stop Fries</h2>
+        <p>Hand-cut, crispy, smoky chipotle aioli.</p>
         <p class="price">$4.75</p>
-      </div>
-    </div>
-    <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake">
-      <div class="details">
-        <h2>Neon Vanilla Shake</h2>
-        <p>Old-fashioned shake with a neon glow (just kidding... or are we?).</p>
-        <p class="price">$3.95</p>
       </div>
     </div>
     <div class="menu-item">
       <img src="https://source.unsplash.com/featured/?burger+cheese" alt="Cheeseburger">
       <div class="details">
-        <h2>Triple Trouble</h2>
-        <p>Three patties, stacked high. Enter if you dare.</p>
-        <p class="price">$12.99</p>
+        <h2>The Melt Down</h2>
+        <p>Double patty, provolone, grilled jalapeños.</p>
+        <p class="price">$11.25</p>
       </div>
     </div>
-  </section>
-
-  <footer>
-    <p>&copy; 2025 Bub's Burgers. Lovingly flippin’ since ’82.</p>
-  </footer>
+    <div class="menu-item">
+      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake">
+      <div class="details">
+        <h2>Vanilla Sky Shake</h2>
+        <p>Creamy vanilla with whipped top & cherry.</p>
+        <p class="price">$3.95</p>
+      </div>
+    </div>
+  </div>
 
 </body>
 </html>
