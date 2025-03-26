@@ -3,142 +3,141 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bub's Burgers 🍔</title>
-  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
+  <title>PipePros Plumbing 🚰</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --primary: #0077b6;
+      --secondary: #90e0ef;
+      --bg: #f7f9fb;
+      --text: #222;
+    }
+
     body {
       margin: 0;
-      font-family: 'Quicksand', sans-serif;
-      background: #fff9f4;
-      color: #4a3f35;
+      font-family: 'Manrope', sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
 
     header {
+      background: var(--primary);
+      color: white;
+      padding: 1.5rem;
       text-align: center;
-      background: #fcd5ce;
-      padding: 2rem 1rem;
-      border-bottom: 4px solid #f08080;
     }
 
     header h1 {
-      font-family: 'Patrick Hand', cursive;
-      font-size: 3rem;
       margin: 0;
+      font-size: 2rem;
     }
 
     header p {
-      font-size: 1.2rem;
       margin-top: 0.5rem;
+      font-size: 1rem;
     }
 
-    .welcome {
-      max-width: 700px;
-      margin: 2rem auto;
+    .cta {
+      background: var(--secondary);
+      padding: 1rem;
       text-align: center;
-      padding: 0 1rem;
     }
 
-    .welcome p {
+    .cta button {
+      background: var(--primary);
+      color: white;
+      font-size: 1.1rem;
+      padding: 0.8rem 1.5rem;
+      border: none;
+      border-radius: 10px;
+      cursor: pointer;
+      width: 100%;
+      max-width: 300px;
+    }
+
+    .intro {
+      text-align: center;
+      padding: 2rem 1rem;
       font-size: 1.1rem;
       line-height: 1.6;
     }
 
-    .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
-      gap: 2rem;
-      padding: 2rem 1rem;
-    }
-
-    .item {
-      background: #fff;
-      border: 2px solid #f08080;
-      border-radius: 15px;
-      width: 280px;
+    .services {
+      display: grid;
+      grid-template-columns: 1fr;
+      gap: 1.5rem;
       padding: 1rem;
-      box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
-      text-align: center;
-      transition: transform 0.3s ease;
+      max-width: 600px;
+      margin: 0 auto;
     }
 
-    .item:hover {
-      transform: scale(1.03);
+    .service {
+      background: white;
+      border-left: 6px solid var(--primary);
+      border-radius: 10px;
+      padding: 1rem;
+      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
     }
 
-    .item h2 {
-      font-family: 'Patrick Hand', cursive;
-      font-size: 1.5rem;
-      margin: 0.5rem 0;
+    .service h3 {
+      margin: 0 0 0.3rem;
     }
 
-    .item p {
-      margin: 0.5rem 0;
-    }
-
-    .price {
-      color: #e07a5f;
-      font-weight: bold;
+    .service p {
+      margin: 0;
+      font-size: 0.95rem;
     }
 
     footer {
       text-align: center;
-      background: #fcd5ce;
       padding: 1rem;
-      border-top: 3px solid #f08080;
       font-size: 0.9rem;
+      color: #555;
+    }
+
+    @media (min-width: 600px) {
+      .services {
+        grid-template-columns: 1fr 1fr;
+      }
+
+      .cta button {
+        font-size: 1.2rem;
+      }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Welcome to Bub's Burgers 🍔💛</h1>
-    <p>Home-cooked joy, straight from our family grill 🔥</p>
+    <h1>PipePros Plumbing 🚰</h1>
+    <p>Reliable. Fast. Local. Serving your neighborhood with pride!</p>
   </header>
 
-  <div class="welcome">
-    <p>
-      We’re just a family who loves making people happy with good food. Whether you're stopping by for a quick bite or sitting down with your crew, we’re serving up burgers 🍔, shakes 🥤, and smiles 😊 — just like mama taught us.
-    </p>
+  <div class="cta">
+    <button onclick="window.location.href='tel:1234567890'">📞 Call Now for Service</button>
   </div>
 
-  <section class="menu">
-    <div class="item">
-      <h2>🍔 The Family Classic</h2>
-      <p>Beef patty, melted cheese, fresh tomato & lettuce</p>
-      <p class="price">$8.95</p>
-    </div>
-    <div class="item">
-      <h2>🍟 Hand-Cut Fries</h2>
-      <p>Golden, crispy, seasoned with love</p>
-      <p class="price">$3.50</p>
-    </div>
-    <div class="item">
-      <h2>🥓 BBQ Bub Burger</h2>
-      <p>Smoky BBQ, bacon strips, fried onions</p>
-      <p class="price">$10.25</p>
-    </div>
-    <div class="item">
-      <h2>🥤 Old-Fashioned Shake</h2>
-      <p>Pick vanilla, chocolate, or strawberry</p>
-      <p class="price">$4.25</p>
-    </div>
-    <div class="item">
-      <h2>🍳 Breakfast Burger</h2>
-      <p>Fried egg, sausage patty, maple aioli</p>
-      <p class="price">$9.75</p>
-    </div>
-    <div class="item">
-      <h2>🍔 Bub's Veggie Deluxe</h2>
-      <p>Grilled portobello, arugula, pesto mayo</p>
-      <p class="price">$9.00</p>
-    </div>
-  </section>
+  <div class="intro">
+    We’re your go-to team for anything that drips, leaks, clogs, or floods 💦. Trusted by hundreds of families, businesses, and landlords. No job too small — we fix them all!
+  </div>
 
-  <footer>
-    &copy; 2025 Bub’s Burgers 🍔 — Made with love by the Bub family ❤️
-  </footer>
-
-</body>
-</html>
+  <section class="services">
+    <div class="service">
+      <h3>🚿 Shower & Faucet Repair</h3>
+      <p>Drips, low pressure, or busted handles? We’ve got you covered.</p>
+    </div>
+    <div class="service">
+      <h3>🚽 Toilet Troubles</h3>
+      <p>Running water or stubborn clogs? Flush your worries away!</p>
+    </div>
+    <div class="service">
+      <h3>🛠️ Emergency Pipe Fix</h3>
+      <p>We’re on-call for sudden breaks and major leaks — 24/7.</p>
+    </div>
+    <div class="service">
+      <h3>🌊 Drain Cleaning</h3>
+      <p>Grease, hair, or mystery gunk? We’ll clear it out fast.</p>
+    </div>
+    <div class="service">
+      <h3>💧 Water Heater Help</h3>
+      <p>Cold showers? Let us bring the heat back into your
