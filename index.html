@@ -1,264 +1,165 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>New Age Diner</title>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Bub's Burgers</title>
   <style>
-    /* Reset and basic styles */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { font-family: Arial, sans-serif; line-height: 1.6; color: #333; }
-    
-    /* Navigation Bar */
-    nav {
-      background: rgba(0, 0, 0, 0.7);
-      padding: 10px;
-      position: fixed;
-      top: 0;
-      width: 100%;
-      display: flex;
-      justify-content: center;
-      z-index: 1000;
+    /* Global Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
     }
-    nav a {
-      color: #fff;
-      margin: 0 15px;
-      text-decoration: none;
-      font-size: 1.2em;
-      transition: color 0.3s ease;
+
+    body {
+      font-family: 'Arial', sans-serif;
+      overflow-x: hidden;
+      background: linear-gradient(270deg, #ff6f61, #ffc371, #48c6ef, #6f86d6);
+      background-size: 800% 800%;
+      animation: gradientBG 20s ease infinite;
+      color: white;
     }
-    nav a:hover { color: #f0a500; }
-    
-    /* Hero Section with Unsplash background image */
+
+    @keyframes gradientBG {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
     header {
-      position: relative;
-      height: 100vh;
-      background: url('https://source.unsplash.com/1600x900/?diner,restaurant') no-repeat center center/cover;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-    }
-    header h1 {
-      font-size: 3em;
-      color: #fff;
-      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.7);
-    }
-    
-    /* Section styles */
-    section {
-      padding: 60px 20px;
-    }
-    .section-title {
       text-align: center;
-      margin-bottom: 20px;
-      font-size: 2.5em;
+      padding: 2rem;
+      background: rgba(0, 0, 0, 0.4);
+      backdrop-filter: blur(5px);
     }
-    .content { max-width: 1000px; margin: auto; }
-    
-    /* Our Story & Menu layout */
-    .story, .menu {
+
+    h1 {
+      font-size: 3rem;
+      margin-bottom: 0.5rem;
+      animation: popIn 1s ease-in-out;
+    }
+
+    @keyframes popIn {
+      from { transform: scale(0.5); opacity: 0; }
+      to { transform: scale(1); opacity: 1; }
+    }
+
+    .menu {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
       justify-content: center;
-      align-items: center;
+      gap: 2rem;
+      padding: 2rem;
     }
-    .story img, .menu img {
-      width: 100%;
-      max-width: 400px;
-      border-radius: 10px;
-      cursor: pointer;
-      transition: transform 0.3s ease;
-    }
-    .story img:hover, .menu img:hover { transform: scale(1.05); }
-    
-    /* Menu item card styles */
+
     .menu-item {
-      background: #f4f4f4;
-      padding: 20px;
-      border-radius: 10px;
+      background: rgba(0,0,0,0.3);
+      border-radius: 15px;
+      width: 250px;
+      padding: 1rem;
       text-align: center;
-      flex: 1 1 300px;
-      box-shadow: 0 2px 5px rgba(0, 0, 0, 0.1);
       transition: transform 0.3s ease;
     }
-    .menu-item:hover { transform: translateY(-5px); }
-    .menu-item img { width: 100%; border-radius: 10px; }
-    
-    /* Modal styles for image enlargement */
-    .modal {
-      display: none;
-      position: fixed;
-      z-index: 2000;
-      left: 0;
-      top: 0;
+
+    .menu-item:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-item img {
       width: 100%;
-      height: 100%;
-      overflow: auto;
-      background: rgba(0, 0, 0, 0.8);
+      height: 150px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
     }
-    .modal-content {
-      margin: 10% auto;
-      display: block;
-      max-width: 80%;
+
+    .price {
+      font-size: 1.2rem;
+      color: #ffd700;
     }
-    .modal-close {
+
+    /* Floating Blobs */
+    .blob {
       position: absolute;
-      top: 20px;
-      right: 35px;
-      color: #fff;
-      font-size: 40px;
-      font-weight: bold;
-      cursor: pointer;
+      border-radius: 50%;
+      opacity: 0.6;
+      z-index: 0;
+      animation: floatBlob 15s ease-in-out infinite;
     }
-    
-    /* Scroll-to-Top Button */
-    #scrollTopBtn {
-      display: none;
-      position: fixed;
-      bottom: 30px;
-      right: 30px;
-      z-index: 1000;
-      font-size: 18px;
-      background: #333;
-      color: #fff;
-      padding: 10px 15px;
-      border: none;
-      border-radius: 5px;
-      cursor: pointer;
+
+    .blob1 {
+      width: 300px;
+      height: 300px;
+      background: #ff6f61;
+      top: 20%;
+      left: 5%;
+    }
+
+    .blob2 {
+      width: 200px;
+      height: 200px;
+      background: #48c6ef;
+      bottom: 10%;
+      right: 10%;
+      animation-delay: 5s;
+    }
+
+    @keyframes floatBlob {
+      0%, 100% {
+        transform: translateY(0px) rotate(0deg);
+      }
+      50% {
+        transform: translateY(-30px) rotate(360deg);
+      }
+    }
+
+    footer {
+      text-align: center;
+      padding: 1rem;
+      font-size: 0.9rem;
+      background-color: rgba(0, 0, 0, 0.4);
     }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav>
-    <a href="#home">Home</a>
-    <a href="#story">Our Story</a>
-    <a href="#menu">Menu</a>
-    <a href="#gallery">Gallery</a>
-    <a href="#contact">Contact</a>
-  </nav>
+  <div class="blob blob1"></div>
+  <div class="blob blob2"></div>
 
-  <!-- Hero Section -->
-  <header id="home">
-    <h1>New Age Diner</h1>
+  <header>
+    <h1>Bub's Burgers</h1>
+    <p>Where flavor meets flair 🍔✨</p>
   </header>
 
-  <!-- Our Story Section -->
-  <section id="story">
-    <h2 class="section-title">Our Story</h2>
-    <div class="content story">
-      <div>
-        <p style="padding:20px;">
-          Welcome to New Age Diner, where classic comfort meets modern flair! Our journey started with a passion for reimagining diner favorites, blending tradition with innovative culinary twists. Enjoy our cozy ambiance and creative dishes made with fresh, locally-sourced ingredients.
-        </p>
-      </div>
-      <div>
-        <img src="https://source.unsplash.com/800x600/?diner,food" alt="Our Story Image">
-      </div>
+  <section class="menu">
+    <div class="menu-item">
+      <img src="https://source.unsplash.com/featured/?burger" alt="Burger" />
+      <h2>Classic Bub Burger</h2>
+      <p>Juicy beef, lettuce, tomato, and our secret sauce</p>
+      <p class="price">$8.99</p>
+    </div>
+    <div class="menu-item">
+      <img src="https://source.unsplash.com/featured/?fries" alt="Fries" />
+      <h2>Loaded Fries</h2>
+      <p>Cheddar, bacon, ranch drizzle</p>
+      <p class="price">$4.99</p>
+    </div>
+    <div class="menu-item">
+      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake" />
+      <h2>Vanilla Shake</h2>
+      <p>Thick, creamy, topped with whipped cream</p>
+      <p class="price">$3.50</p>
+    </div>
+    <div class="menu-item">
+      <img src="https://source.unsplash.com/featured/?cheeseburger" alt="Cheeseburger" />
+      <h2>Cheesy Deluxe</h2>
+      <p>Double cheese, double meat, double the joy</p>
+      <p class="price">$10.49</p>
     </div>
   </section>
 
-  <!-- Menu Section -->
-  <section id="menu" style="background: #f9f9f9;">
-    <h2 class="section-title">Menu Highlights</h2>
-    <div class="content menu">
-      <div class="menu-item">
-        <img src="https://source.unsplash.com/400x300/?burger" alt="Burger Deluxe">
-        <h3>Burger Deluxe</h3>
-        <p>A juicy, mouth-watering burger stacked with fresh toppings.</p>
-      </div>
-      <div class="menu-item">
-        <img src="https://source.unsplash.com/400x300/?pancakes" alt="Stack of Pancakes">
-        <h3>Stack of Pancakes</h3>
-        <p>Fluffy pancakes drizzled with maple syrup and served with a smile.</p>
-      </div>
-      <div class="menu-item">
-        <img src="https://source.unsplash.com/400x300/?salad" alt="Garden Salad">
-        <h3>Garden Salad</h3>
-        <p>A refreshing mix of greens, veggies, and a zesty dressing.</p>
-      </div>
-    </div>
-  </section>
-
-  <!-- Gallery Section -->
-  <section id="gallery">
-    <h2 class="section-title">Gallery</h2>
-    <div class="content" style="display: flex; flex-wrap: wrap; gap: 20px; justify-content: center;">
-      <img src="https://source.unsplash.com/400x300/?restaurant,interior" alt="Gallery Image 1" class="gallery-img">
-      <img src="https://source.unsplash.com/400x300/?diner,interior" alt="Gallery Image 2" class="gallery-img">
-      <img src="https://source.unsplash.com/400x300/?food,plating" alt="Gallery Image 3" class="gallery-img">
-      <img src="https://source.unsplash.com/400x300/?chefs" alt="Gallery Image 4" class="gallery-img">
-    </div>
-  </section>
-
-  <!-- Contact Section -->
-  <section id="contact" style="background: #f9f9f9;">
-    <h2 class="section-title">Get In Touch</h2>
-    <div class="content" style="max-width: 600px; margin: auto; text-align: center;">
-      <p>Questions or reservations? We'd love to hear from you!</p>
-      <p>Email: <a href="mailto:contact@newagediner.com">contact@newagediner.com</a></p>
-      <p>Phone: <a href="tel:+1234567890">+1 (234) 567-890</a></p>
-    </div>
-  </section>
-
-  <!-- Modal for Image Enlargement -->
-  <div id="imgModal" class="modal">
-    <span class="modal-close" id="modalClose">&times;</span>
-    <img class="modal-content" id="modalImg">
-  </div>
-
-  <!-- Scroll-to-Top Button -->
-  <button id="scrollTopBtn">Top</button>
-
-  <script>
-    // IT Guy, this script adds interactive functionality to our website.
-
-    // Modal functionality for gallery images
-    const modal = document.getElementById('imgModal');
-    const modalImg = document.getElementById('modalImg');
-    const modalClose = document.getElementById('modalClose');
-
-    // Attach click event to all images with class "gallery-img" to enlarge them
-    document.querySelectorAll('.gallery-img').forEach(img => {
-      img.addEventListener('click', function() {
-        modal.style.display = 'block';
-        modalImg.src = this.src;
-      });
-    });
-
-    // Close modal when clicking the close button or outside the image
-    modalClose.addEventListener('click', () => modal.style.display = 'none');
-    window.addEventListener('click', event => {
-      if (event.target === modal) {
-        modal.style.display = 'none';
-      }
-    });
-
-    // Scroll-to-Top Button functionality
-    const scrollTopBtn = document.getElementById('scrollTopBtn');
-    window.addEventListener('scroll', () => {
-      if (document.body.scrollTop > 300 || document.documentElement.scrollTop > 300) {
-        scrollTopBtn.style.display = 'block';
-      } else {
-        scrollTopBtn.style.display = 'none';
-      }
-    });
-    scrollTopBtn.addEventListener('click', () => {
-      window.scrollTo({ top: 0, behavior: 'smooth' });
-    });
-
-    // Smooth scrolling for navigation links
-    document.querySelectorAll('nav a').forEach(link => {
-      link.addEventListener('click', function(e) {
-        e.preventDefault();
-        const targetId = this.getAttribute('href').substring(1);
-        const targetSection = document.getElementById(targetId);
-        if (targetSection) {
-          targetSection.scrollIntoView({ behavior: 'smooth' });
-        }
-      });
-    });
-  </script>
+  <footer>
+    <p>&copy; 2025 Bub's Burgers. All rights reserved.</p>
+  </footer>
 </body>
 </html>
