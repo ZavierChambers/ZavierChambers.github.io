@@ -3,105 +3,149 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>PipePros Plumbing 🚰</title>
+  <title>Bub’s Plumbing | Reliable Local Plumbing</title>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --primary: #0077b6;
-      --secondary: #90e0ef;
-      --bg: #f7f9fb;
-      --text: #222;
+      --secondary: #48cae4;
+      --bg: #f8f9fa;
+      --text: #2a2a2a;
+    }
+
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
     }
 
     body {
-      margin: 0;
       font-family: 'Manrope', sans-serif;
       background: var(--bg);
       color: var(--text);
+      line-height: 1.6;
     }
 
     header {
       background: var(--primary);
       color: white;
-      padding: 1.5rem;
+      padding: 2rem 1rem;
       text-align: center;
     }
 
     header h1 {
-      margin: 0;
-      font-size: 2rem;
+      font-size: 2.5rem;
     }
 
     header p {
+      font-size: 1.2rem;
       margin-top: 0.5rem;
-      font-size: 1rem;
     }
 
-    .cta {
-      background: var(--secondary);
-      padding: 1rem;
+    .hero {
+      background: white;
+      padding: 3rem 1rem;
       text-align: center;
     }
 
-    .cta button {
-      background: var(--primary);
-      color: white;
+    .hero h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+    }
+
+    .hero p {
+      max-width: 700px;
+      margin: 0 auto;
       font-size: 1.1rem;
-      padding: 0.8rem 1.5rem;
+    }
+
+    .cta-button {
+      background: var(--secondary);
       border: none;
+      padding: 1rem 2rem;
+      margin-top: 1.5rem;
+      font-size: 1.1rem;
+      color: white;
       border-radius: 10px;
       cursor: pointer;
-      width: 100%;
-      max-width: 300px;
     }
 
-    .intro {
+    .section {
+      padding: 3rem 1rem;
+      max-width: 1000px;
+      margin: auto;
+    }
+
+    .section h2 {
       text-align: center;
-      padding: 2rem 1rem;
-      font-size: 1.1rem;
-      line-height: 1.6;
+      font-size: 2rem;
+      margin-bottom: 2rem;
     }
 
-    .services {
+    .services-grid {
       display: grid;
       grid-template-columns: 1fr;
-      gap: 1.5rem;
-      padding: 1rem;
-      max-width: 600px;
-      margin: 0 auto;
+      gap: 2rem;
     }
 
     .service {
       background: white;
-      border-left: 6px solid var(--primary);
-      border-radius: 10px;
-      padding: 1rem;
-      box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+      padding: 1.5rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.05);
     }
 
     .service h3 {
-      margin: 0 0 0.3rem;
+      margin-bottom: 0.5rem;
+      color: var(--primary);
     }
 
-    .service p {
-      margin: 0;
-      font-size: 0.95rem;
+    .about {
+      text-align: center;
+    }
+
+    .about p {
+      max-width: 800px;
+      margin: 0 auto;
+      font-size: 1.05rem;
+    }
+
+    .contact {
+      background: var(--primary);
+      color: white;
+      text-align: center;
+      padding: 2rem 1rem;
+    }
+
+    .contact h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .contact a {
+      display: inline-block;
+      background: var(--secondary);
+      color: white;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      text-decoration: none;
+      font-size: 1rem;
     }
 
     footer {
       text-align: center;
-      padding: 1rem;
+      padding: 1.2rem;
       font-size: 0.9rem;
-      color: #555;
+      background: #e0e0e0;
     }
 
-    @media (min-width: 600px) {
-      .services {
-        grid-template-columns: 1fr 1fr;
+    @media (min-width: 700px) {
+      .services-grid {
+        grid-template-columns: repeat(2, 1fr);
       }
 
-      .cta button {
-        font-size: 1.2rem;
+      header h1 {
+        font-size: 3rem;
       }
     }
   </style>
@@ -109,35 +153,61 @@
 <body>
 
   <header>
-    <h1>PipePros Plumbing 🚰</h1>
-    <p>Reliable. Fast. Local. Serving your neighborhood with pride!</p>
+    <h1>Bub’s Plumbing</h1>
+    <p>Professional • Affordable • Trusted in the Community</p>
   </header>
 
-  <div class="cta">
-    <button onclick="window.location.href='tel:1234567890'">📞 Call Now for Service</button>
-  </div>
+  <section class="hero">
+    <h2>Plumbing Peace of Mind 🛠️</h2>
+    <p>From leaky faucets to full pipe replacements, Bub’s Plumbing offers fast, expert service with small-business integrity. Proudly serving local homes & businesses for over 15 years.</p>
+    <button class="cta-button" onclick="window.location.href='tel:1234567890'">📞 Call Now: (123) 456-7890</button>
+  </section>
 
-  <div class="intro">
-    We’re your go-to team for anything that drips, leaks, clogs, or floods 💦. Trusted by hundreds of families, businesses, and landlords. No job too small — we fix them all!
-  </div>
+  <section class="section">
+    <h2>Our Services</h2>
+    <div class="services-grid">
+      <div class="service">
+        <h3>🚽 Toilet Repair & Installation</h3>
+        <p>Running toilets, poor flushes, or new installs — we handle it all quickly and cleanly.</p>
+      </div>
+      <div class="service">
+        <h3>🚿 Showers & Faucets</h3>
+        <p>Repair, replace, or upgrade your fixtures for efficiency and flow.</p>
+      </div>
+      <div class="service">
+        <h3>🔧 Leak Detection & Fix</h3>
+        <p>Save money on your water bill and prevent water damage with prompt leak services.</p>
+      </div>
+      <div class="service">
+        <h3>🔥 Water Heater Services</h3>
+        <p>Installations, maintenance, and repairs — stay warm with reliable hot water.</p>
+      </div>
+      <div class="service">
+        <h3>🌊 Emergency Plumbing</h3>
+        <p>We're on-call for after-hours flooding, pipe bursts, and urgent repairs.</p>
+      </div>
+      <div class="service">
+        <h3>🏠 Whole Home Inspections</h3>
+        <p>Buying or selling? We provide full inspections and recommendations.</p>
+      </div>
+    </div>
+  </section>
 
-  <section class="services">
-    <div class="service">
-      <h3>🚿 Shower & Faucet Repair</h3>
-      <p>Drips, low pressure, or busted handles? We’ve got you covered.</p>
-    </div>
-    <div class="service">
-      <h3>🚽 Toilet Troubles</h3>
-      <p>Running water or stubborn clogs? Flush your worries away!</p>
-    </div>
-    <div class="service">
-      <h3>🛠️ Emergency Pipe Fix</h3>
-      <p>We’re on-call for sudden breaks and major leaks — 24/7.</p>
-    </div>
-    <div class="service">
-      <h3>🌊 Drain Cleaning</h3>
-      <p>Grease, hair, or mystery gunk? We’ll clear it out fast.</p>
-    </div>
-    <div class="service">
-      <h3>💧 Water Heater Help</h3>
-      <p>Cold showers? Let us bring the heat back into your
+  <section class="section about">
+    <h2>About Bub’s Plumbing</h2>
+    <p>
+      Founded in 2010, Bub’s Plumbing is a family-owned business built on honesty, quality, and reliability. We take pride in giving our customers clear communication, transparent pricing, and lasting results. With over 15 years of experience, you can trust us to treat your home like our own.
+    </p>
+  </section>
+
+  <section class="contact">
+    <h3>Need Fast Plumbing Help?</h3>
+    <a href="tel:1234567890">📞 Call (123) 456-7890</a>
+  </section>
+
+  <footer>
+    &copy; 2025 Bub’s Plumbing — Licensed & Insured | Serving Residential & Commercial Clients
+  </footer>
+
+</body>
+</html>
