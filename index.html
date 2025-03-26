@@ -3,15 +3,38 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Welcome to ricks University</title>
+  <title>RICKS University</title>
   <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
   <style>
-    body {
+    * {
       margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
       font-family: 'Roboto', sans-serif;
       background-color: #f4f4f4;
       color: #333;
     }
+
+    /* Fullscreen Video Section */
+    .video-fullscreen {
+      width: 100vw;
+      height: 100vh;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .video-fullscreen iframe {
+      position: absolute;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      border: none;
+    }
+
     /* Navigation Bar */
     .navbar {
       display: flex;
@@ -21,12 +44,14 @@
       padding: 1rem 5%;
       color: white;
     }
+
     .navbar a {
       color: white;
       text-decoration: none;
       margin-left: 1.5rem;
       font-weight: 700;
     }
+
     /* Hero Section */
     .hero {
       text-align: center;
@@ -34,30 +59,12 @@
       background-color: #0056b3;
       color: white;
     }
+
     .hero h1 {
       margin-bottom: 1rem;
       font-size: 2.5rem;
     }
-    /* Video Section */
-    .video-section {
-      display: flex;
-      justify-content: center;
-      padding: 2rem 0;
-    }
-    .video-container {
-      width: 80%;
-      max-width: 800px;
-      position: relative;
-      padding-bottom: 56.25%; /* 16:9 Aspect Ratio */
-      height: 0;
-    }
-    .video-container iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-    }
+
     /* Footer */
     footer {
       text-align: center;
@@ -69,6 +76,11 @@
   </style>
 </head>
 <body>
+
+  <!-- Fullscreen Video Section -->
+  <section class="video-fullscreen">
+    <iframe src="https://www.youtube.com/embed/oHg5SJYRHA0?si=qJQK_4sNhVFrNk8h&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+  </section>
 
   <!-- Navigation Bar -->
   <nav class="navbar">
@@ -86,16 +98,8 @@
 
   <!-- Hero Section -->
   <section class="hero">
-    <h1>Welcome to POOP University</h1>
-    <p>Empowering students to make a difference in the world.</p>
-  </section>
-
-  <!-- Video Section -->
-  <section class="video-section">
-    <div class="video-container">
-      <!-- Embedded YouTube Video -->
-      <iframe width="560" height="315" src="https://www.youtube.com/embed/dQw4w9WgXcQ?si=u6BJTFqlAUySlzR8&amp;controls=0" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-    </div>
+    <h1>Empowering students to lead and inspire 🎓</h1>
+    <p>Explore our world-class programs, diverse community, and passionate faculty.</p>
   </section>
 
   <!-- Footer -->
