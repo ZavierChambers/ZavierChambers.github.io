@@ -4,162 +4,153 @@
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
   <title>Bub's Burgers</title>
+  <link href="https://fonts.googleapis.com/css2?family=Pacifico&family=Open+Sans&display=swap" rel="stylesheet">
   <style>
-    /* Global Reset */
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
+    :root {
+      --primary: #ff4e50;
+      --secondary: #fc913a;
+      --bg: #fff8f0;
+      --text: #3e3e3e;
     }
 
     body {
-      font-family: 'Arial', sans-serif;
-      overflow-x: hidden;
-      background: linear-gradient(270deg, #ff6f61, #ffc371, #48c6ef, #6f86d6);
-      background-size: 800% 800%;
-      animation: gradientBG 20s ease infinite;
-      color: white;
-    }
-
-    @keyframes gradientBG {
-      0% { background-position: 0% 50%; }
-      50% { background-position: 100% 50%; }
-      100% { background-position: 0% 50%; }
+      margin: 0;
+      font-family: 'Open Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
     }
 
     header {
-      text-align: center;
+      background: var(--primary);
       padding: 2rem;
-      background: rgba(0, 0, 0, 0.4);
-      backdrop-filter: blur(5px);
+      text-align: center;
+      color: white;
     }
 
-    h1 {
+    header h1 {
+      font-family: 'Pacifico', cursive;
       font-size: 3rem;
-      margin-bottom: 0.5rem;
-      animation: popIn 1s ease-in-out;
+      margin: 0;
+      animation: flicker 3s infinite;
     }
 
-    @keyframes popIn {
-      from { transform: scale(0.5); opacity: 0; }
-      to { transform: scale(1); opacity: 1; }
+    @keyframes flicker {
+      0%, 19%, 21%, 23%, 25%, 54%, 56%, 100% {
+        opacity: 1;
+      }
+      20%, 24%, 55% {
+        opacity: 0.4;
+      }
+    }
+
+    .intro {
+      max-width: 800px;
+      margin: 2rem auto;
+      padding: 1rem;
+      text-align: center;
     }
 
     .menu {
-      display: flex;
-      flex-wrap: wrap;
-      justify-content: center;
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
       gap: 2rem;
-      padding: 2rem;
+      max-width: 1000px;
+      margin: 2rem auto;
+      padding: 0 1rem;
     }
 
     .menu-item {
-      background: rgba(0,0,0,0.3);
+      background: white;
       border-radius: 15px;
-      width: 250px;
-      padding: 1rem;
-      text-align: center;
+      box-shadow: 0 5px 15px rgba(0,0,0,0.1);
+      overflow: hidden;
       transition: transform 0.3s ease;
     }
 
     .menu-item:hover {
-      transform: scale(1.05);
+      transform: translateY(-5px);
     }
 
     .menu-item img {
       width: 100%;
-      height: 150px;
+      height: 180px;
       object-fit: cover;
-      border-radius: 10px;
-      margin-bottom: 0.5rem;
+    }
+
+    .menu-item .details {
+      padding: 1rem;
+    }
+
+    .menu-item h2 {
+      font-family: 'Pacifico', cursive;
+      color: var(--primary);
+      margin-top: 0;
     }
 
     .price {
+      color: var(--secondary);
+      font-weight: bold;
       font-size: 1.2rem;
-      color: #ffd700;
-    }
-
-    /* Floating Blobs */
-    .blob {
-      position: absolute;
-      border-radius: 50%;
-      opacity: 0.6;
-      z-index: 0;
-      animation: floatBlob 15s ease-in-out infinite;
-    }
-
-    .blob1 {
-      width: 300px;
-      height: 300px;
-      background: #ff6f61;
-      top: 20%;
-      left: 5%;
-    }
-
-    .blob2 {
-      width: 200px;
-      height: 200px;
-      background: #48c6ef;
-      bottom: 10%;
-      right: 10%;
-      animation-delay: 5s;
-    }
-
-    @keyframes floatBlob {
-      0%, 100% {
-        transform: translateY(0px) rotate(0deg);
-      }
-      50% {
-        transform: translateY(-30px) rotate(360deg);
-      }
     }
 
     footer {
+      background: var(--secondary);
+      color: white;
       text-align: center;
       padding: 1rem;
-      font-size: 0.9rem;
-      background-color: rgba(0, 0, 0, 0.4);
+      margin-top: 2rem;
     }
   </style>
 </head>
 <body>
-  <div class="blob blob1"></div>
-  <div class="blob blob2"></div>
 
   <header>
     <h1>Bub's Burgers</h1>
-    <p>Where flavor meets flair 🍔✨</p>
+    <p>Family-owned & Flippin' Fresh Since 1982 🍔</p>
   </header>
+
+  <div class="intro">
+    <p>Step into the heart of comfort food! At Bub's Burgers, we serve up time-tested classics with a playful twist. Handcrafted burgers, old-school shakes, and fries just like Grandma used to make (if Grandma deep-fried everything). 💖</p>
+  </div>
 
   <section class="menu">
     <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?burger" alt="Burger" />
-      <h2>Classic Bub Burger</h2>
-      <p>Juicy beef, lettuce, tomato, and our secret sauce</p>
-      <p class="price">$8.99</p>
+      <img src="https://source.unsplash.com/featured/?burger" alt="Burger">
+      <div class="details">
+        <h2>The Classic Bub</h2>
+        <p>100% Angus beef, melted cheddar, pickles & love.</p>
+        <p class="price">$9.95</p>
+      </div>
     </div>
     <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?fries" alt="Fries" />
-      <h2>Loaded Fries</h2>
-      <p>Cheddar, bacon, ranch drizzle</p>
-      <p class="price">$4.99</p>
+      <img src="https://source.unsplash.com/featured/?burger+fries" alt="Burger and Fries">
+      <div class="details">
+        <h2>Granny's Fry Basket</h2>
+        <p>Crispy fries tossed in herby goodness.</p>
+        <p class="price">$4.75</p>
+      </div>
     </div>
     <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake" />
-      <h2>Vanilla Shake</h2>
-      <p>Thick, creamy, topped with whipped cream</p>
-      <p class="price">$3.50</p>
+      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake">
+      <div class="details">
+        <h2>Neon Vanilla Shake</h2>
+        <p>Old-fashioned shake with a neon glow (just kidding... or are we?).</p>
+        <p class="price">$3.95</p>
+      </div>
     </div>
     <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?cheeseburger" alt="Cheeseburger" />
-      <h2>Cheesy Deluxe</h2>
-      <p>Double cheese, double meat, double the joy</p>
-      <p class="price">$10.49</p>
+      <img src="https://source.unsplash.com/featured/?burger+cheese" alt="Cheeseburger">
+      <div class="details">
+        <h2>Triple Trouble</h2>
+        <p>Three patties, stacked high. Enter if you dare.</p>
+        <p class="price">$12.99</p>
+      </div>
     </div>
   </section>
 
   <footer>
-    <p>&copy; 2025 Bub's Burgers. All rights reserved.</p>
+    <p>&copy; 2025 Bub's Burgers. Lovingly flippin’ since ’82.</p>
   </footer>
+
 </body>
 </html>
