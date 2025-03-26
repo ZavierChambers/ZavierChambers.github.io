@@ -1,113 +1,112 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>RICKS University</title>
-  <link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>My Web Design Portfolio</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
     * {
+      box-sizing: border-box;
       margin: 0;
       padding: 0;
-      box-sizing: border-box;
     }
 
     body {
-      font-family: 'Roboto', sans-serif;
-      background-color: #f4f4f4;
+      font-family: 'Inter', sans-serif;
+      background-color: #f4f6f9;
       color: #333;
+      padding: 40px;
     }
 
-    /* Fullscreen Video Section */
-    .video-fullscreen {
-      width: 100vw;
-      height: 100vh;
-      position: relative;
-      overflow: hidden;
+    h1 {
+      text-align: center;
+      margin-bottom: 50px;
+      font-size: 2.8rem;
+      animation: fadeInDown 1s ease-in-out;
     }
 
-    .video-fullscreen iframe {
-      position: absolute;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      border: none;
+    .project-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 30px;
+      opacity: 0;
+      animation: fadeIn 1.5s ease forwards;
+      animation-delay: 1s;
     }
 
-    /* Navigation Bar */
-    .navbar {
-      display: flex;
-      justify-content: space-between;
-      align-items: center;
-      background-color: #002D72;
-      padding: 1rem 5%;
-      color: white;
+    .project {
+      background: white;
+      border-radius: 10px;
+      padding: 20px;
+      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      animation: floatIn 1s ease forwards;
     }
 
-    .navbar a {
-      color: white;
+    .project:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
+    }
+
+    .project a {
       text-decoration: none;
-      margin-left: 1.5rem;
-      font-weight: 700;
+      color: #1a73e8;
+      font-weight: 600;
+      font-size: 1.1rem;
     }
 
-    /* Hero Section */
-    .hero {
-      text-align: center;
-      padding: 4rem 2rem;
-      background-color: #0056b3;
-      color: white;
+    .project p {
+      margin-top: 10px;
+      color: #555;
+      font-size: 0.95rem;
     }
 
-    .hero h1 {
-      margin-bottom: 1rem;
-      font-size: 2.5rem;
+    @keyframes fadeIn {
+      to {
+        opacity: 1;
+      }
     }
 
-    /* Footer */
-    footer {
-      text-align: center;
-      padding: 1rem 0;
-      background-color: #002D72;
-      color: white;
-      margin-top: 2rem;
+    @keyframes fadeInDown {
+      0% {
+        opacity: 0;
+        transform: translateY(-20px);
+      }
+      100% {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    @keyframes floatIn {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
     }
   </style>
 </head>
 <body>
-  <!-- Navigation Bar -->
-  <nav class="navbar">
-    <div class="logo">
-      <h2>Our University</h2>
+  <h1>My Web Design Portfolio</h1>
+  <div class="project-grid">
+    <div class="project">
+      <a href="project1/index.html" target="_blank">Modern Agency Template</a>
+      <p>A sleek, responsive design ideal for creative agencies.</p>
     </div>
-    <div class="nav-links">
-      <a href="#">Home</a>
-      <a href="#">About</a>
-      <a href="#">Admissions</a>
-      <a href="#">Academics</a>
-      <a href="#">Contact</a>
+    <div class="project">
+      <a href="project2/index.html" target="_blank">E-commerce Home</a>
+      <p>Homepage template for an online fashion store.</p>
     </div>
-  </nav>
-
-
-  <!-- Fullscreen Video Section -->
-  <section class="video-fullscreen">
-<iframe width="560" height="315" src="https://www.youtube.com/embed/6c9Z-iF8cmc?autoplay=1&mute=1&loop=1&playlist=6c9Z-iF8cmc" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
-
-  <section class="hero">
-    <h1>Empowering students to lead and inspire 🎓</h1>
-    <p>Explore our world-class programs, diverse community, and passionate faculty.</p>
-  </section>
-    
-  </section>
-
-
-
-  <!-- Footer -->
-  <footer>
-    <p>&copy; 2025 Our University. All rights reserved.</p>
-  </footer>
-
+    <div class="project">
+      <a href="project3/index.html" target="_blank">Startup Landing Page</a>
+      <p>Clean and modern landing page for tech startups.</p>
+    </div>
+    <!-- Add more project blocks as needed -->
+  </div>
 </body>
 </html>
