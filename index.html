@@ -3,157 +3,142 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>Bub's Burgers</title>
-  <link href="https://fonts.googleapis.com/css2?family=Rubik+Mono+One&family=Inter:wght@400;600&display=swap" rel="stylesheet">
+  <title>Bub's Burgers 🍔</title>
+  <link href="https://fonts.googleapis.com/css2?family=Patrick+Hand&family=Quicksand:wght@400;600&display=swap" rel="stylesheet">
   <style>
     body {
       margin: 0;
-      font-family: 'Inter', sans-serif;
-      background-color: #fdf8f3;
+      font-family: 'Quicksand', sans-serif;
+      background: #fff9f4;
+      color: #4a3f35;
+    }
+
+    header {
+      text-align: center;
+      background: #fcd5ce;
+      padding: 2rem 1rem;
+      border-bottom: 4px solid #f08080;
+    }
+
+    header h1 {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 3rem;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      margin-top: 0.5rem;
+    }
+
+    .welcome {
+      max-width: 700px;
+      margin: 2rem auto;
+      text-align: center;
+      padding: 0 1rem;
+    }
+
+    .welcome p {
+      font-size: 1.1rem;
+      line-height: 1.6;
+    }
+
+    .menu {
       display: flex;
-      height: 100vh;
-      overflow: hidden;
-    }
-
-    /* Sidebar */
-    .sidebar {
-      width: 30%;
-      background: #ffe8b6;
-      padding: 2rem;
-      box-shadow: 2px 0 15px rgba(0,0,0,0.1);
-      display: flex;
-      flex-direction: column;
-      justify-content: space-between;
-      position: sticky;
-      top: 0;
-    }
-
-    .sidebar h1 {
-      font-family: 'Rubik Mono One', sans-serif;
-      font-size: 2.5rem;
-      margin-bottom: 0.5rem;
-      color: #ff5f2e;
-    }
-
-    .sidebar p {
-      font-size: 1rem;
-      color: #3e3e3e;
-    }
-
-    .sidebar footer {
-      font-size: 0.8rem;
-      color: #6b6b6b;
-    }
-
-    /* Main content */
-    .content {
-      flex-grow: 1;
-      padding: 2rem;
-      overflow-y: auto;
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      flex-wrap: wrap;
+      justify-content: center;
       gap: 2rem;
+      padding: 2rem 1rem;
     }
 
-    .menu-item {
-      background: white;
-      border-radius: 20px;
-      overflow: hidden;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+    .item {
+      background: #fff;
+      border: 2px solid #f08080;
+      border-radius: 15px;
+      width: 280px;
+      padding: 1rem;
+      box-shadow: 2px 4px 10px rgba(0,0,0,0.05);
+      text-align: center;
       transition: transform 0.3s ease;
     }
 
-    .menu-item:hover {
-      transform: translateY(-5px);
+    .item:hover {
+      transform: scale(1.03);
     }
 
-    .menu-item img {
-      width: 100%;
-      height: 180px;
-      object-fit: cover;
+    .item h2 {
+      font-family: 'Patrick Hand', cursive;
+      font-size: 1.5rem;
+      margin: 0.5rem 0;
     }
 
-    .details {
-      padding: 1.2rem;
-    }
-
-    .details h2 {
-      margin-top: 0;
-      font-size: 1.3rem;
-      color: #ff5f2e;
-    }
-
-    .details p {
-      color: #555;
-      margin: 0.3rem 0;
+    .item p {
+      margin: 0.5rem 0;
     }
 
     .price {
-      font-weight: 600;
-      color: #6dc1b3;
+      color: #e07a5f;
+      font-weight: bold;
     }
 
-    @media (max-width: 768px) {
-      .sidebar {
-        display: none;
-      }
-
-      body {
-        flex-direction: column;
-      }
-
-      .content {
-        padding: 1rem;
-      }
+    footer {
+      text-align: center;
+      background: #fcd5ce;
+      padding: 1rem;
+      border-top: 3px solid #f08080;
+      font-size: 0.9rem;
     }
   </style>
 </head>
 <body>
 
-  <div class="sidebar">
-    <div>
-      <h1>Bub's</h1>
-      <p>Retro road-trip diner meets burger artistry. Grab a seat. We’re cookin’ something special.</p>
-    </div>
-    <footer>
-      © 2025 Bub’s Burgers • Built with grill marks.
-    </footer>
+  <header>
+    <h1>Welcome to Bub's Burgers 🍔💛</h1>
+    <p>Home-cooked joy, straight from our family grill 🔥</p>
+  </header>
+
+  <div class="welcome">
+    <p>
+      We’re just a family who loves making people happy with good food. Whether you're stopping by for a quick bite or sitting down with your crew, we’re serving up burgers 🍔, shakes 🥤, and smiles 😊 — just like mama taught us.
+    </p>
   </div>
 
-  <div class="content">
-    <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?burger" alt="Burger">
-      <div class="details">
-        <h2>Roadhouse Classic</h2>
-        <p>Angus beef, sharp cheddar, grilled onions.</p>
-        <p class="price">$9.50</p>
-      </div>
+  <section class="menu">
+    <div class="item">
+      <h2>🍔 The Family Classic</h2>
+      <p>Beef patty, melted cheese, fresh tomato & lettuce</p>
+      <p class="price">$8.95</p>
     </div>
-    <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?fries" alt="Fries">
-      <div class="details">
-        <h2>Truck Stop Fries</h2>
-        <p>Hand-cut, crispy, smoky chipotle aioli.</p>
-        <p class="price">$4.75</p>
-      </div>
+    <div class="item">
+      <h2>🍟 Hand-Cut Fries</h2>
+      <p>Golden, crispy, seasoned with love</p>
+      <p class="price">$3.50</p>
     </div>
-    <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?burger+cheese" alt="Cheeseburger">
-      <div class="details">
-        <h2>The Melt Down</h2>
-        <p>Double patty, provolone, grilled jalapeños.</p>
-        <p class="price">$11.25</p>
-      </div>
+    <div class="item">
+      <h2>🥓 BBQ Bub Burger</h2>
+      <p>Smoky BBQ, bacon strips, fried onions</p>
+      <p class="price">$10.25</p>
     </div>
-    <div class="menu-item">
-      <img src="https://source.unsplash.com/featured/?milkshake" alt="Milkshake">
-      <div class="details">
-        <h2>Vanilla Sky Shake</h2>
-        <p>Creamy vanilla with whipped top & cherry.</p>
-        <p class="price">$3.95</p>
-      </div>
+    <div class="item">
+      <h2>🥤 Old-Fashioned Shake</h2>
+      <p>Pick vanilla, chocolate, or strawberry</p>
+      <p class="price">$4.25</p>
     </div>
-  </div>
+    <div class="item">
+      <h2>🍳 Breakfast Burger</h2>
+      <p>Fried egg, sausage patty, maple aioli</p>
+      <p class="price">$9.75</p>
+    </div>
+    <div class="item">
+      <h2>🍔 Bub's Veggie Deluxe</h2>
+      <p>Grilled portobello, arugula, pesto mayo</p>
+      <p class="price">$9.00</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 Bub’s Burgers 🍔 — Made with love by the Bub family ❤️
+  </footer>
 
 </body>
 </html>
