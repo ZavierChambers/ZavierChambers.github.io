@@ -1,255 +1,140 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
-  <title>My Web Design Portfolio</title>
-  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
-  <style>
-    * {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Zavier Chambers - Web Templates</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <style>
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            margin: 0;
+            padding: 0;
+            background-color: #f9f9f9;
+            color: #333;
+        }
 
-    body {
-      font-family: 'Inter', sans-serif;
-      background: linear-gradient(135deg, #f4f6f9, #e2e8f0);
-      color: #333;
-      padding: 40px 20px;
-      overflow-x: hidden;
-      transition: background 1s ease;
-    }
+        nav {
+            background-color: #252525;
+            padding: 15px;
+            text-align: center;
+        }
 
-    h1, h2 {
-      text-align: center;
-      margin: 40px 0 20px;
-      font-size: 2.5rem;
-      position: relative;
-    }
+        nav a {
+            color: #fff;
+            text-decoration: none;
+            padding: 10px 20px;
+            font-size: 18px;
+            transition: background-color 0.3s;
+        }
 
-    h1::after, h2::after {
-      content: '';
-      display: block;
-      width: 60px;
-      height: 4px;
-      background: #1a73e8;
-      margin: 10px auto 0;
-      border-radius: 2px;
-      animation: slideIn 2s ease-in-out infinite alternate;
-    }
+        nav a:hover {
+            background-color: #575757;
+            border-radius: 5px;
+        }
 
-    section {
-      margin-bottom: 80px;
-      padding: 60px 20px;
-      border-radius: 15px;
-      background: rgba(255, 255, 255, 0.95);
-      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      backdrop-filter: blur(12px);
-      transform: scale(0.98);
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-    }
+        header {
+            padding: 50px;
+            text-align: center;
+            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            color: white;
+        }
 
-    section:hover {
-      transform: scale(1);
-      box-shadow: 0 15px 45px rgba(0,0,0,0.15);
-    }
+        section {
+            padding: 50px;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
 
-    .intro p, .about p, .contact p {
-      max-width: 800px;
-      margin: 0 auto;
-      text-align: center;
-      font-size: 1.15rem;
-      line-height: 1.6;
-      opacity: 0;
-      animation: fadeInUp 1s ease forwards;
-      animation-delay: 0.3s;
-    }
+        .templates {
+            display: grid;
+            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
+            gap: 20px;
+        }
 
-    .project-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 30px;
-      opacity: 0;
-      animation: fadeIn 1.5s ease forwards;
-      animation-delay: 0.8s;
-    }
+        .template-card {
+            background-color: #fff;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            border-radius: 10px;
+            text-align: center;
+            transition: transform 0.3s;
+        }
 
-    .project {
-      background: white;
-      border-radius: 15px;
-      padding: 20px;
-      box-shadow: 0 8px 24px rgba(0,0,0,0.08);
-      transition: transform 0.3s ease, box-shadow 0.3s ease;
-      position: relative;
-      overflow: hidden;
-    }
+        .template-card:hover {
+            transform: translateY(-10px);
+        }
 
-    .project::before {
-      content: '';
-      position: absolute;
-      top: -100%;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      background: linear-gradient(135deg, rgba(26, 115, 232, 0.1), rgba(26, 115, 232, 0.2));
-      transition: top 0.3s ease;
-    }
+        .btn {
+            padding: 10px 20px;
+            color: white;
+            background-color: #66a6ff;
+            border: none;
+            border-radius: 5px;
+            text-decoration: none;
+            transition: background-color 0.3s;
+        }
 
-    .project:hover::before {
-      top: 0;
-    }
+        .btn:hover {
+            background-color: #4f8be3;
+        }
 
-    .project:hover {
-      transform: translateY(-10px);
-      box-shadow: 0 12px 30px rgba(0,0,0,0.12);
-    }
-
-    .project a {
-      text-decoration: none;
-      color: #1a73e8;
-      font-weight: 600;
-      font-size: 1.2rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .project p {
-      margin-top: 10px;
-      color: #555;
-      font-size: 1rem;
-      position: relative;
-      z-index: 1;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 12px 24px;
-      margin-top: 20px;
-      font-size: 1rem;
-      color: #fff;
-      background: #1a73e8;
-      border: none;
-      border-radius: 50px;
-      cursor: pointer;
-      transition: background 0.3s ease, transform 0.3s ease;
-      box-shadow: 0 4px 12px rgba(26, 115, 232, 0.3);
-    }
-
-    .btn:hover {
-      background: #155ab6;
-      transform: translateY(-3px);
-      box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
-    }
-
-    .contact-form {
-      max-width: 600px;
-      margin: 0 auto;
-      display: grid;
-      gap: 20px;
-    }
-
-    .contact-form input, .contact-form textarea {
-      width: 100%;
-      padding: 15px;
-      font-size: 1rem;
-      border: 1px solid #ccc;
-      border-radius: 8px;
-      transition: border-color 0.3s ease, box-shadow 0.3s ease;
-    }
-
-    .contact-form input:focus, .contact-form textarea:focus {
-      border-color: #1a73e8;
-      box-shadow: 0 0 8px rgba(26, 115, 232, 0.2);
-      outline: none;
-    }
-
-    @keyframes fadeIn {
-      to {
-        opacity: 1;
-      }
-    }
-
-    @keyframes fadeInUp {
-      from {
-        opacity: 0;
-        transform: translateY(20px);
-      }
-      to {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
-    @keyframes slideIn {
-      from {
-        transform: translateX(-10px);
-      }
-      to {
-        transform: translateX(10px);
-      }
-    }
-
-    @media (max-width: 768px) {
-      h1, h2 {
-        font-size: 2rem;
-      }
-
-      .btn {
-        padding: 10px 20px;
-        font-size: 0.9rem;
-      }
-    }
-  </style>
+        footer {
+            background-color: #252525;
+            color: white;
+            text-align: center;
+            padding: 20px;
+        }
+    </style>
 </head>
 <body>
-  <section class="intro">
-    <h1>Why You Need a Website</h1>
-    <p>A professional website gives your brand credibility, visibility, and a place to show off what you do best. Whether you’re an entrepreneur, artist, or business, it’s your digital home base.</p>
-  </section>
 
-  <section class="projects">
-    <h2>My Web Design Portfolio</h2>
-    <div class="project-grid">
-      <div class="project">
-        <a href="project1/index.html" target="_blank">Modern Agency Template</a>
-        <p>A sleek, responsive design ideal for creative agencies.</p>
-      </div>
-      <div class="project">
-        <a href="project2/index.html" target="_blank">E-commerce Home</a>
-        <p>Homepage template for an online fashion store.</p>
-      </div>
-      <div class="project">
-        <a href="project3/index.html" target="_blank">Startup Landing Page</a>
-        <p>Clean and modern landing page for tech startups.</p>
-      </div>
-    </div>
-  </section>
+<nav>
+    <a href="#about">About Me</a>
+    <a href="#templates">Templates</a>
+    <a href="#contact">Contact</a>
+</nav>
 
-  <section class="about">
+<header class="animate__animated animate__fadeInDown">
+    <h1>Zavier Chambers</h1>
+    <p>Web Templates to Elevate Your Business</p>
+</header>
+
+<section id="about" class="animate__animated animate__fadeInUp">
     <h2>About Me</h2>
-    <p>Hi, I’m a passionate designer who loves building clean, creative, and interactive websites. My designs focus on both visual storytelling and strong user experience.</p>
-  </section>
+    <p>My name is Zavier Chambers, and I'm a cybersecurity and computer science professional with extensive experience in IT. My skills range from system administration and network management to cybersecurity analysis and incident response. I specialize in creating visually appealing and secure websites tailored specifically for businesses and individuals looking to establish a robust online presence.</p>
+</section>
 
-  <section class="contact">
+<section id="templates">
+    <h2 class="animate__animated animate__fadeInLeft">Featured Templates</h2>
+    <div class="templates">
+        <div class="template-card animate__animated animate__zoomIn">
+            <h3>Business Pro</h3>
+            <p>A professional theme suitable for corporate websites.</p>
+            <a href="#" class="btn">Preview</a>
+        </div>
+        <div class="template-card animate__animated animate__zoomIn animate__delay-1s">
+            <h3>Portfolio Magic</h3>
+            <p>Perfect for showcasing portfolios, photography, and creative work.</p>
+            <a href="#" class="btn">Preview</a>
+        </div>
+        <div class="template-card animate__animated animate__zoomIn animate__delay-2s">
+            <h3>E-commerce Deluxe</h3>
+            <p>Boost your sales with this modern e-commerce template.</p>
+            <a href="#" class="btn">Preview</a>
+        </div>
+    </div>
+</section>
+
+<section id="contact" class="animate__animated animate__fadeInUp">
     <h2>Contact Me</h2>
-    <p>Want to start your own site? Reach out!</p>
-    <form class="contact-form">
-      <input type="text" placeholder="Your Name" required>
-      <input type="email" placeholder="Your Email" required>
-      <textarea rows="5" placeholder="Your Message"></textarea>
-      <button class="btn" type="submit">Send Message</button>
-    </form>
-  </section>
+    <p>Email: <a href="mailto:zavierchambersfreelance@gmail.com">zavierchambersfreelance@gmail.com</a></p>
+    <p>Phone: <a href="tel:7242764181">724-276-4181</a></p>
+</section>
 
-  <script>
-    const sections = document.querySelectorAll("section");
-    window.addEventListener("scroll", () => {
-      const scrollY = window.scrollY;
-      if (scrollY > 300) document.body.style.background = "#eef2f5";
-      if (scrollY > 800) document.body.style.background = "#e0ebf4";
-      if (scrollY < 300) document.body.style.background = "#f4f6f9";
-    });
-  </script>
+<footer>
+    <p>&copy; 2025 Zavier Chambers. All rights reserved.</p>
+</footer>
+
 </body>
 </html>
