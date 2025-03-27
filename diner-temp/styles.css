@@ -1,0 +1,97 @@
+body {
+    font-family: 'Roboto', sans-serif;
+    margin: 0;
+    padding: 0;
+    background-color: #f8f8f8;
+    color: #333;
+  }
+  
+  .container {
+    width: 90%;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+  
+  header {
+    background-color: #d32f2f;
+    color: #fff;
+    padding: 20px 0;
+    text-align: center;
+  }
+  
+  header h1 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 3em;
+    margin: 0;
+  }
+  
+  .tagline {
+    font-size: 1.2em;
+    margin-top: 5px;
+  }
+  
+  nav {
+    background-color: #333;
+  }
+  
+  nav ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+    text-align: center;
+  }
+  
+  nav ul li {
+    display: inline;
+  }
+  
+  nav ul li a {
+    color: #fff;
+    text-decoration: none;
+    padding: 15px 20px;
+    display: inline-block;
+  }
+  
+  nav ul li a:hover {
+    background-color: #d32f2f;
+  }
+  
+  section {
+    padding: 40px 0;
+  }
+  
+  h2 {
+    font-family: 'Luckiest Guy', cursive;
+    font-size: 2.5em;
+    text-align: center;
+    color: #d32f2f;
+  }
+  
+  .menu-items {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  .menu-item {
+    background-color: #fff;
+    border: 1px solid #ddd;
+    border-radius: 10px;
+    width: 45%;
+    margin: 10px 0;
+    text-align: center;
+    padding: 15px;
+    box-shadow: 0 2px 5px rgba(0,0,0,0.1);
+  }
+  
+  .menu-item img {
+    width: 100%;
+    border-bottom: 1px solid #ddd;
+    border-radius: 10px 10px 0 0;
+  }
+  
+  .menu-item h3 {
+    margin: 15px 0 10
+  ::contentReference[oaicite:1]{index=1}
+   
+  
