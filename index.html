@@ -16,14 +16,27 @@
       font-family: 'Inter', sans-serif;
       background-color: #f4f6f9;
       color: #333;
-      padding: 40px;
+      transition: background-color 1s;
+      padding: 40px 20px;
     }
 
-    h1 {
+    h1, h2 {
       text-align: center;
-      margin-bottom: 50px;
-      font-size: 2.8rem;
-      animation: fadeInDown 1s ease-in-out;
+      margin: 40px 0 20px;
+    }
+
+    section {
+      margin-bottom: 80px;
+      padding: 40px 0;
+      border-top: 1px solid #ddd;
+    }
+
+    .intro p, .about p, .contact p {
+      max-width: 700px;
+      margin: 0 auto;
+      text-align: center;
+      font-size: 1.1rem;
+      line-height: 1.6;
     }
 
     .project-grid {
@@ -68,17 +81,6 @@
       }
     }
 
-    @keyframes fadeInDown {
-      0% {
-        opacity: 0;
-        transform: translateY(-20px);
-      }
-      100% {
-        opacity: 1;
-        transform: translateY(0);
-      }
-    }
-
     @keyframes floatIn {
       from {
         opacity: 0;
@@ -92,21 +94,47 @@
   </style>
 </head>
 <body>
-  <h1>My Web Design Portfolio</h1>
-  <div class="project-grid">
-    <div class="project">
-      <a href="project1/index.html" target="_blank">Modern Agency Template</a>
-      <p>A sleek, responsive design ideal for creative agencies.</p>
+  <section class="intro">
+    <h1>Why You Need a Website</h1>
+    <p>A professional website sets you apart, builds credibility, and opens the door to a global audience. Whether you're an entrepreneur, artist, or business—your online presence matters more than ever.</p>
+  </section>
+
+  <section class="projects">
+    <h2>My Web Design Portfolio</h2>
+    <div class="project-grid">
+      <div class="project">
+        <a href="project1/index.html" target="_blank">Modern Agency Template</a>
+        <p>A sleek, responsive design ideal for creative agencies.</p>
+      </div>
+      <div class="project">
+        <a href="project2/index.html" target="_blank">E-commerce Home</a>
+        <p>Homepage template for an online fashion store.</p>
+      </div>
+      <div class="project">
+        <a href="project3/index.html" target="_blank">Startup Landing Page</a>
+        <p>Clean and modern landing page for tech startups.</p>
+      </div>
     </div>
-    <div class="project">
-      <a href="project2/index.html" target="_blank">E-commerce Home</a>
-      <p>Homepage template for an online fashion store.</p>
-    </div>
-    <div class="project">
-      <a href="project3/index.html" target="_blank">Startup Landing Page</a>
-      <p>Clean and modern landing page for tech startups.</p>
-    </div>
-    <!-- Add more project blocks as needed -->
-  </div>
+  </section>
+
+  <section class="about">
+    <h2>About Me</h2>
+    <p>Hey, I'm a passionate web designer who loves crafting sleek, functional, and engaging websites. Every design I build is focused on providing a smooth user experience and a striking visual impact.</p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <p>Interested in working together? Drop me an email at <a href="mailto:you@example.com">you@example.com</a> or connect with me on social media to get started on your project today!</p>
+  </section>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 300) document.body.style.backgroundColor = "#eef2f5";
+      if (scrollY > 800) document.body.style.backgroundColor = "#e2e8f0";
+      if (scrollY < 300) document.body.style.backgroundColor = "#f4f6f9";
+    });
+  </script>
 </body>
 </html>
