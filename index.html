@@ -6,82 +6,75 @@
   <title>My Web Design Portfolio</title>
   <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600&display=swap" rel="stylesheet">
   <style>
-    /* General Reset */
     * {
       box-sizing: border-box;
       margin: 0;
       padding: 0;
     }
 
-    /* Body Styling */
     body {
       font-family: 'Inter', sans-serif;
       background: linear-gradient(135deg, #f4f6f9, #e2e8f0);
       color: #333;
       padding: 40px 20px;
       overflow-x: hidden;
+      transition: background 1s ease;
     }
 
-    /* Header Styling */
     h1, h2 {
       text-align: center;
       margin: 40px 0 20px;
       font-size: 2.5rem;
       position: relative;
-      display: inline-block;
     }
 
     h1::after, h2::after {
       content: '';
       display: block;
-      width: 50px;
+      width: 60px;
       height: 4px;
       background: #1a73e8;
-      margin: 8px auto 0;
+      margin: 10px auto 0;
       border-radius: 2px;
-      animation: slideIn 1s ease-in-out infinite alternate;
+      animation: slideIn 2s ease-in-out infinite alternate;
     }
 
-    /* Section Styling */
     section {
       margin-bottom: 80px;
       padding: 60px 20px;
       border-radius: 15px;
+      background: rgba(255, 255, 255, 0.95);
       box-shadow: 0 10px 30px rgba(0,0,0,0.1);
-      background: rgba(255, 255, 255, 0.9);
-      backdrop-filter: blur(10px);
-      transform: scale(0.95);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
+      backdrop-filter: blur(12px);
+      transform: scale(0.98);
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
     }
 
     section:hover {
       transform: scale(1);
-      box-shadow: 0 15px 40px rgba(0,0,0,0.15);
+      box-shadow: 0 15px 45px rgba(0,0,0,0.15);
     }
 
-    /* Introduction Section */
     .intro p, .about p, .contact p {
-      max-width: 700px;
+      max-width: 800px;
       margin: 0 auto;
       text-align: center;
-      font-size: 1.1rem;
+      font-size: 1.15rem;
       line-height: 1.6;
       opacity: 0;
       animation: fadeInUp 1s ease forwards;
-      animation-delay: 0.5s;
+      animation-delay: 0.3s;
     }
 
-    /* Project Grid */
     .project-grid {
       display: grid;
       grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 30px;
       opacity: 0;
       animation: fadeIn 1.5s ease forwards;
-      animation-delay: 1s;
+      animation-delay: 0.8s;
     }
 
-    /* Project Card */
     .project {
       background: white;
       border-radius: 15px;
@@ -117,20 +110,18 @@
       color: #1a73e8;
       font-weight: 600;
       font-size: 1.2rem;
-      display: block;
-      margin-bottom: 10px;
       position: relative;
       z-index: 1;
     }
 
     .project p {
+      margin-top: 10px;
       color: #555;
       font-size: 1rem;
       position: relative;
       z-index: 1;
     }
 
-    /* Button Styling */
     .btn {
       display: inline-block;
       padding: 12px 24px;
@@ -151,7 +142,6 @@
       box-shadow: 0 6px 16px rgba(26, 115, 232, 0.4);
     }
 
-    /* Contact Form */
     .contact-form {
       max-width: 600px;
       margin: 0 auto;
@@ -174,7 +164,6 @@
       outline: none;
     }
 
-    /* Scroll Animations */
     @keyframes fadeIn {
       to {
         opacity: 1;
@@ -201,7 +190,6 @@
       }
     }
 
-    /* Responsive Design */
     @media (max-width: 768px) {
       h1, h2 {
         font-size: 2rem;
@@ -215,6 +203,53 @@
   </style>
 </head>
 <body>
-  <
-::contentReference[oaicite:0]{index=0}
- 
+  <section class="intro">
+    <h1>Why You Need a Website</h1>
+    <p>A professional website gives your brand credibility, visibility, and a place to show off what you do best. Whether you’re an entrepreneur, artist, or business, it’s your digital home base.</p>
+  </section>
+
+  <section class="projects">
+    <h2>My Web Design Portfolio</h2>
+    <div class="project-grid">
+      <div class="project">
+        <a href="project1/index.html" target="_blank">Modern Agency Template</a>
+        <p>A sleek, responsive design ideal for creative agencies.</p>
+      </div>
+      <div class="project">
+        <a href="project2/index.html" target="_blank">E-commerce Home</a>
+        <p>Homepage template for an online fashion store.</p>
+      </div>
+      <div class="project">
+        <a href="project3/index.html" target="_blank">Startup Landing Page</a>
+        <p>Clean and modern landing page for tech startups.</p>
+      </div>
+    </div>
+  </section>
+
+  <section class="about">
+    <h2>About Me</h2>
+    <p>Hi, I’m a passionate designer who loves building clean, creative, and interactive websites. My designs focus on both visual storytelling and strong user experience.</p>
+  </section>
+
+  <section class="contact">
+    <h2>Contact Me</h2>
+    <p>Want to start your own site? Reach out!</p>
+    <form class="contact-form">
+      <input type="text" placeholder="Your Name" required>
+      <input type="email" placeholder="Your Email" required>
+      <textarea rows="5" placeholder="Your Message"></textarea>
+      <button class="btn" type="submit">Send Message</button>
+    </form>
+  </section>
+
+  <script>
+    const sections = document.querySelectorAll("section");
+    window.addEventListener("scroll", () => {
+      const scrollY = window.scrollY;
+      if (scrollY > 300) document.body.style.background = "#eef2f5";
+      if (scrollY > 800) document.body.style.background = "#e0ebf4";
+      if (scrollY < 300) document.body.style.background = "#f4f6f9";
+    });
+  </script>
+</body>
+</html>
