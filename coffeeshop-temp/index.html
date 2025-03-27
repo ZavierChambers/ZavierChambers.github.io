@@ -1,0 +1,292 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Brew Haven</title>
+  <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500&family=Quicksand&display=swap" rel="stylesheet">
+  <style>
+    body {
+      margin: 0;
+      font-family: 'Quicksand', sans-serif;
+      background: #f7f1e1;
+      overflow-x: hidden;
+      position: relative;
+    }
+    .cup-container {
+  position: fixed;
+  bottom: 0;
+  left: 50%;
+  transform: translateX(-50%);
+  z-index: 999;
+  pointer-events: none;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+
+.coffee-cup {
+  width: 80px;
+  filter: drop-shadow(0 0 3px rgba(0,0,0,0.2));
+  z-index: 2;
+}
+
+.steam-lines {
+  position: absolute;
+  bottom: 70px;
+  display: flex;
+  gap: 8px;
+  z-index: 1;
+}
+
+.steam {
+  width: 10px;
+  height: 60px;
+  background: linear-gradient(to top, rgba(255,255,255,0.5), transparent);
+  border-radius: 50%;
+  animation: riseSteam 4s ease-in-out infinite;
+  opacity: 0.8;
+}
+
+.s1 {
+  animation-delay: 0s;
+}
+.s2 {
+  animation-delay: 1s;
+}
+.s3 {
+  animation-delay: 2s;
+}
+
+@keyframes riseSteam {
+  0% {
+    transform: translateY(0) scaleX(1);
+    opacity: 0.5;
+  }
+  100% {
+    transform: translateY(-60px) scaleX(1.5);
+    opacity: 0;
+  }
+}
+
+
+    /* Animated Coffee Steam */
+    .steam {
+      position: absolute;
+      top: 0;
+      width: 100%;
+      height: 300px;
+      background: radial-gradient(ellipse at center, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: steamRise 4s infinite linear alternate;
+      z-index: 0;
+    }
+
+    @keyframes steamRise {
+      0% { background-position: center bottom; opacity: 0.4; }
+      100% { background-position: center top; opacity: 0.1; }
+    }
+
+    header {
+      background: linear-gradient(160deg, #5d4037, #3e2723);
+      color: #fff;
+      text-align: center;
+      padding: 4em 1em 2em;
+      position: relative;
+      z-index: 1;
+    }
+
+    header h1 {
+      font-family: 'Playfair Display', serif;
+      font-size: 3.5em;
+      margin: 0;
+    }
+
+    header p {
+      font-size: 1.2em;
+      margin-top: 0.5em;
+      font-style: italic;
+    }
+
+    section {
+      padding: 3em 1.5em;
+      margin: 2em auto;
+      max-width: 1000px;
+      background: #fffdf9;
+      border-radius: 12px;
+      box-shadow: 0 5px 20px rgba(0,0,0,0.05);
+      position: relative;
+      z-index: 1;
+    }
+
+    h2 {
+      text-align: center;
+      color: #5d4037;
+    }
+
+    .owners {
+      text-align: center;
+      font-size: 1.1em;
+    }
+
+    .menu {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+      gap: 1.5em;
+      margin-top: 2em;
+    }
+
+    .menu-item {
+      background: #fff3e0;
+      padding: 1.2em;
+      border-radius: 12px;
+      text-align: center;
+      transition: transform 0.3s ease;
+      box-shadow: 0 2px 8px rgba(0,0,0,0.05);
+    }
+
+    .menu-item:hover {
+      transform: scale(1.05);
+    }
+
+    .menu-item h3 {
+      font-family: 'Playfair Display', serif;
+      margin: 0.5em 0;
+      color: #3e2723;
+    }
+
+    iframe {
+      width: 100%;
+      border: 0;
+      border-radius: 10px;
+    }
+
+    footer {
+      background: #3e2723;
+      color: white;
+      text-align: center;
+      padding: 2em 1em;
+    }
+
+    .socials a {
+      color: #ffe0b2;
+      margin: 0 1em;
+      text-decoration: none;
+      font-weight: bold;
+    }
+
+    /* Coffee Beans Animation */
+    .beans {
+      position: fixed;
+      top: 0;
+      left: 0;
+      pointer-events: none;
+      z-index: 0;
+    }
+
+    .bean {
+      position: absolute;
+      width: 20px;
+      height: 30px;
+      background: url('https://cdn-icons-png.flaticon.com/512/415/415733.png') no-repeat center;
+      background-size: contain;
+      opacity: 0.1;
+      animation: floatBeans 12s infinite linear;
+    }
+
+    @keyframes floatBeans {
+      0% {
+        transform: translateY(100vh) rotate(0deg);
+      }
+      100% {
+        transform: translateY(-100vh) rotate(360deg);
+      }
+    }
+
+    @media (max-width: 600px) {
+      header h1 {
+        font-size: 2.2em;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <div class="steam"></div>
+
+  <div class="beans"></div>
+  <script>
+    for (let i = 0; i < 20; i++) {
+      const bean = document.createElement('div');
+      bean.classList.add('bean');
+      bean.style.left = `${Math.random() * 100}%`;
+      bean.style.animationDuration = `${10 + Math.random() * 10}s`;
+      document.querySelector('.beans').appendChild(bean);
+    }
+  </script>
+
+  <header>
+    <h1>Brew Haven</h1>
+    <p>Where every cup tells a story</p>
+  </header>
+
+  <section class="owners">
+    <h2>Welcome!</h2>
+    <p>We’re Sam and Riley — passionate about coffee, cozy vibes, and community. Brew Haven is your neighborhood escape where every sip is crafted with love and warmth.</p>
+  </section>
+
+  <section>
+    <h2>Our Menu</h2>
+    <div class="menu">
+      <div class="menu-item">
+        <h3>Espresso</h3>
+        <p>Bold, rich, intense</p>
+        <p>$2.50</p>
+      </div>
+      <div class="menu-item">
+        <h3>Latte</h3>
+        <p>Creamy and smooth</p>
+        <p>$3.75</p>
+      </div>
+      <div class="menu-item">
+        <h3>Cold Brew</h3>
+        <p>Chilled perfection</p>
+        <p>$4.00</p>
+      </div>
+      <div class="menu-item">
+        <h3>Chai Latte</h3>
+        <p>Spiced and soothing</p>
+        <p>$3.50</p>
+      </div>
+    </div>
+  </section>
+
+  <section>
+    <h2>Visit Us</h2>
+    <iframe
+      src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3153.3914692644475!2d-122.42067438467856!3d37.77492977975992!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x8085809c5b8889d3%3A0x60eeb7b30889ed0!2sCoffee%20Shop!5e0!3m2!1sen!2sus!4v1600000000000!5m2!1sen!2sus"
+      height="300"
+      allowfullscreen=""
+      loading="lazy"
+      referrerpolicy="no-referrer-when-downgrade">
+    </iframe>
+  </section>
+
+  <footer>
+    <div class="socials">
+      <a href="#">Instagram</a>
+      <a href="#">Facebook</a>
+      <a href="#">TikTok</a>
+    </div>
+    <p>&copy; 2025 Brew Haven</p>
+  </footer>
+  <div class="cup-container">
+    <img src="https://cdn-icons-png.flaticon.com/512/924/924514.png" alt="Coffee Cup" class="coffee-cup">
+    <div class="steam-lines">
+      <span class="steam s1"></span>
+      <span class="steam s2"></span>
+      <span class="steam s3"></span>
+    </div>
+  </div>
+  
+</body>
+</html>
