@@ -5,17 +5,18 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Zavier Chambers - Web Templates</title>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"/>
+    <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;600;700&display=swap" rel="stylesheet">
     <style>
         body {
-            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            font-family: 'Poppins', sans-serif;
             margin: 0;
             padding: 0;
-            background-color: #f9f9f9;
+            background-color: #eef2f7;
             color: #333;
         }
 
         nav {
-            background-color: #252525;
+            background-color: #394240;
             padding: 15px;
             text-align: center;
         }
@@ -23,67 +24,113 @@
         nav a {
             color: #fff;
             text-decoration: none;
-            padding: 10px 20px;
-            font-size: 18px;
-            transition: background-color 0.3s;
+            padding: 8px 16px;
+            font-size: 16px;
+            transition: all 0.3s ease;
         }
 
         nav a:hover {
-            background-color: #575757;
-            border-radius: 5px;
+            background-color: #6db9c9;
+            border-radius: 25px;
         }
 
         header {
-            padding: 50px;
+            padding: 70px 20px;
             text-align: center;
-            background: linear-gradient(135deg, #89f7fe 0%, #66a6ff 100%);
+            background: linear-gradient(135deg, #6db9c9, #394240);
             color: white;
+            box-shadow: 0 4px 10px rgba(0,0,0,0.2);
+        }
+
+        header h1 {
+            font-size: 50px;
+            font-weight: 700;
+            margin-bottom: 10px;
+        }
+
+        header p {
+            font-size: 20px;
+            font-weight: 400;
         }
 
         section {
-            padding: 50px;
-            max-width: 1200px;
+            padding: 60px 20px;
+            max-width: 1100px;
             margin: 0 auto;
         }
 
         .templates {
             display: grid;
-            grid-template-columns: repeat(auto-fill, minmax(250px, 1fr));
-            gap: 20px;
+            grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+            gap: 25px;
         }
 
         .template-card {
             background-color: #fff;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-            border-radius: 10px;
+            padding: 25px;
+            box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+            border-radius: 15px;
             text-align: center;
-            transition: transform 0.3s;
+            transition: all 0.4s ease;
         }
 
         .template-card:hover {
-            transform: translateY(-10px);
+            transform: scale(1.05);
+            box-shadow: 0 12px 24px rgba(0,0,0,0.15);
         }
 
         .btn {
-            padding: 10px 20px;
+            padding: 10px 25px;
             color: white;
-            background-color: #66a6ff;
+            background-color: #394240;
             border: none;
-            border-radius: 5px;
+            border-radius: 20px;
             text-decoration: none;
+            font-weight: 600;
             transition: background-color 0.3s;
         }
 
         .btn:hover {
-            background-color: #4f8be3;
+            background-color: #6db9c9;
         }
 
         footer {
-            background-color: #252525;
+            background-color: #394240;
             color: white;
             text-align: center;
-            padding: 20px;
+            padding: 30px;
+        }
+
+        footer p {
+            margin: 0;
+            font-size: 15px;
+        }
+
+        h2 {
+            position: relative;
+            display: inline-block;
+            padding-bottom: 10px;
+            margin-bottom: 30px;
+        }
+
+        h2::after {
+            content: "";
+            position: absolute;
+            width: 50%;
+            height: 4px;
+            background-color: #6db9c9;
+            left: 0;
+            bottom: 0;
+            border-radius: 2px;
+        }
+
+        a {
+            color: #394240;
+            transition: color 0.3s;
+        }
+
+        a:hover {
+            color: #6db9c9;
         }
     </style>
 </head>
@@ -95,32 +142,32 @@
     <a href="#contact">Contact</a>
 </nav>
 
-<header class="animate__animated animate__fadeInDown">
+<header class="animate__animated animate__fadeIn">
     <h1>Zavier Chambers</h1>
-    <p>Web Templates to Elevate Your Business</p>
+    <p>Modern, Professional Web Templates for Your Business</p>
 </header>
 
-<section id="about" class="animate__animated animate__fadeInUp">
+<section id="about" class="animate__animated animate__fadeInLeft">
     <h2>About Me</h2>
-    <p>My name is Zavier Chambers, and I'm a cybersecurity and computer science professional with extensive experience in IT. My skills range from system administration and network management to cybersecurity analysis and incident response. I specialize in creating visually appealing and secure websites tailored specifically for businesses and individuals looking to establish a robust online presence.</p>
+    <p>My name is Zavier Chambers, and I'm a cybersecurity and computer science professional with extensive experience in IT. My expertise includes system administration, network management, cybersecurity analysis, vulnerability management, and incident response. I build visually stunning, secure, and efficient websites designed specifically to elevate the online presence of businesses and entrepreneurs.</p>
 </section>
 
 <section id="templates">
-    <h2 class="animate__animated animate__fadeInLeft">Featured Templates</h2>
+    <h2 class="animate__animated animate__fadeInRight">Featured Templates</h2>
     <div class="templates">
         <div class="template-card animate__animated animate__zoomIn">
             <h3>Business Pro</h3>
-            <p>A professional theme suitable for corporate websites.</p>
+            <p>A sleek and modern template perfect for corporate websites.</p>
             <a href="#" class="btn">Preview</a>
         </div>
         <div class="template-card animate__animated animate__zoomIn animate__delay-1s">
             <h3>Portfolio Magic</h3>
-            <p>Perfect for showcasing portfolios, photography, and creative work.</p>
+            <p>Ideal for showcasing portfolios, photography, and creative projects.</p>
             <a href="#" class="btn">Preview</a>
         </div>
         <div class="template-card animate__animated animate__zoomIn animate__delay-2s">
             <h3>E-commerce Deluxe</h3>
-            <p>Boost your sales with this modern e-commerce template.</p>
+            <p>A powerful e-commerce solution designed to drive sales.</p>
             <a href="#" class="btn">Preview</a>
         </div>
     </div>
