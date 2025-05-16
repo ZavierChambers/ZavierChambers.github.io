@@ -324,12 +324,19 @@
           const li = document.createElement('li');
           const span = document.createElement('span');
           span.textContent = entry.reference;
-          span.onclick = () => {
+          span.onclick = (e) => {
+            // Prevent if clicking on the delete button (which is inside li)
+            if (e.target.tagName === 'BUTTON') return;
             document.getElementById('verse-text').textContent = entry.verse;
             document.getElementById('verse-ref').textContent = entry.reference;
             document.getElementById('user-response').value = entry.reflection;
-            toggleMobileSidebar(false);
+          
+            // Only auto-close if on mobile
+            if (window.innerWidth <= 768) {
+              toggleMobileSidebar(false);
+            }
           };
+
           const delBtn = document.createElement('button');
           delBtn.textContent = '✕';
           delBtn.onclick = (e) => {
