@@ -1,3 +1,4 @@
+<!-- START of HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -19,22 +20,15 @@
       background-image: url('https://i.imgur.com/c3Z3Hf0.jpeg');
       background-size: cover;
       background-position: center;
-      display: flex;
-      flex-direction: column;
     }
 
-    .mobile-toggle-btn {
-      display: none;
-      margin: 10px 0;
-    }
-
-    .mobile-sidebar-overlay {
-      display: none;
+    .sidebar-container {
+      display: block;
     }
 
     .sidebar {
       width: 250px;
-      background-color: rgba(255, 255, 255, 0.9);
+      background-color: rgba(255, 255, 255, 0.95);
       padding: 20px;
       overflow-y: auto;
       box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
@@ -42,7 +36,7 @@
       position: fixed;
       top: 0;
       left: 0;
-      z-index: 1000;
+      z-index: 100;
     }
 
     .sidebar h2 {
@@ -81,6 +75,11 @@
 
     .sidebar li:hover {
       background-color: #f3e5f5;
+    }
+
+    .mobile-toggle-btn {
+      display: none;
+      margin: 15px;
     }
 
     .content {
@@ -183,7 +182,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 2000;
+      z-index: 1000;
     }
 
     .popup-box {
@@ -196,36 +195,50 @@
     }
 
     @media (max-width: 768px) {
-      .content {
-        margin-left: 0;
-        padding: 10px;
+      .sidebar-container {
+        display: none;
       }
 
       .mobile-toggle-btn {
         display: block;
       }
 
-      .sidebar {
+      .mobile-sidebar-overlay {
         display: none;
-      }
-
-      .mobile-sidebar-overlay.active .sidebar {
-        display: block;
         position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(255, 255, 255, 0.97);
         width: 100%;
         height: 100vh;
-        z-index: 1500;
-        background: rgba(255, 255, 255, 0.97);
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .mobile-sidebar-overlay.active {
+        display: block;
+      }
+
+      .content {
+        margin-left: 0;
       }
     }
   </style>
 </head>
 <body>
 
-  <!-- Mobile-only toggle button -->
-  <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">View Saved Reflections</button>
+  <!-- Desktop Sidebar -->
+  <div class="sidebar-container">
+    <div class="sidebar">
+      <h2>Saved Reflections</h2>
+      <ul id="saved-list"></ul>
+    </div>
+  </div>
 
-  <!-- Sidebar overlay (used on mobile only) -->
+  <!-- Mobile Sidebar Toggle -->
+  <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">📜 View Saved Reflections</button>
+
+  <!-- Mobile Sidebar Overlay -->
   <div class="mobile-sidebar-overlay" id="mobileSidebar">
     <div class="sidebar">
       <button onclick="toggleMobileSidebar()" style="float:right;">✕</button>
@@ -234,6 +247,7 @@
     </div>
   </div>
 
+  <!-- Main Content -->
   <div class="content">
     <div class="verse-container" id="verseBox">
       <div class="cross">✝️</div>
@@ -255,17 +269,19 @@
     </footer>
   </div>
 
+  <!-- How to Use Popup -->
   <div class="popup-overlay" id="popup" style="display: none;">
     <div class="popup-box">
       <h2>How to Use This Website</h2>
       <p>
         Every visit shows a random Bible verse. Reflect on it by writing your thoughts and saving them.
-        Your reflections appear in the sidebar and stay saved on your device. You can click, delete, and revisit them anytime.
+        Your reflections appear in the sidebar and stay saved on your device. Click, delete, and revisit them anytime.
       </p>
       <button onclick="togglePopup()">Got it!</button>
     </div>
   </div>
 
+  <!-- Scripts -->
   <script>
     let currentRef = '';
 
@@ -300,8 +316,8 @@
     }
 
     function loadSavedList() {
-      const list = document.getElementById('saved-list');
-      list.innerHTML = '';
+      const lists = document.querySelectorAll('#saved-list');
+      lists.forEach(list => list.innerHTML = '');
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
       saved.forEach((entry, index) => {
         const li = document.createElement('li');
@@ -311,7 +327,7 @@
           document.getElementById('verse-text').textContent = entry.verse;
           document.getElementById('verse-ref').textContent = entry.reference;
           document.getElementById('user-response').value = entry.reflection;
-          if (window.innerWidth <= 768) toggleMobileSidebar();
+          toggleMobileSidebar(false);
         };
         const delBtn = document.createElement('button');
         delBtn.textContent = '✕';
@@ -321,7 +337,7 @@
         };
         li.appendChild(span);
         li.appendChild(delBtn);
-        list.appendChild(li);
+        lists.forEach(list => list.appendChild(li.cloneNode(true)));
       });
     }
 
@@ -330,8 +346,15 @@
       popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
     }
 
-    function toggleMobileSidebar() {
-      document.getElementById('mobileSidebar').classList.toggle('active');
+    function toggleMobileSidebar(forceClose = null) {
+      const el = document.getElementById('mobileSidebar');
+      if (forceClose === true) {
+        el.classList.remove('active');
+      } else if (forceClose === false) {
+        el.classList.add('active');
+      } else {
+        el.classList.toggle('active');
+      }
     }
 
     window.onload = () => {
@@ -345,3 +368,4 @@
   </script>
 </body>
 </html>
+<!-- END of HTML -->
