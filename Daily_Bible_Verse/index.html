@@ -1,3 +1,4 @@
+<!-- START of HTML -->
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -7,15 +8,22 @@
   <style>
     @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap');
 
-    * { box-sizing: border-box; }
+    * {
+      box-sizing: border-box;
+    }
 
     body {
       margin: 0;
+      padding: 0;
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #fff8e1, #ffe0b2);
       background-image: url('https://i.imgur.com/c3Z3Hf0.jpeg');
       background-size: cover;
       background-position: center;
+    }
+
+    .sidebar-container {
+      display: block;
     }
 
     .sidebar {
@@ -39,7 +47,7 @@
     }
 
     .sidebar ul {
-      list-style: none;
+      list-style-type: none;
       padding: 0;
     }
 
@@ -50,6 +58,7 @@
       padding: 10px;
       border-bottom: 1px solid #ddd;
       color: #4e342e;
+      word-break: break-word;
     }
 
     .sidebar li span {
@@ -58,10 +67,19 @@
     }
 
     .sidebar li button {
-      background: transparent;
+      background-color: transparent;
       border: none;
       color: red;
       cursor: pointer;
+    }
+
+    .sidebar li:hover {
+      background-color: #f3e5f5;
+    }
+
+    .mobile-toggle-btn {
+      display: none;
+      margin: 15px;
     }
 
     .content {
@@ -154,41 +172,39 @@
       font-size: 14px;
     }
 
-    .mobile-toggle-btn {
-      display: none;
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
     }
 
-    .mobile-sidebar-overlay {
-      display: none;
+    .popup-box {
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
     @media (max-width: 768px) {
-      .sidebar {
+      .sidebar-container {
         display: none;
       }
 
       .mobile-toggle-btn {
         display: block;
-        position: fixed;
-        top: 10px;
-        left: 10px;
-        right: 10px;
-        z-index: 1001;
-        padding: 12px;
-        font-size: 16px;
-        background-color: #6a1b9a;
-        color: white;
-        border-radius: 10px;
-        border: none;
-        box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       }
 
       .mobile-sidebar-overlay {
         display: none;
-      }
-
-      .mobile-sidebar-overlay.active {
-        display: block;
         position: fixed;
         top: 0;
         left: 0;
@@ -197,6 +213,10 @@
         height: 100vh;
         z-index: 1000;
         overflow-y: auto;
+      }
+
+      .mobile-sidebar-overlay.active {
+        display: block;
       }
 
       .content {
@@ -208,9 +228,11 @@
 <body>
 
   <!-- Desktop Sidebar -->
-  <div class="sidebar">
-    <h2>Saved Reflections</h2>
-    <ul id="saved-list-desktop"></ul>
+  <div class="sidebar-container">
+    <div class="sidebar">
+      <h2>Saved Reflections</h2>
+      <ul id="saved-list"></ul>
+    </div>
   </div>
 
   <!-- Mobile Sidebar Toggle -->
@@ -221,7 +243,7 @@
     <div class="sidebar">
       <button onclick="toggleMobileSidebar()" style="float:right;">✕</button>
       <h2>Saved Reflections</h2>
-      <ul id="saved-list-mobile"></ul>
+      <ul id="saved-list"></ul>
     </div>
   </div>
 
@@ -243,9 +265,23 @@
 
     <footer>
       <p>Made by Zavier Chambers using the api-bible API and free image from Imgur</p>
+      <button onclick="togglePopup()">How to Use This Website</button>
     </footer>
   </div>
 
+  <!-- How to Use Popup -->
+  <div class="popup-overlay" id="popup" style="display: none;">
+    <div class="popup-box">
+      <h2>How to Use This Website</h2>
+      <p>
+        Every visit shows a random Bible verse. Reflect on it by writing your thoughts and saving them.
+        Your reflections appear in the sidebar and stay saved on your device. Click, delete, and revisit them anytime.
+      </p>
+      <button onclick="togglePopup()">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
   <script>
     let currentRef = '';
 
@@ -265,13 +301,7 @@
       const text = document.getElementById('verse-text').textContent;
       const reflection = document.getElementById('user-response').value;
       if (!text || !reflection) return;
-
-      const entry = {
-        verse: text,
-        reference: currentRef,
-        reflection: reflection
-      };
-
+      const entry = { verse: text, reference: currentRef, reflection };
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
       saved.push(entry);
       localStorage.setItem('savedReflections', JSON.stringify(saved));
@@ -287,49 +317,69 @@
 
     function loadSavedList() {
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
-      const desktopList = document.getElementById('saved-list-desktop');
-      const mobileList = document.getElementById('saved-list-mobile');
-
-      desktopList.innerHTML = '';
-      mobileList.innerHTML = '';
-
-      saved.forEach((entry, index) => {
-        const createItem = () => {
+      const lists = document.querySelectorAll('#saved-list');
+      lists.forEach(list => {
+        list.innerHTML = '';
+        saved.forEach((entry, index) => {
           const li = document.createElement('li');
-
           const span = document.createElement('span');
           span.textContent = entry.reference;
           span.onclick = () => {
             document.getElementById('verse-text').textContent = entry.verse;
             document.getElementById('verse-ref').textContent = entry.reference;
             document.getElementById('user-response').value = entry.reflection;
+            toggleMobileSidebar(false);
           };
-
           const delBtn = document.createElement('button');
           delBtn.textContent = '✕';
           delBtn.onclick = (e) => {
             e.stopPropagation();
             deleteEntry(index);
           };
-
           li.appendChild(span);
           li.appendChild(delBtn);
-          return li;
-        };
-
-        desktopList.appendChild(createItem());
-        mobileList.appendChild(createItem());
+          list.appendChild(li);
+        });
       });
     }
 
-    function toggleMobileSidebar() {
-      document.getElementById('mobileSidebar').classList.toggle('active');
+        const delBtn = document.createElement('button');
+        delBtn.textContent = '✕';
+        delBtn.onclick = (e) => {
+          e.stopPropagation();
+          deleteEntry(index);
+        };
+        li.appendChild(span);
+        li.appendChild(delBtn);
+        lists.forEach(list => list.appendChild(li.cloneNode(true)));
+      });
+    }
+
+    function togglePopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleMobileSidebar(forceClose = null) {
+      const el = document.getElementById('mobileSidebar');
+      if (forceClose === true) {
+        el.classList.remove('active');
+      } else if (forceClose === false) {
+        el.classList.add('active');
+      } else {
+        el.classList.toggle('active');
+      }
     }
 
     window.onload = () => {
       loadSavedList();
+      const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
+      if (saved.length === 0) {
+        document.getElementById('popup').style.display = 'flex';
+      }
       loadNewVerse();
     };
   </script>
 </body>
 </html>
+<!-- END of HTML -->
