@@ -79,20 +79,8 @@
 
     .mobile-toggle-btn {
       display: none;
-      position: fixed;
-      top: 10px;
-      left: 10px;
-      right: 10px;
-      z-index: 999;
-      padding: 12px;
-      font-size: 16px;
-      background-color: #6a1b9a;
-      color: white;
-      border-radius: 10px;
-      border: none;
-      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      margin: 15px;
     }
-
 
     .content {
       margin-left: 270px;
@@ -248,8 +236,7 @@
   </div>
 
   <!-- Mobile Sidebar Toggle -->
-<button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">📜 View Saved Reflections</button>
-
+  <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">📜 View Saved Reflections</button>
 
   <!-- Mobile Sidebar Overlay -->
   <div class="mobile-sidebar-overlay" id="mobileSidebar">
@@ -330,58 +317,19 @@
 
     function loadSavedList() {
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
-      const allLists = document.querySelectorAll('#saved-list');
-    
-      allLists.forEach(list => list.innerHTML = ''); // Clear both
-    
-      saved.forEach((entry, index) => {
-        allLists.forEach(list => {
+      const lists = document.querySelectorAll('#saved-list');
+      lists.forEach(list => {
+        list.innerHTML = '';
+        saved.forEach((entry, index) => {
           const li = document.createElement('li');
-    
           const span = document.createElement('span');
           span.textContent = entry.reference;
-    
-          // Only close mobile sidebar if user is actually on mobile
-          span.onclick = (e) => {
+          span.onclick = () => {
             document.getElementById('verse-text').textContent = entry.verse;
             document.getElementById('verse-ref').textContent = entry.reference;
             document.getElementById('user-response').value = entry.reflection;
-    
-            if (window.innerWidth <= 768) {
-              toggleMobileSidebar(false);
-            }
+            toggleMobileSidebar(false);
           };
-    
-          const delBtn = document.createElement('button');
-          delBtn.textContent = '✕';
-          delBtn.onclick = (e) => {
-            e.stopPropagation(); // Prevent span.onclick from firing
-            deleteEntry(index);
-          };
-    
-          li.appendChild(span);
-          li.appendChild(delBtn);
-          list.appendChild(li);
-        });
-      });
-    }
-
-
-      const delBtn = document.createElement('button');
-      delBtn.textContent = '✕';
-      delBtn.onclick = (e) => {
-        e.stopPropagation(); // Prevent triggering span click
-        deleteEntry(index);
-      };
-
-      li.appendChild(span);
-      li.appendChild(delBtn);
-      list.appendChild(li);
-    });
-  });
-}
-
-
           const delBtn = document.createElement('button');
           delBtn.textContent = '✕';
           delBtn.onclick = (e) => {
