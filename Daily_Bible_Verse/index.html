@@ -26,6 +26,7 @@
       display: block;
     }
 
+
     .sidebar {
       width: 250px;
       background-color: rgba(255, 255, 255, 0.95);
@@ -340,18 +341,6 @@
           li.appendChild(delBtn);
           list.appendChild(li);
         });
-      });
-    }
-
-        const delBtn = document.createElement('button');
-        delBtn.textContent = '✕';
-        delBtn.onclick = (e) => {
-          e.stopPropagation();
-          deleteEntry(index);
-        };
-        li.appendChild(span);
-        li.appendChild(delBtn);
-        lists.forEach(list => list.appendChild(li.cloneNode(true)));
       });
     }
 
