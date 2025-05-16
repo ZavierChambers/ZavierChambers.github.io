@@ -16,85 +16,21 @@
       padding: 0;
       font-family: 'Roboto', sans-serif;
       background: linear-gradient(135deg, #fff8e1, #ffe0b2);
-      display: flex;
-      flex-direction: column;
-      min-height: 100vh;
       background-image: url('https://i.imgur.com/c3Z3Hf0.jpeg');
       background-size: cover;
       background-position: center;
+      display: flex;
+      flex-direction: column;
     }
 
-    @media (max-width: 768px) {
-  body {
-    flex-direction: column;
-  }
+    .mobile-toggle-btn {
+      display: none;
+      margin: 10px 0;
+    }
 
-  .sidebar {
-    position: relative;
-    width: 100%;
-    height: auto;
-    box-shadow: none;
-    margin-bottom: 20px;
-  }
-
-  .content {
-    margin-left: 0;
-    padding: 10px;
-  }
-
-  .verse-container,
-  .response-section {
-    max-width: 100%;
-    width: 100%;
-    margin-top: 15px;
-    padding: 20px;
-  }
-
-  .sidebar li {
-    flex-direction: column;
-    align-items: flex-start;
-    gap: 5px;
-  }
-
-  .popup-box {
-    width: 90%;
-    padding: 20px;
-  }
-
-  footer {
-    font-size: 12px;
-    padding: 15px;
-    text-align: center;
-  }
-
-  footer button {
-    width: 100%;
-    margin-top: 10px;
-  }
-
-  .verse-container h1,
-  .response-section h2 {
-    font-size: 24px;
-  }
-
-  .verse-container p,
-  .reference {
-    font-size: 18px;
-  }
-
-  .cross {
-    font-size: 32px;
-  }
-
-  textarea {
-    font-size: 15px;
-  }
-
-  button {
-    font-size: 15px;
-  }
-}
-
+    .mobile-sidebar-overlay {
+      display: none;
+    }
 
     .sidebar {
       width: 250px;
@@ -104,6 +40,9 @@
       box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
       height: 100vh;
       position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 1000;
     }
 
     .sidebar h2 {
@@ -125,6 +64,7 @@
       padding: 10px;
       border-bottom: 1px solid #ddd;
       color: #4e342e;
+      word-break: break-word;
     }
 
     .sidebar li span {
@@ -145,12 +85,10 @@
 
     .content {
       margin-left: 270px;
-      flex: 1;
+      padding: 20px;
       display: flex;
       flex-direction: column;
       align-items: center;
-      justify-content: flex-start;
-      padding: 20px;
     }
 
     .verse-container,
@@ -229,7 +167,9 @@
     footer {
       text-align: center;
       margin-top: 40px;
-      color: #333;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #4e342e;
       font-size: 14px;
     }
 
@@ -243,7 +183,7 @@
       display: flex;
       justify-content: center;
       align-items: center;
-      z-index: 1000;
+      z-index: 2000;
     }
 
     .popup-box {
@@ -255,27 +195,43 @@
       box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
     }
 
-    .popup-box h2 {
-      margin-top: 0;
-      color: #6a1b9a;
-    }
+    @media (max-width: 768px) {
+      .content {
+        margin-left: 0;
+        padding: 10px;
+      }
 
-    .popup-box p {
-      font-size: 16px;
-      color: #333;
-    }
+      .mobile-toggle-btn {
+        display: block;
+      }
 
-    .popup-box button {
-      margin-top: 20px;
-      background-color: #6a1b9a;
-      color: white;
+      .sidebar {
+        display: none;
+      }
+
+      .mobile-sidebar-overlay.active .sidebar {
+        display: block;
+        position: fixed;
+        width: 100%;
+        height: 100vh;
+        z-index: 1500;
+        background: rgba(255, 255, 255, 0.97);
+      }
     }
   </style>
 </head>
 <body>
-  <div class="sidebar">
-    <h2>Saved Reflections</h2>
-    <ul id="saved-list"></ul>
+
+  <!-- Mobile-only toggle button -->
+  <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">View Saved Reflections</button>
+
+  <!-- Sidebar overlay (used on mobile only) -->
+  <div class="mobile-sidebar-overlay" id="mobileSidebar">
+    <div class="sidebar">
+      <button onclick="toggleMobileSidebar()" style="float:right;">✕</button>
+      <h2>Saved Reflections</h2>
+      <ul id="saved-list"></ul>
+    </div>
   </div>
 
   <div class="content">
@@ -293,21 +249,18 @@
       <button onclick="saveResponse()">Save Reflection</button>
     </div>
 
-
-<footer style="background: rgba(255, 255, 255, 0.85); padding: 20px; margin-top: 40px;">
-  <p style="margin: 0; color: #4e342e;">
-    Made by Zavier Chambers using the api-bible API and free image from Imgur
-  </p>
-  <button onclick="togglePopup()" style="margin-top: 10px;">How to Use This Website</button>
-</footer>
-
+    <footer>
+      <p>Made by Zavier Chambers using the api-bible API and free image from Imgur</p>
+      <button onclick="togglePopup()">How to Use This Website</button>
+    </footer>
   </div>
 
   <div class="popup-overlay" id="popup" style="display: none;">
     <div class="popup-box">
       <h2>How to Use This Website</h2>
       <p>
-        Each time you visit, a new Bible verse is shown. Reflect on it by writing your thoughts and clicking Save. Your reflections are stored in your browser. Click any saved verse on the left to view it again. Delete entries anytime.
+        Every visit shows a random Bible verse. Reflect on it by writing your thoughts and saving them.
+        Your reflections appear in the sidebar and stay saved on your device. You can click, delete, and revisit them anytime.
       </p>
       <button onclick="togglePopup()">Got it!</button>
     </div>
@@ -332,11 +285,7 @@
       const text = document.getElementById('verse-text').textContent;
       const reflection = document.getElementById('user-response').value;
       if (!text || !reflection) return;
-      const entry = {
-        verse: text,
-        reference: currentRef,
-        reflection: reflection
-      };
+      const entry = { verse: text, reference: currentRef, reflection };
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
       saved.push(entry);
       localStorage.setItem('savedReflections', JSON.stringify(saved));
@@ -362,6 +311,7 @@
           document.getElementById('verse-text').textContent = entry.verse;
           document.getElementById('verse-ref').textContent = entry.reference;
           document.getElementById('user-response').value = entry.reflection;
+          if (window.innerWidth <= 768) toggleMobileSidebar();
         };
         const delBtn = document.createElement('button');
         delBtn.textContent = '✕';
@@ -378,6 +328,10 @@
     function togglePopup() {
       const popup = document.getElementById('popup');
       popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleMobileSidebar() {
+      document.getElementById('mobileSidebar').classList.toggle('active');
     }
 
     window.onload = () => {
