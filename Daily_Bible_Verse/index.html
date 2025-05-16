@@ -330,25 +330,42 @@
 
     function loadSavedList() {
       const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
-      const lists = document.querySelectorAll('#saved-list');
-      lists.forEach(list => {
-        list.innerHTML = '';
-        saved.forEach((entry, index) => {
+    
+      // Target both lists separately
+      const allLists = document.querySelectorAll('#saved-list');
+      allLists.forEach(list => list.innerHTML = ''); // Clear both
+    
+      saved.forEach((entry, index) => {
+        // Create elements for each list
+        allLists.forEach(list => {
           const li = document.createElement('li');
+    
           const span = document.createElement('span');
           span.textContent = entry.reference;
-          span.onclick = (e) => {
-            // Prevent if clicking on the delete button (which is inside li)
-            if (e.target.tagName === 'BUTTON') return;
+          span.onclick = () => {
             document.getElementById('verse-text').textContent = entry.verse;
             document.getElementById('verse-ref').textContent = entry.reference;
             document.getElementById('user-response').value = entry.reflection;
-          
-            // Only auto-close if on mobile
+    
             if (window.innerWidth <= 768) {
-              toggleMobileSidebar(false);
+              toggleMobileSidebar(false); // Only close sidebar on mobile
             }
           };
+
+      const delBtn = document.createElement('button');
+      delBtn.textContent = '✕';
+      delBtn.onclick = (e) => {
+        e.stopPropagation(); // Prevent triggering span click
+        deleteEntry(index);
+      };
+
+      li.appendChild(span);
+      li.appendChild(delBtn);
+      list.appendChild(li);
+    });
+  });
+}
+
 
           const delBtn = document.createElement('button');
           delBtn.textContent = '✕';
