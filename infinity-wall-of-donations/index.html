@@ -3,7 +3,7 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Massive Donor Wall</title>
+  <title>Ultimate Donor Wall</title>
   <style>
     html, body {
       margin: 0;
@@ -12,6 +12,7 @@
       height: 100%;
       font-family: 'Segoe UI', sans-serif;
       background: radial-gradient(circle, #f0f0f0, #e0f7fa);
+      touch-action: none; /* Enable custom gestures */
     }
 
     header {
@@ -32,12 +33,13 @@
       width: 100%;
       height: 100%;
       position: relative;
+      overflow: hidden;
     }
 
     #wall {
       display: grid;
-      grid-template-columns: repeat(100, 100px); /* 100 columns */
-      grid-template-rows: repeat(100, 100px);    /* 100 rows */
+      grid-template-columns: repeat(100, 100px);
+      grid-template-rows: repeat(100, 100px);
       transform-origin: top left;
       position: absolute;
       top: 60px;
@@ -55,30 +57,24 @@
   </style>
 </head>
 <body>
-  <header>🧱 Massive Donor Wall</header>
+  <header>🧱 Ultimate Donor Wall</header>
   <div id="viewport">
     <div id="wall"></div>
   </div>
 
   <script>
     const wall = document.getElementById("wall");
-    const gridSize = 100; // 100x100
+    const gridSize = 100;
     const totalPhotos = gridSize * gridSize;
-    const photoUrls = [];
 
-    for (let i = 1; i <= totalPhotos; i++) {
-      photoUrls.push(`https://i.pravatar.cc/100?img=${(i % 70) + 1}`);
-    }
-
-    photoUrls.forEach(url => {
+    for (let i = 0; i < totalPhotos; i++) {
       const img = document.createElement("img");
-      img.src = url;
+      img.src = `https://i.pravatar.cc/100?img=${(i % 70) + 1}`;
       img.className = "photo";
       wall.appendChild(img);
-    });
+    }
 
-    // Pan and zoom like Google Maps
-    let scale = 0.3; // start zoomed out
+    let scale = 0.3;
     let originX = 0;
     let originY = 0;
     let isDragging = false;
@@ -88,15 +84,22 @@
       wall.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
     }
 
+    // Mouse wheel zoom (no Ctrl needed)
     document.addEventListener("wheel", (e) => {
-      if (!e.ctrlKey) return;
       e.preventDefault();
-      const delta = e.deltaY < 0 ? 1.1 : 0.9;
+      const delta = e.deltaY > 0 ? 0.9 : 1.1;
+      const mouseX = e.clientX - originX;
+      const mouseY = e.clientY - originY;
+
+      originX -= mouseX * (delta - 1);
+      originY -= mouseY * (delta - 1);
+
       scale *= delta;
       scale = Math.max(0.1, Math.min(scale, 5));
       updateTransform();
     });
 
+    // Mouse drag
     document.addEventListener("mousedown", (e) => {
       isDragging = true;
       startX = e.clientX - originX;
@@ -115,27 +118,47 @@
       isDragging = false;
     });
 
-    // Touch support
-    let touchStart = null;
+    // Touch drag and pinch
+    let lastTouchDistance = null;
+
+    function getTouchDistance(touches) {
+      const dx = touches[0].clientX - touches[1].clientX;
+      const dy = touches[0].clientY - touches[1].clientY;
+      return Math.sqrt(dx * dx + dy * dy);
+    }
+
     document.addEventListener("touchstart", (e) => {
       if (e.touches.length === 1) {
-        touchStart = {
-          x: e.touches[0].clientX - originX,
-          y: e.touches[0].clientY - originY,
-        };
+        startX = e.touches[0].clientX - originX;
+        startY = e.touches[0].clientY - originY;
+      } else if (e.touches.length === 2) {
+        lastTouchDistance = getTouchDistance(e.touches);
       }
     });
 
     document.addEventListener("touchmove", (e) => {
-      if (e.touches.length === 1 && touchStart) {
-        originX = e.touches[0].clientX - touchStart.x;
-        originY = e.touches[0].clientY - touchStart.y;
-        updateTransform();
+      if (e.touches.length === 1) {
+        originX = e.touches[0].clientX - startX;
+        originY = e.touches[0].clientY - startY;
+      } else if (e.touches.length === 2) {
+        const newDistance = getTouchDistance(e.touches);
+        const delta = newDistance / lastTouchDistance;
+        lastTouchDistance = newDistance;
+
+        const centerX = (e.touches[0].clientX + e.touches[1].clientX) / 2 - originX;
+        const centerY = (e.touches[0].clientY + e.touches[1].clientY) / 2 - originY;
+
+        originX -= centerX * (delta - 1);
+        originY -= centerY * (delta - 1);
+
+        scale *= delta;
+        scale = Math.max(0.1, Math.min(scale, 5));
       }
+      updateTransform();
     });
 
     document.addEventListener("touchend", () => {
-      touchStart = null;
+      lastTouchDistance = null;
     });
 
     updateTransform();
