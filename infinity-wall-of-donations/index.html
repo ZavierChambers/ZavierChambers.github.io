@@ -36,12 +36,13 @@
 
     #wall {
       display: grid;
-      grid-template-columns: repeat(auto-fill, 100px);
-      gap: 4px;
+      grid-template-columns: repeat(100, 100px); /* 100 columns */
+      grid-template-rows: repeat(100, 100px);    /* 100 rows */
       transform-origin: top left;
       position: absolute;
-      top: 50px;
+      top: 60px;
       left: 0;
+      gap: 2px;
     }
 
     .photo {
@@ -61,12 +62,12 @@
 
   <script>
     const wall = document.getElementById("wall");
-    const totalPhotos = 225; // 15x15 grid = 225 images
+    const gridSize = 100; // 100x100
+    const totalPhotos = gridSize * gridSize;
     const photoUrls = [];
 
     for (let i = 1; i <= totalPhotos; i++) {
-      // Repeat avatar images for demo
-      photoUrls.push(`https://i.pravatar.cc/150?img=${(i % 70) + 1}`);
+      photoUrls.push(`https://i.pravatar.cc/100?img=${(i % 70) + 1}`);
     }
 
     photoUrls.forEach(url => {
@@ -76,17 +77,15 @@
       wall.appendChild(img);
     });
 
-    // Setup pan and zoom
-    let scale = 1;
+    // Pan and zoom like Google Maps
+    let scale = 0.3; // start zoomed out
     let originX = 0;
     let originY = 0;
     let isDragging = false;
     let startX, startY;
 
-    const wallEl = document.getElementById("wall");
-
     function updateTransform() {
-      wallEl.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
+      wall.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
     }
 
     document.addEventListener("wheel", (e) => {
@@ -94,7 +93,7 @@
       e.preventDefault();
       const delta = e.deltaY < 0 ? 1.1 : 0.9;
       scale *= delta;
-      scale = Math.max(0.2, Math.min(scale, 5));
+      scale = Math.max(0.1, Math.min(scale, 5));
       updateTransform();
     });
 
@@ -139,7 +138,6 @@
       touchStart = null;
     });
 
-    // Initial placement
     updateTransform();
   </script>
 </body>
