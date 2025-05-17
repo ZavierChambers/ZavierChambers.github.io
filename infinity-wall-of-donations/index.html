@@ -57,20 +57,22 @@
       user-select: none;
       pointer-events: none;
     }
+      
+      #overlay {
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: transparent;     /* Make it fully see-through */
+        cursor: grab;
+        z-index: 999;
+        touch-action: none;          /* Allow custom gestures */
+      }
+      #overlay:active {
+        cursor: grabbing;
+      }
 
-    #overlay {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
-      cursor: grab;
-      z-index: 999;
-    }
-
-    #overlay:active {
-      cursor: grabbing;
-    }
   </style>
 </head>
 <body>
