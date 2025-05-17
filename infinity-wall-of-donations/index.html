@@ -34,6 +34,11 @@
       height: 100%;
       position: relative;
       overflow: hidden;
+      cursor: grab;
+    }
+
+    #viewport:active {
+      cursor: grabbing;
     }
 
     #wall {
@@ -44,8 +49,8 @@
       top: 60px;
       left: 0;
       gap: 2px;
-      pointer-events: none; /* Prevent interaction */
       will-change: transform;
+      transform-origin: top left;
     }
 
     .photo {
@@ -55,36 +60,19 @@
       border-radius: 6px;
       box-shadow: 0 2px 6px rgba(0, 0, 0, 0.08);
       user-select: none;
-      pointer-events: none;
+      pointer-events: none; /* Prevent grabbing individual images */
     }
-      
-      #overlay {
-        position: fixed;
-        top: 0;
-        left: 0;
-        width: 100%;
-        height: 100%;
-        background: transparent;     /* Make it fully see-through */
-        cursor: grab;
-        z-index: 999;
-        touch-action: none;          /* Allow custom gestures */
-      }
-      #overlay:active {
-        cursor: grabbing;
-      }
-
   </style>
 </head>
 <body>
   <header>🧱 Ultimate Donor Wall</header>
   <div id="viewport">
     <div id="wall"></div>
-    <div id="overlay"></div>
   </div>
 
   <script>
     const wall = document.getElementById("wall");
-    const overlay = document.getElementById("overlay");
+    const viewport = document.getElementById("viewport");
     const gridSize = 100;
     const totalPhotos = gridSize * gridSize;
 
@@ -105,7 +93,7 @@
       wall.style.transform = `translate(${originX}px, ${originY}px) scale(${scale})`;
     }
 
-    // Scroll to zoom
+    // Zoom (no Ctrl needed)
     document.addEventListener("wheel", (e) => {
       e.preventDefault();
       const delta = e.deltaY > 0 ? 0.9 : 1.1;
@@ -120,8 +108,8 @@
       updateTransform();
     });
 
-    // Drag from overlay only
-    overlay.addEventListener("mousedown", (e) => {
+    // Dragging
+    viewport.addEventListener("mousedown", (e) => {
       isDragging = true;
       startX = e.clientX - originX;
       startY = e.clientY - originY;
@@ -139,7 +127,7 @@
       isDragging = false;
     });
 
-    // Touch pinch and drag
+    // Touch support (pinch + drag)
     let lastTouchDistance = null;
 
     function getTouchDistance(touches) {
@@ -148,7 +136,7 @@
       return Math.sqrt(dx * dx + dy * dy);
     }
 
-    overlay.addEventListener("touchstart", (e) => {
+    viewport.addEventListener("touchstart", (e) => {
       if (e.touches.length === 1) {
         startX = e.touches[0].clientX - originX;
         startY = e.touches[0].clientY - originY;
@@ -157,7 +145,7 @@
       }
     });
 
-    overlay.addEventListener("touchmove", (e) => {
+    viewport.addEventListener("touchmove", (e) => {
       if (e.touches.length === 1) {
         originX = e.touches[0].clientX - startX;
         originY = e.touches[0].clientY - startY;
@@ -178,7 +166,7 @@
       updateTransform();
     });
 
-    overlay.addEventListener("touchend", () => {
+    viewport.addEventListener("touchend", () => {
       lastTouchDistance = null;
     });
 
