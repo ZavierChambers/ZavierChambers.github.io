@@ -5,116 +5,114 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Zavier Chambers Hub</title>
   <style>
+    :root {
+      --dark: #0f172a;
+      --gray: #334155;
+      --light-gray: #94a3b8;
+      --accent: #2563eb;
+    }
+
     * {
       margin: 0;
       padding: 0;
       box-sizing: border-box;
-      font-family: Arial, sans-serif;
     }
 
     body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: white;
       line-height: 1.6;
     }
 
     header {
-      padding: 60px 20px;
-      background: #111827;
-      color: white;
+      background-color: var(--dark);
+      padding: 4rem 1rem;
       text-align: center;
     }
 
     header h1 {
       font-size: 3rem;
-      margin-bottom: 20px;
+      color: var(--accent);
+      margin-bottom: 1rem;
     }
 
     header p {
       font-size: 1.2rem;
-      max-width: 700px;
+      color: var(--light-gray);
+      max-width: 800px;
       margin: 0 auto;
     }
 
-    .section {
-      padding: 80px 20px;
-      color: white;
+    section {
+      padding: 4rem 1rem;
       text-align: center;
-    }
-
-    .section h2 {
-      font-size: 2.5rem;
-      margin-bottom: 10px;
-    }
-
-    .section p {
-      font-size: 1.2rem;
-      margin-bottom: 20px;
-    }
-
-    .section a {
-      display: inline-block;
-      padding: 10px 20px;
-      background: rgba(0, 0, 0, 0.6);
-      color: white;
-      text-decoration: none;
-      border-radius: 5px;
-    }
-
-    .technical {
-      background: #1f2937;
-      background-image: url('https://source.unsplash.com/1600x900/?code,cybersecurity');
       background-size: cover;
       background-position: center;
-    }
-
-    .about {
-      background: #4b5563;
-      background-image: url('https://source.unsplash.com/1600x900/?computer,profile');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .projects {
-      background: #6b7280;
-      background-image: url('https://source.unsplash.com/1600x900/?projects,tech');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .homelab {
-      background: #374151;
-      background-image: url('https://source.unsplash.com/1600x900/?server,network');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .courses {
-      background: #9ca3af;
-      background-image: url('https://source.unsplash.com/1600x900/?learning,books');
-      background-size: cover;
-      background-position: center;
-    }
-
-    .ideas {
-      background: #d1d5db;
-      background-image: url('https://source.unsplash.com/1600x900/?brainstorm,lightbulb');
-      background-size: cover;
-      background-position: center;
+      position: relative;
     }
 
     .overlay {
-      background-color: rgba(0, 0, 0, 0.6);
-      padding: 60px 20px;
+      background-color: rgba(15, 23, 42, 0.7);
+      padding: 3rem 1rem;
+      max-width: 800px;
+      margin: auto;
+      border-radius: 12px;
+    }
+
+    h2 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #fff;
+    }
+
+    p {
+      font-size: 1.1rem;
+      margin-bottom: 1.5rem;
+      color: #e2e8f0;
+    }
+
+    a {
+      display: inline-block;
+      padding: 0.75rem 1.5rem;
+      color: white;
+      background-color: var(--accent);
+      border-radius: 6px;
+      text-decoration: none;
+      transition: background-color 0.3s;
+    }
+
+    a:hover {
+      background-color: #1e40af;
+    }
+
+    .technical { background-image: url('https://source.unsplash.com/1600x900/?code,cybersecurity'); }
+    .about { background-image: url('https://source.unsplash.com/1600x900/?computer,profile'); }
+    .projects { background-image: url('https://source.unsplash.com/1600x900/?projects,tech'); }
+    .homelab { background-image: url('https://source.unsplash.com/1600x900/?server,network'); }
+    .courses { background-image: url('https://source.unsplash.com/1600x900/?learning,books'); }
+    .ideas { background-image: url('https://source.unsplash.com/1600x900/?brainstorm,lightbulb'); }
+
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      h2 {
+        font-size: 1.5rem;
+      }
+      p {
+        font-size: 1rem;
+      }
     }
   </style>
 </head>
 <body>
-
   <header>
     <h1>Zavier Chambers Hub</h1>
     <p>Welcome to my central hub for everything cybersecurity, cloud, IAM, and beyond. This space showcases my knowledge, experience, tools, and ongoing development in the world of IT. Explore the sections below to dive deeper into my work and journey.</p>
   </header>
 
-  <section class="section technical">
+  <section class="technical">
     <div class="overlay">
       <h2>Technical Documentation</h2>
       <p>Notes, SOPs, and guides on IAM, Azure, scripting, and security practices.</p>
@@ -122,7 +120,7 @@
     </div>
   </section>
 
-  <section class="section about">
+  <section class="about">
     <div class="overlay">
       <h2>About Me</h2>
       <p>Learn more about who I am, my journey, and my cybersecurity passions.</p>
@@ -130,7 +128,7 @@
     </div>
   </section>
 
-  <section class="section projects">
+  <section class="projects">
     <div class="overlay">
       <h2>Projects</h2>
       <p>Offensive and defensive tools, automation scripts, and personal builds.</p>
@@ -138,7 +136,7 @@
     </div>
   </section>
 
-  <section class="section homelab">
+  <section class="homelab">
     <div class="overlay">
       <h2>Homelab</h2>
       <p>Overview of my virtual and physical homelab environment and architecture.</p>
@@ -146,7 +144,7 @@
     </div>
   </section>
 
-  <section class="section courses">
+  <section class="courses">
     <div class="overlay">
       <h2>Courses</h2>
       <p>Walkthroughs, bookmarks, and reviews of cybersecurity and cloud courses.</p>
@@ -154,13 +152,12 @@
     </div>
   </section>
 
-  <section class="section ideas">
+  <section class="ideas">
     <div class="overlay">
       <h2>Ideas</h2>
       <p>Raw thoughts, potential projects, and business plans to explore.</p>
       <a href="./ideas.html">View Ideas</a>
     </div>
   </section>
-
 </body>
 </html>
