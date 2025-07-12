@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Zavier Chambers Ideas</title>
+  <style>
+    :root {
+      --dark: #0f172a;
+      --gray: #334155;
+      --light-gray: #94a3b8;
+      --accent: #2563eb;
+      --bg-card: #1e293b;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      background-color: var(--dark);
+      color: white;
+      line-height: 1.6;
+      padding: 0 1rem;
+    }
+
+    .navbar {
+      background-color: var(--dark);
+      padding: 1rem 2rem;
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      border-bottom: 1px solid var(--gray);
+    }
+
+    .navbar .brand {
+      font-size: 1.5rem;
+      color: var(--accent);
+      font-weight: bold;
+    }
+
+    .navbar nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    .navbar a {
+      color: var(--light-gray);
+      text-decoration: none;
+      font-weight: 500;
+      transition: color 0.3s ease;
+    }
+
+    .navbar a:hover {
+      color: var(--accent);
+    }
+
+    .menu-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 4px;
+      cursor: pointer;
+    }
+
+    .menu-toggle span {
+      height: 3px;
+      width: 25px;
+      background: var(--light-gray);
+      border-radius: 2px;
+    }
+
+    @media (max-width: 768px) {
+      .navbar nav {
+        display: none;
+        position: absolute;
+        top: 64px;
+        right: 20px;
+        background-color: var(--dark);
+        border: 1px solid var(--gray);
+        border-radius: 8px;
+        flex-direction: column;
+        gap: 1rem;
+        padding: 1rem;
+        z-index: 200;
+      }
+
+      .navbar nav.active {
+        display: flex;
+      }
+
+      .menu-toggle {
+        display: flex;
+      }
+    }
+
+    header {
+      text-align: center;
+      margin: 3rem 0 2rem;
+    }
+
+    header h1 {
+      font-size: 2.5rem;
+      color: var(--accent);
+    }
+
+    .content {
+      max-width: 900px;
+      margin: 0 auto 3rem;
+      background: var(--bg-card);
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 0 20px rgba(0,0,0,0.3);
+    }
+
+    .content h2 {
+      color: white;
+      font-size: 1.6rem;
+      margin-bottom: 1rem;
+    }
+
+    .content p {
+      color: var(--light-gray);
+      margin-bottom: 1.2rem;
+      line-height: 1.8;
+    }
+
+    ul {
+      padding-left: 1.2rem;
+      margin-bottom: 2rem;
+    }
+
+    ul li {
+      margin-bottom: 0.8rem;
+      color: var(--light-gray);
+    }
+  </style>
+</head>
+<body>
+  <div class="navbar">
+    <div class="brand">Zavier Chambers</div>
+    <div class="menu-toggle" onclick="document.querySelector('.navbar nav').classList.toggle('active')">
+      <span></span>
+      <span></span>
+      <span></span>
+    </div>
+    <nav>
+      <a href="/index.html">Home</a>
+      <a href="/Technical-Documentation/index.html">Docs</a>
+      <a href="/courses.html">Courses</a>
+      <a href="/projects.html">Projects</a>
+      <a href="/homelab.html">Homelab</a>
+      <a href="/ideas.html">Ideas</a>
+      <a href="/about.html">About</a>
+    </nav>
+  </div>
+
+  <header>
+    <h1>💡 Ideas & Concepts</h1>
+  </header>
+
+  <div class="content">
+    <h2>What I'm Exploring</h2>
+    <p>This page is where I brainstorm future tools, business opportunities, or learning paths I want to build, automate, or monetize. It’s part concept board, part inspiration log.</p>
+
+    <h2>Idea List</h2>
+    <ul>
+      <li>IAM-as-a-Service Toolkit for small orgs (PowerShell + web dashboard)</li>
+      <li>Auto-generating user documentation with AI from change logs</li>
+      <li>Web app to test and audit role-based access in mock orgs</li>
+      <li>Print-on-demand merch store with partner IAM and security memes</li>
+      <li>Family budgeting app that syncs with Google Sheets and sends weekly digest</li>
+      <li>Local tech blog + training series based on real-world IAM issues I’ve fixed</li>
+    </ul>
+
+    <h2>Next Steps</h2>
+    <p>Some of these are just ideas. Others are already under development in my projects section. I’ll update this list regularly as I test what’s viable and what others may benefit from too.</p>
+  </div>
+</body>
+</html>
