@@ -53,17 +53,19 @@
     }
 
     .overlay {
-      background-color: rgba(15, 23, 42, 0.7);
+      background-color: rgba(15, 23, 42, 0.85);
       padding: 3rem 1rem;
       max-width: 800px;
       margin: auto;
       border-radius: 12px;
+      box-shadow: 0 4px 20px rgba(0,0,0,0.4);
     }
 
     h2 {
       font-size: 2rem;
       margin-bottom: 1rem;
       color: #fff;
+      text-shadow: 1px 1px 3px black;
     }
 
     p {
@@ -79,19 +81,20 @@
       background-color: var(--accent);
       border-radius: 6px;
       text-decoration: none;
-      transition: background-color 0.3s;
+      transition: background-color 0.3s, transform 0.2s;
     }
 
     a:hover {
       background-color: #1e40af;
+      transform: scale(1.05);
     }
 
-    .technical { background-image: url('https://source.unsplash.com/1600x900/?code,cybersecurity'); }
-    .about { background-image: url('https://source.unsplash.com/1600x900/?computer,profile'); }
-    .projects { background-image: url('https://source.unsplash.com/1600x900/?projects,tech'); }
-    .homelab { background-image: url('https://source.unsplash.com/1600x900/?server,network'); }
-    .courses { background-image: url('https://source.unsplash.com/1600x900/?learning,books'); }
-    .ideas { background-image: url('https://source.unsplash.com/1600x900/?brainstorm,lightbulb'); }
+    .technical { background-image: url('https://fastly.picsum.photos/id/24/4855/1803.jpg?hmac=ICVhP1pUXDLXaTkgwDJinSUS59UWalMxf4SOIWb9Ui4'); }
+    .about { background-image: url('https://fastly.picsum.photos/id/63/5000/2813.jpg?hmac=HvaeSK6WT-G9bYF_CyB2m1ARQirL8UMnygdU9W6PDvM'); }
+    .projects { background-image: url('https://fastly.picsum.photos/id/210/1920/1280.jpg?hmac=kYfMv3EcqaAlduPKLApAyc1m7wGQcFxRZQbK45CGcKI'); }
+    .homelab { background-image: url('https://fastly.picsum.photos/id/366/4000/3000.jpg?hmac=zphhHOH9ofToN2jNHd8z-nc98NrBd8y2okWXEXetLDg'); }
+    .courses { background-image: url('https://fastly.picsum.photos/id/192/2352/2352.jpg?hmac=jN5UExysObV7_BrOYLdxoDKzm_c_lRM6QkaInKT_1Go'); }
+    .ideas { background-image: url('https://picsum.photos/1600/900'); }
 
     @media (max-width: 768px) {
       header h1 {
@@ -120,11 +123,11 @@
     </div>
   </section>
 
-  <section class="about">
+  <section class="courses">
     <div class="overlay">
-      <h2>About Me</h2>
-      <p>Learn more about who I am, my journey, and my cybersecurity passions.</p>
-      <a href="./about.html">Read More</a>
+      <h2>Courses</h2>
+      <p>Walkthroughs, bookmarks, and reviews of cybersecurity and cloud courses.</p>
+      <a href="./courses.html">View Courses</a>
     </div>
   </section>
 
@@ -144,14 +147,6 @@
     </div>
   </section>
 
-  <section class="courses">
-    <div class="overlay">
-      <h2>Courses</h2>
-      <p>Walkthroughs, bookmarks, and reviews of cybersecurity and cloud courses.</p>
-      <a href="./courses.html">View Courses</a>
-    </div>
-  </section>
-
   <section class="ideas">
     <div class="overlay">
       <h2>Ideas</h2>
@@ -159,5 +154,14 @@
       <a href="./ideas.html">View Ideas</a>
     </div>
   </section>
+
+  <section class="about">
+    <div class="overlay">
+      <h2>About Me</h2>
+      <p>Learn more about who I am, my journey, and my cybersecurity passions.</p>
+      <a href="./about.html">Read More</a>
+    </div>
+  </section>
+
 </body>
 </html>
