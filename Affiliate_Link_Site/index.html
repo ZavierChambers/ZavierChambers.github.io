@@ -1,166 +1,129 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Bub Hub 🌈</title>
-  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>This Is Why We Splurge 💸</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
   <style>
     :root {
-      --pink: #ff9ebc;
-      --blue: #9ecbff;
-      --purple: #d9a7ff;
-      --white: #ffffff;
-      --shadow: rgba(0, 0, 0, 0.1);
+      --bg: #0f0f0f;
+      --card: #1f1f1f;
+      --accent: #ff5ec7;
+      --text: #fff;
+      --muted: #aaa;
     }
     * {
-      box-sizing: border-box;
-      font-family: 'Fredoka', sans-serif;
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Montserrat', sans-serif;
     }
     body {
-      background: linear-gradient(135deg, var(--pink), var(--blue));
-      color: #4a148c;
+      background: var(--bg);
+      color: var(--text);
       padding: 2rem;
-      position: relative;
-      overflow-x: hidden;
-    }
-    body::before, body::after {
-      content: '';
-      position: absolute;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: var(--purple);
-      opacity: 0.2;
-      filter: blur(60px);
-      z-index: 0;
-    }
-    body::before {
-      top: -50px;
-      left: -50px;
-    }
-    body::after {
-      bottom: -50px;
-      right: -50px;
     }
     h1 {
-      font-size: 3.5rem;
+      font-size: 2.8rem;
       text-align: center;
-      margin-bottom: 1rem;
-      color: var(--white);
-      text-shadow: 2px 2px var(--purple);
-      z-index: 1;
-      position: relative;
+      margin-bottom: 0.5rem;
+      color: var(--accent);
     }
     p.subtitle {
       text-align: center;
-      max-width: 700px;
-      margin: 0 auto 2rem;
-      font-size: 1.4rem;
-      color: var(--white);
-      z-index: 1;
-      position: relative;
+      font-size: 1.1rem;
+      color: var(--muted);
+      margin-bottom: 2rem;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
       gap: 2rem;
-      margin-top: 3rem;
-      position: relative;
-      z-index: 1;
     }
     .card {
-      background: var(--white);
-      border-radius: 1.5rem;
-      box-shadow: 0 8px 20px var(--shadow);
+      background: var(--card);
+      border-radius: 1rem;
       overflow: hidden;
-      transition: transform 0.4s ease, box-shadow 0.4s ease;
-      border: 3px solid var(--pink);
-      position: relative;
+      transition: transform 0.3s ease;
+      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
     }
     .card:hover {
-      transform: scale(1.05);
-      box-shadow: 0 10px 30px var(--shadow);
-      border-color: var(--blue);
+      transform: scale(1.03);
     }
     .card img {
       width: 100%;
-      height: 220px;
+      height: 200px;
       object-fit: cover;
-      border-bottom: 2px solid var(--blue);
     }
     .card-content {
-      padding: 1.2rem;
+      padding: 1rem;
     }
     .card-content h2 {
-      font-size: 1.4rem;
+      color: var(--accent);
+      font-size: 1.3rem;
       margin-bottom: 0.5rem;
-      color: var(--pink);
     }
     .card-content p {
+      color: var(--muted);
       font-size: 1rem;
-      color: #444;
       margin-bottom: 1rem;
     }
     .card-content a {
       display: inline-block;
-      padding: 0.6rem 1.2rem;
-      background: linear-gradient(90deg, var(--blue), var(--pink));
-      color: white;
-      font-weight: bold;
-      border-radius: 0.75rem;
+      background: var(--accent);
+      color: var(--bg);
+      padding: 0.5rem 1rem;
+      border-radius: 0.5rem;
       text-decoration: none;
-      box-shadow: 0 3px 6px var(--shadow);
-      transition: background 0.3s ease, transform 0.2s;
+      font-weight: bold;
     }
     .card-content a:hover {
-      transform: scale(1.05);
+      opacity: 0.8;
     }
     footer {
       text-align: center;
-      margin-top: 4rem;
-      font-size: 0.95rem;
-      color: var(--white);
-      position: relative;
-      z-index: 1;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: var(--muted);
     }
   </style>
 </head>
 <body>
-  <h1>🌈 The Bub Hub</h1>
-  <p class="subtitle">Curated faith-inspired, tech, and lifestyle picks for couples building purpose together 💖</p>
+  <h1>This Is Why We Splurge 💸</h1>
+  <p class="subtitle">Crazy cool finds, impulse buys, and must-haves we don’t need... but really want.</p>
 
   <div class="grid">
     <div class="card">
-      <img src="https://via.placeholder.com/300x220" alt="Faith Journal">
+      <img src="https://via.placeholder.com/300x200" alt="Smart LED Display Coffee Table">
       <div class="card-content">
-        <h2>Faith & Reflection Journal</h2>
-        <p>Daily prompts and scripture for intentional living and spiritual growth.</p>
-        <a href="https://www.amazon.com/dp/example1" target="_blank">Buy on Amazon</a>
+        <h2>Smart LED Display Coffee Table</h2>
+        <p>A coffee table with fridge drawers, Bluetooth speakers, charging ports — yes please.</p>
+        <a href="https://www.amazon.com/dp/example1" target="_blank">See on Amazon</a>
       </div>
     </div>
+
     <div class="card">
-      <img src="https://via.placeholder.com/300x220" alt="Couples Tech Organizer">
+      <img src="https://via.placeholder.com/300x200" alt="Cyberpunk Wall Clock">
       <div class="card-content">
-        <h2>Tech Travel Organizer</h2>
-        <p>Stylish and handy case to keep all your cables, chargers, and accessories neat!</p>
-        <a href="https://www.amazon.com/dp/example2" target="_blank">Buy on Amazon</a>
+        <h2>Cyberpunk Wall Clock</h2>
+        <p>Retro vibes with futuristic flair. This clock is practically art.</p>
+        <a href="https://www.amazon.com/dp/example2" target="_blank">See on Amazon</a>
       </div>
     </div>
+
     <div class="card">
-      <img src="https://via.placeholder.com/300x220" alt="Girly Self-Care Set">
+      <img src="https://via.placeholder.com/300x200" alt="Mini Projector for Movie Nights">
       <div class="card-content">
-        <h2>Self-Care Pamper Set</h2>
-        <p>Perfect for a relaxing day: bath bombs, candles, and skin-loving essentials.</p>
-        <a href="https://www.amazon.com/dp/example3" target="_blank">Buy on Amazon</a>
+        <h2>Mini Projector for Movie Nights</h2>
+        <p>Big screen vibes from a palm-sized gadget. Netflix & chill level: elite.</p>
+        <a href="https://www.amazon.com/dp/example3" target="_blank">See on Amazon</a>
       </div>
     </div>
   </div>
 
   <footer>
-    © <span id="year"></span> The Bub Hub · As an Amazon Associate I earn from qualifying purchases.
+    © <span id="year"></span> This Is Why We Splurge · Affiliate links support the splurge 😎
   </footer>
 
   <script>
