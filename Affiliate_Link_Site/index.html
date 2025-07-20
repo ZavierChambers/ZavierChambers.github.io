@@ -1,133 +1,81 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>This Is Why We Splurge 💸</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>🔗 Tech Links Hub</title>
+  <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;700&display=swap" rel="stylesheet" />
   <style>
-    :root {
-      --bg: #0f0f0f;
-      --card: #1f1f1f;
-      --accent: #ff5ec7;
-      --text: #fff;
-      --muted: #aaa;
-    }
-    * {
-      margin: 0;
-      padding: 0;
-      box-sizing: border-box;
-      font-family: 'Montserrat', sans-serif;
-    }
     body {
-      background: var(--bg);
-      color: var(--text);
+      margin: 0;
+      font-family: 'Inter', sans-serif;
+      background: #0f172a;
+      color: #f8fafc;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
       padding: 2rem;
     }
     h1 {
-      font-size: 2.8rem;
-      text-align: center;
-      margin-bottom: 0.5rem;
-      color: var(--accent);
-    }
-    p.subtitle {
-      text-align: center;
-      font-size: 1.1rem;
-      color: var(--muted);
       margin-bottom: 2rem;
+      font-size: 2.5rem;
+      color: #38bdf8;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 2rem;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 1.5rem;
+      width: 100%;
+      max-width: 1200px;
     }
     .card {
-      background: var(--card);
+      background: #1e293b;
       border-radius: 1rem;
-      overflow: hidden;
-      transition: transform 0.3s ease;
-      box-shadow: 0 4px 15px rgba(0, 0, 0, 0.4);
+      padding: 1.5rem;
+      box-shadow: 0 4px 12px rgba(0,0,0,0.3);
+      transition: transform 0.3s ease, background 0.3s ease;
     }
     .card:hover {
       transform: scale(1.03);
+      background: #334155;
     }
-    .card img {
-      width: 100%;
-      height: 200px;
-      object-fit: cover;
-    }
-    .card-content {
-      padding: 1rem;
-    }
-    .card-content h2 {
-      color: var(--accent);
-      font-size: 1.3rem;
-      margin-bottom: 0.5rem;
-    }
-    .card-content p {
-      color: var(--muted);
-      font-size: 1rem;
-      margin-bottom: 1rem;
-    }
-    .card-content a {
-      display: inline-block;
-      background: var(--accent);
-      color: var(--bg);
-      padding: 0.5rem 1rem;
-      border-radius: 0.5rem;
+    .card a {
+      color: #38bdf8;
       text-decoration: none;
       font-weight: bold;
+      font-size: 1.1rem;
     }
-    .card-content a:hover {
-      opacity: 0.8;
+    .card p {
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+      color: #cbd5e1;
     }
     footer {
-      text-align: center;
       margin-top: 3rem;
       font-size: 0.9rem;
-      color: var(--muted);
+      color: #64748b;
     }
   </style>
 </head>
 <body>
-  <h1>This Is Why We Splurge 💸</h1>
-  <p class="subtitle">Crazy cool finds, impulse buys, and must-haves we don’t need... but really want.</p>
-
+  <h1>🧠 IT Guy's Tech Links Hub</h1>
   <div class="grid">
     <div class="card">
-      <img src="https://via.placeholder.com/300x200" alt="Smart LED Display Coffee Table">
-      <div class="card-content">
-        <h2>Smart LED Display Coffee Table</h2>
-        <p>A coffee table with fridge drawers, Bluetooth speakers, charging ports — yes please.</p>
-        <a href="https://www.amazon.com/dp/example1" target="_blank">See on Amazon</a>
-      </div>
+      <a href="https://www.kali.org" target="_blank">Kali Linux</a>
+      <p>Penetration testing OS loaded with tools for cybersecurity pros.</p>
     </div>
-
     <div class="card">
-      <img src="https://via.placeholder.com/300x200" alt="Cyberpunk Wall Clock">
-      <div class="card-content">
-        <h2>Cyberpunk Wall Clock</h2>
-        <p>Retro vibes with futuristic flair. This clock is practically art.</p>
-        <a href="https://www.amazon.com/dp/example2" target="_blank">See on Amazon</a>
-      </div>
+      <a href="https://learn.microsoft.com/en-us/azure/" target="_blank">Azure Docs</a>
+      <p>Official Microsoft documentation for all things Azure.</p>
     </div>
-
     <div class="card">
-      <img src="https://via.placeholder.com/300x200" alt="Mini Projector for Movie Nights">
-      <div class="card-content">
-        <h2>Mini Projector for Movie Nights</h2>
-        <p>Big screen vibes from a palm-sized gadget. Netflix & chill level: elite.</p>
-        <a href="https://www.amazon.com/dp/example3" target="_blank">See on Amazon</a>
-      </div>
+      <a href="https://github.com/enaqx/awesome-pentest" target="_blank">Awesome Pentest</a>
+      <p>A curated list of penetration testing resources and tools.</p>
     </div>
+    <!-- Add more cards here -->
   </div>
-
   <footer>
-    © <span id="year"></span> This Is Why We Splurge · Affiliate links support the splurge 😎
+    Made with ❤️ by IT Guy | Hosted on GitHub Pages
   </footer>
-
-  <script>
-    document.getElementById("year").textContent = new Date().getFullYear();
-  </script>
 </body>
 </html>
