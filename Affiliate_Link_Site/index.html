@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>The Bub Hub 🌟</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
+  <style>
+    * {
+      box-sizing: border-box;
+      font-family: 'Fredoka', sans-serif;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      background: linear-gradient(135deg, #ffe0e9, #f3e5f5, #fff9c4);
+      color: #4a148c;
+      padding: 2rem;
+    }
+    h1 {
+      font-size: 3rem;
+      text-align: center;
+      margin-bottom: 1rem;
+      animation: floatIn 1s ease-out forwards;
+    }
+    p.subtitle {
+      text-align: center;
+      max-width: 600px;
+      margin: 0 auto 2rem;
+      font-size: 1.2rem;
+      color: #5e35b1;
+      animation: fadeIn 2s ease-in;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+    .card {
+      background: white;
+      border-radius: 1.5rem;
+      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      overflow: hidden;
+      transition: transform 0.3s ease;
+    }
+    .card:hover {
+      transform: scale(1.03);
+    }
+    .card img {
+      width: 100%;
+      height: 200px;
+      object-fit: cover;
+    }
+    .card-content {
+      padding: 1rem;
+    }
+    .card-content h2 {
+      font-size: 1.25rem;
+      margin-bottom: 0.5rem;
+    }
+    .card-content p {
+      font-size: 1rem;
+      color: #555;
+      margin-bottom: 1rem;
+    }
+    .card-content a {
+      display: inline-block;
+      padding: 0.5rem 1rem;
+      background: #7e57c2;
+      color: white;
+      border-radius: 0.5rem;
+      text-decoration: none;
+      transition: background 0.3s ease;
+    }
+    .card-content a:hover {
+      background: #5e35b1;
+    }
+    footer {
+      text-align: center;
+      margin-top: 3rem;
+      font-size: 0.9rem;
+      color: #777;
+    }
+    @keyframes floatIn {
+      from { opacity: 0; transform: translateY(-20px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+  </style>
+</head>
+<body>
+  <h1>🌟 Welcome to The Bub Hub!</h1>
+  <p class="subtitle">Curated faith-inspired, tech, and lifestyle picks for couples building purpose together 💖</p>
+
+  <div class="grid">
+    <div class="card">
+      <img src="https://via.placeholder.com/300" alt="Faith Journal">
+      <div class="card-content">
+        <h2>Faith & Reflection Journal</h2>
+        <p>Daily prompts and scripture for intentional living and spiritual growth.</p>
+        <a href="https://www.amazon.com/dp/example1" target="_blank">Buy on Amazon</a>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/300" alt="Couples Tech Organizer">
+      <div class="card-content">
+        <h2>Tech Travel Organizer</h2>
+        <p>Stylish and handy case to keep all your cables, chargers, and accessories neat!</p>
+        <a href="https://www.amazon.com/dp/example2" target="_blank">Buy on Amazon</a>
+      </div>
+    </div>
+    <div class="card">
+      <img src="https://via.placeholder.com/300" alt="Girly Self-Care Set">
+      <div class="card-content">
+        <h2>Self-Care Pamper Set</h2>
+        <p>Perfect for a relaxing day: bath bombs, candles, and skin-loving essentials.</p>
+        <a href="https://www.amazon.com/dp/example3" target="_blank">Buy on Amazon</a>
+      </div>
+    </div>
+  </div>
+
+  <footer>
+    © <span id="year"></span> The Bub Hub · As an Amazon Associate I earn from qualifying purchases.
+  </footer>
+
+  <script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+  </script>
+</body>
+</html>
