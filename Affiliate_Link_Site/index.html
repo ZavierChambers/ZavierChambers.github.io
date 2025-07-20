@@ -31,21 +31,28 @@
     .card {
       background: #1e293b;
       border-radius: 1rem;
-      padding: 1.5rem;
       box-shadow: 0 4px 12px rgba(0,0,0,0.3);
       transition: transform 0.3s ease, background 0.3s ease;
+    }
+    .card a {
+      display: block;
+      color: #f8fafc;
+      text-decoration: none;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      height: 100%;
     }
     .card:hover {
       transform: scale(1.03);
       background: #334155;
     }
-    .card a {
+    .card a h2 {
+      margin: 0;
       color: #38bdf8;
-      text-decoration: none;
-      font-weight: bold;
       font-size: 1.1rem;
+      font-weight: bold;
     }
-    .card p {
+    .card a p {
       margin-top: 0.5rem;
       font-size: 0.9rem;
       color: #cbd5e1;
@@ -61,16 +68,22 @@
   <h1>🧠 IT Guy's Tech Links Hub</h1>
   <div class="grid">
     <div class="card">
-      <a href="https://www.kali.org" target="_blank">Kali Linux</a>
-      <p>Penetration testing OS loaded with tools for cybersecurity pros.</p>
+      <a href="https://www.kali.org" target="_blank">
+        <h2>Kali Linux</h2>
+        <p>Penetration testing OS loaded with tools for cybersecurity pros.</p>
+      </a>
     </div>
     <div class="card">
-      <a href="https://learn.microsoft.com/en-us/azure/" target="_blank">Azure Docs</a>
-      <p>Official Microsoft documentation for all things Azure.</p>
+      <a href="https://learn.microsoft.com/en-us/azure/" target="_blank">
+        <h2>Azure Docs</h2>
+        <p>Official Microsoft documentation for all things Azure.</p>
+      </a>
     </div>
     <div class="card">
-      <a href="https://github.com/enaqx/awesome-pentest" target="_blank">Awesome Pentest</a>
-      <p>A curated list of penetration testing resources and tools.</p>
+      <a href="https://github.com/enaqx/awesome-pentest" target="_blank">
+        <h2>Awesome Pentest</h2>
+        <p>A curated list of penetration testing resources and tools.</p>
+      </a>
     </div>
     <!-- Add more cards here -->
   </div>
