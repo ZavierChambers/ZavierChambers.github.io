@@ -3,11 +3,16 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>The Bub Hub 🌟</title>
-  <link rel="preconnect" href="https://fonts.googleapis.com">
-  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <title>The Bub Hub 🌈</title>
   <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600&display=swap" rel="stylesheet">
   <style>
+    :root {
+      --pink: #ff9ebc;
+      --blue: #9ecbff;
+      --purple: #d9a7ff;
+      --white: #ffffff;
+      --shadow: rgba(0, 0, 0, 0.1);
+    }
     * {
       box-sizing: border-box;
       font-family: 'Fredoka', sans-serif;
@@ -15,92 +20,121 @@
       padding: 0;
     }
     body {
-      background: linear-gradient(135deg, #ffe0e9, #f3e5f5, #fff9c4);
+      background: linear-gradient(135deg, var(--pink), var(--blue));
       color: #4a148c;
       padding: 2rem;
+      position: relative;
+      overflow-x: hidden;
+    }
+    body::before, body::after {
+      content: '';
+      position: absolute;
+      width: 200px;
+      height: 200px;
+      border-radius: 50%;
+      background: var(--purple);
+      opacity: 0.2;
+      filter: blur(60px);
+      z-index: 0;
+    }
+    body::before {
+      top: -50px;
+      left: -50px;
+    }
+    body::after {
+      bottom: -50px;
+      right: -50px;
     }
     h1 {
-      font-size: 3rem;
+      font-size: 3.5rem;
       text-align: center;
       margin-bottom: 1rem;
-      animation: floatIn 1s ease-out forwards;
+      color: var(--white);
+      text-shadow: 2px 2px var(--purple);
+      z-index: 1;
+      position: relative;
     }
     p.subtitle {
       text-align: center;
-      max-width: 600px;
+      max-width: 700px;
       margin: 0 auto 2rem;
-      font-size: 1.2rem;
-      color: #5e35b1;
-      animation: fadeIn 2s ease-in;
+      font-size: 1.4rem;
+      color: var(--white);
+      z-index: 1;
+      position: relative;
     }
     .grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
       gap: 2rem;
-      margin-top: 2rem;
+      margin-top: 3rem;
+      position: relative;
+      z-index: 1;
     }
     .card {
-      background: white;
+      background: var(--white);
       border-radius: 1.5rem;
-      box-shadow: 0 4px 10px rgba(0,0,0,0.1);
+      box-shadow: 0 8px 20px var(--shadow);
       overflow: hidden;
-      transition: transform 0.3s ease;
+      transition: transform 0.4s ease, box-shadow 0.4s ease;
+      border: 3px solid var(--pink);
+      position: relative;
     }
     .card:hover {
-      transform: scale(1.03);
+      transform: scale(1.05);
+      box-shadow: 0 10px 30px var(--shadow);
+      border-color: var(--blue);
     }
     .card img {
       width: 100%;
-      height: 200px;
+      height: 220px;
       object-fit: cover;
+      border-bottom: 2px solid var(--blue);
     }
     .card-content {
-      padding: 1rem;
+      padding: 1.2rem;
     }
     .card-content h2 {
-      font-size: 1.25rem;
+      font-size: 1.4rem;
       margin-bottom: 0.5rem;
+      color: var(--pink);
     }
     .card-content p {
       font-size: 1rem;
-      color: #555;
+      color: #444;
       margin-bottom: 1rem;
     }
     .card-content a {
       display: inline-block;
-      padding: 0.5rem 1rem;
-      background: #7e57c2;
+      padding: 0.6rem 1.2rem;
+      background: linear-gradient(90deg, var(--blue), var(--pink));
       color: white;
-      border-radius: 0.5rem;
+      font-weight: bold;
+      border-radius: 0.75rem;
       text-decoration: none;
-      transition: background 0.3s ease;
+      box-shadow: 0 3px 6px var(--shadow);
+      transition: background 0.3s ease, transform 0.2s;
     }
     .card-content a:hover {
-      background: #5e35b1;
+      transform: scale(1.05);
     }
     footer {
       text-align: center;
-      margin-top: 3rem;
-      font-size: 0.9rem;
-      color: #777;
-    }
-    @keyframes floatIn {
-      from { opacity: 0; transform: translateY(-20px); }
-      to { opacity: 1; transform: translateY(0); }
-    }
-    @keyframes fadeIn {
-      from { opacity: 0; }
-      to { opacity: 1; }
+      margin-top: 4rem;
+      font-size: 0.95rem;
+      color: var(--white);
+      position: relative;
+      z-index: 1;
     }
   </style>
 </head>
 <body>
-  <h1>🌟 Welcome to The Bub Hub!</h1>
+  <h1>🌈 The Bub Hub</h1>
   <p class="subtitle">Curated faith-inspired, tech, and lifestyle picks for couples building purpose together 💖</p>
 
   <div class="grid">
     <div class="card">
-      <img src="https://via.placeholder.com/300" alt="Faith Journal">
+      <img src="https://via.placeholder.com/300x220" alt="Faith Journal">
       <div class="card-content">
         <h2>Faith & Reflection Journal</h2>
         <p>Daily prompts and scripture for intentional living and spiritual growth.</p>
@@ -108,7 +142,7 @@
       </div>
     </div>
     <div class="card">
-      <img src="https://via.placeholder.com/300" alt="Couples Tech Organizer">
+      <img src="https://via.placeholder.com/300x220" alt="Couples Tech Organizer">
       <div class="card-content">
         <h2>Tech Travel Organizer</h2>
         <p>Stylish and handy case to keep all your cables, chargers, and accessories neat!</p>
@@ -116,7 +150,7 @@
       </div>
     </div>
     <div class="card">
-      <img src="https://via.placeholder.com/300" alt="Girly Self-Care Set">
+      <img src="https://via.placeholder.com/300x220" alt="Girly Self-Care Set">
       <div class="card-content">
         <h2>Self-Care Pamper Set</h2>
         <p>Perfect for a relaxing day: bath bombs, candles, and skin-loving essentials.</p>
