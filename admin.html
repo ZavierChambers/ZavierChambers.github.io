@@ -1,0 +1,388 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Site CMS — Zavier Chambers</title>
+  <meta name="color-scheme" content="dark light">
+  <style>
+    :root{--bg:12 12 14;--surface:22 22 28;--text:236 236 244;--muted:170 170 190;--line:255 255 255 / .10;--accent:59 130 246;--radius:16px;--shadow:0 20px 60px rgba(0,0,0,.35)}
+    [data-theme="light"]{--bg:245 248 255;--surface:255 255 255;--text:25 27 33;--muted:90 95 115;--line:0 0 0 / .10}
+    *{box-sizing:border-box}
+    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Inter,"Helvetica Neue",Arial,"Noto Sans";color:rgb(var(--text));background:rgb(var(--bg));line-height:1.6}
+    header{position:sticky;top:0;z-index:10;background:rgba(0,0,0,.25);backdrop-filter:blur(14px);border-bottom:1px solid rgba(var(--line))}
+    .wrap{max-width:1200px;margin:0 auto;padding:14px 16px}
+    .row{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .title{font-size:20px;font-weight:800}
+    .btn{appearance:none;border:0;border-radius:12px;padding:10px 14px;cursor:pointer;color:rgb(var(--text));background:linear-gradient(135deg, rgb(var(--accent)), rgba(99,102,241,.9));box-shadow:0 10px 30px rgba(59,130,246,.35)}
+    .btn.ghost{background:rgba(255,255,255,.06);box-shadow:none;border:1px solid rgba(var(--line))}
+    main{max-width:1200px;margin:0 auto;padding:18px 16px;display:grid;gap:16px}
+    .panel{background:linear-gradient(180deg, rgba(255,255,255,.06), rgba(255,255,255,.02));border:1px solid rgba(var(--line));border-radius:16px;padding:14px;box-shadow:var(--shadow)}
+    .grid{display:grid;gap:14px;grid-template-columns:repeat(12,1fr)}
+    .col-4{grid-column:span 12}
+    @media(min-width:900px){.col-4{grid-column:span 4}}
+    label{font-size:12px;color:rgb(var(--muted));display:block;margin:6px 0 4px}
+    input,select,textarea{width:100%;padding:10px 12px;border-radius:10px;border:1px solid rgba(var(--line));background:rgba(255,255,255,.06);color:rgb(var(--text))}
+    textarea{min-height:120px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px dashed rgba(var(--line));text-align:left;vertical-align:top}
+    .pill{display:inline-block;padding:4px 10px;border-radius:999px;background:rgba(255,255,255,.08);border:1px solid rgba(var(--line));font-size:12px;color:rgb(var(--muted))}
+    footer{padding:20px;text-align:center;color:rgb(var(--muted))}
+    .hidden{display:none}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="wrap row">
+      <div class="title">Site CMS</div>
+      <button class="btn ghost" id="importBtn">Import JSON</button>
+      <button class="btn" id="exportBtn">Download JSON</button>
+      <div style="margin-left:auto" class="row">
+        <label for="lockPass" style="margin:0 6px 0 0">Lock</label>
+        <input id="lockPass" type="password" placeholder="Set a password" style="width:220px">
+        <button class="btn ghost" id="lockBtn">Apply</button>
+      </div>
+    </div>
+  </header>
+
+  <main>
+    <section class="panel">
+      <h2 style="margin:6px 0 6px">Site Settings</h2>
+      <div class="grid">
+        <div class="col-4"><label>Site Title</label><input id="siteTitle"></div>
+        <div class="col-4"><label>Accent Color</label><input id="siteAccent" type="color"></div>
+        <div class="col-4"><label>Updated</label><input id="siteUpdated" type="date"></div>
+      </div>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin:6px 0 10px">Courses</h2>
+      <table id="courseTable">
+        <thead><tr><th>Title</th><th>Tier</th><th>Category</th><th>Hours</th><th>Price</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <details style="margin-top:12px">
+        <summary>Add / Edit Course</summary>
+        <div class="grid" style="margin-top:10px">
+          <div class="col-4"><label>ID</label><input id="c_id" placeholder="unique-id"></div>
+          <div class="col-4"><label>Title</label><input id="c_title"></div>
+          <div class="col-4"><label>URL</label><input id="c_url"></div>
+          <div class="col-4"><label>Tier</label><select id="c_tier"><option value="free">free</option><option value="pro">pro</option></select></div>
+          <div class="col-4"><label>Category</label><input id="c_category" placeholder="iam, scripting, azure, security"></div>
+          <div class="col-4"><label>Difficulty</label><input id="c_difficulty" placeholder="Beginner / Intermediate / Advanced"></div>
+          <div class="col-4"><label>Duration (hours)</label><input id="c_duration" type="number" step="0.1"></div>
+          <div class="col-4"><label>Price (USD)</label><input id="c_price" type="number" step="1"></div>
+          <div class="col-4"><label>Tags (comma-separated)</label><input id="c_tags"></div>
+          <div class="col-4"><label>Description</label><textarea id="c_desc"></textarea></div>
+          <div class="col-4"><button class="btn" id="c_save">Save Course</button> <button class="btn ghost" id="c_clear">Clear</button></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin:6px 0 10px">Projects</h2>
+      <table id="projTable">
+        <thead><tr><th>Title</th><th>Category</th><th>URL</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <details style="margin-top:12px">
+        <summary>Add / Edit Project</summary>
+        <div class="grid" style="margin-top:10px">
+          <div class="col-4"><label>ID</label><input id="p_id" placeholder="unique-id"></div>
+          <div class="col-4"><label>Title</label><input id="p_title"></div>
+          <div class="col-4"><label>Category</label><select id="p_category"><option value="web">web</option><option value="applications">applications</option></select></div>
+          <div class="col-4"><label>URL</label><input id="p_url"></div>
+          <div class="col-4"><label>Description</label><textarea id="p_desc"></textarea></div>
+          <div class="col-4"><button class="btn" id="p_save">Save Project</button> <button class="btn ghost" id="p_clear">Clear</button></div>
+        </div>
+      </details>
+    </section>
+
+    <section class="panel">
+      <h2 style="margin:6px 0 10px">Lessons</h2>
+      <table id="lessonTable">
+        <thead><tr><th>Title</th><th>Course</th><th>Updated</th><th>Actions</th></tr></thead>
+        <tbody></tbody>
+      </table>
+      <details style="margin-top:12px">
+        <summary>Add / Edit Lesson</summary>
+        <div class="grid" style="margin-top:10px">
+          <div class="col-4"><label>ID</label><input id="l_id" placeholder="unique-id"></div>
+          <div class="col-4"><label>Course ID</label><input id="l_course"></div>
+          <div class="col-4"><label>Title</label><input id="l_title"></div>
+          <div class="col-4"><label>Badge</label><select id="l_badge"><option value="free">free</option><option value="paid">paid</option></select></div>
+          <div class="col-4"><label>Difficulty</label><input id="l_diff" placeholder="Beginner / Intermediate / Advanced"></div>
+          <div class="col-4"><label>Duration (minutes)</label><input id="l_dur" type="number" step="1"></div>
+          <div class="col-4"><label>Updated</label><input id="l_updated" type="date"></div>
+          <div class="col-4"><label>Sections (HTML per section; one per line, format: Heading|||HTML)</label><textarea id="l_sections" placeholder="Create a new project|||<p>Steps...</p>"></textarea></div>
+          <div class="col-4"><button class="btn" id="l_save">Save Lesson</button> <button class="btn ghost" id="l_clear">Clear</button></div>
+        </div>
+      </details>
+    </section>
+
+    <footer>This CMS works entirely in your browser. Import your existing <code>site-data.json</code> or start with the defaults, then Download and commit the JSON to your site.</footer>
+  </main>
+
+  <input type="file" id="fileInput" accept="application/json" class="hidden" />
+
+  <script>
+    let locked = false;
+    let lockHash = localStorage.getItem('cms-lock') || '';
+    let DATA = null;
+
+    function sha(s){
+      // tiny djb2 hash (not cryptographically secure; just to keep casual visitors out)
+      let h=5381; for(let i=0;i<s.length;i++){ h=((h<<5)+h) + s.charCodeAt(i); h=h|0; } return String(h>>>0);
+    }
+
+    function lockApply(){
+      const pass = document.getElementById('lockPass').value;
+      lockHash = sha(pass);
+      localStorage.setItem('cms-lock', lockHash);
+      alert('Lock applied. Reopen the page to require the password.');
+    }
+
+    (function gate(){
+      const existing = localStorage.getItem('cms-lock');
+      if(existing){
+        const p = prompt('Enter CMS password:');
+        if(sha(p)!==existing){ document.body.innerHTML='<div style="padding:40px;font:16px/1.6 system-ui">Wrong password.</div>'; throw new Error('locked'); }
+      }
+    })();
+
+    // load seed
+    fetch('site-data.json',{cache:'no-store'}).then(r=>r.json()).then(json=>{ DATA=json; hydrate(); }).catch(_=>{
+      // fallback minimal
+      DATA = {site:{title:'Site',accent:'#3B82F6',updated:''}, courses:[], projects:[], lessons:[]};
+      hydrate();
+    });
+
+    function qs(id){ return document.getElementById(id); }
+
+    function hydrate(){
+      // site
+      qs('siteTitle').value = DATA.site?.title || '';
+      qs('siteAccent').value = DATA.site?.accent || '#3B82F6';
+      qs('siteUpdated').value = DATA.site?.updated || '';
+
+      // courses table
+      renderCourseTable();
+      renderProjectTable();
+      renderLessonTable();
+
+      // wire buttons
+      qs('exportBtn').onclick = doExport;
+      qs('importBtn').onclick = ()=> qs('fileInput').click();
+      qs('fileInput').onchange = doImport;
+      qs('lockBtn').onclick = lockApply;
+
+      // save handlers
+      qs('c_save').onclick = saveCourse;
+      qs('c_clear').onclick = ()=> fillCourseForm(null);
+
+      qs('p_save').onclick = saveProject;
+      qs('p_clear').onclick = ()=> fillProjectForm(null);
+
+      qs('l_save').onclick = saveLesson;
+      qs('l_clear').onclick = ()=> fillLessonForm(null);
+    }
+
+    // ---------- Courses ----------
+    function renderCourseTable(){
+      const tb = qs('courseTable').querySelector('tbody');
+      tb.innerHTML = '';
+      (DATA.courses||[]).forEach(c=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${esc(c.title)}</td><td><span class="pill">${c.tier}</span></td><td>${esc(c.category)}</td><td>${c.duration_hours}</td><td>${c.price}</td>
+        <td><button class="btn ghost" data-edit="${c.id}">Edit</button> <button class="btn ghost" data-del="${c.id}">Delete</button></td>`;
+        tb.appendChild(tr);
+      });
+      tb.querySelectorAll('[data-edit]').forEach(b=> b.onclick = ()=>{
+        const c = DATA.courses.find(x=>x.id===b.dataset.edit);
+        fillCourseForm(c);
+      });
+      tb.querySelectorAll('[data-del]').forEach(b=> b.onclick = ()=>{
+        const id = b.dataset.del;
+        if(confirm('Delete course '+id+'?')){
+          DATA.courses = DATA.courses.filter(x=>x.id!==id);
+          renderCourseTable();
+        }
+      });
+    }
+
+    function fillCourseForm(c){
+      qs('c_id').value = c?.id || '';
+      qs('c_title').value = c?.title || '';
+      qs('c_url').value = c?.url || '';
+      qs('c_tier').value = c?.tier || 'free';
+      qs('c_category').value = c?.category || '';
+      qs('c_difficulty').value = c?.difficulty || '';
+      qs('c_duration').value = c?.duration_hours || '';
+      qs('c_price').value = c?.price || 0;
+      qs('c_tags').value = (c?.tags||[]).join(', ');
+      qs('c_desc').value = c?.desc || '';
+    }
+
+    function saveCourse(){
+      const c = {
+        id: qs('c_id').value.trim(),
+        title: qs('c_title').value.trim(),
+        url: qs('c_url').value.trim(),
+        tier: qs('c_tier').value,
+        category: qs('c_category').value.trim(),
+        difficulty: qs('c_difficulty').value.trim(),
+        duration_hours: parseFloat(qs('c_duration').value||'0'),
+        price: parseFloat(qs('c_price').value||'0'),
+        tags: qs('c_tags').value.split(',').map(s=>s.trim()).filter(Boolean),
+        desc: qs('c_desc').value.trim()
+      };
+      if(!c.id){return alert('ID is required');}
+      const i = (DATA.courses||[]).findIndex(x=>x.id===c.id);
+      if(i>=0) DATA.courses[i]=c; else (DATA.courses||=[]).push(c);
+      DATA.courses = DATA.courses.sort((a,b)=> a.title.localeCompare(b.title));
+      renderCourseTable(); fillCourseForm(null);
+    }
+
+    // ---------- Projects ----------
+    function renderProjectTable(){
+      const tb = qs('projTable').querySelector('tbody');
+      tb.innerHTML = '';
+      (DATA.projects||[]).forEach(p=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${esc(p.title)}</td><td><span class="pill">${p.category}</span></td><td>${esc(p.url||'#')}</td>
+        <td><button class="btn ghost" data-edit="${p.id}">Edit</button> <button class="btn ghost" data-del="${p.id}">Delete</button></td>`;
+        tb.appendChild(tr);
+      });
+      tb.querySelectorAll('[data-edit]').forEach(b=> b.onclick = ()=>{
+        const p = DATA.projects.find(x=>x.id===b.dataset.edit);
+        fillProjectForm(p);
+      });
+      tb.querySelectorAll('[data-del]').forEach(b=> b.onclick = ()=>{
+        const id = b.dataset.del;
+        if(confirm('Delete project '+id+'?')){
+          DATA.projects = DATA.projects.filter(x=>x.id!==id);
+          renderProjectTable();
+        }
+      });
+    }
+
+    function fillProjectForm(p){
+      qs('p_id').value = p?.id || '';
+      qs('p_title').value = p?.title || '';
+      qs('p_category').value = p?.category || 'web';
+      qs('p_url').value = p?.url || '';
+      qs('p_desc').value = p?.desc || '';
+    }
+
+    function saveProject(){
+      const p = {
+        id: qs('p_id').value.trim(),
+        title: qs('p_title').value.trim(),
+        category: qs('p_category').value,
+        url: qs('p_url').value.trim(),
+        desc: qs('p_desc').value.trim()
+      };
+      if(!p.id){return alert('ID is required');}
+      const i = (DATA.projects||[]).findIndex(x=>x.id===p.id);
+      if(i>=0) DATA.projects[i]=p; else (DATA.projects||=[]).push(p);
+      DATA.projects = DATA.projects.sort((a,b)=> a.title.localeCompare(b.title));
+      renderProjectTable(); fillProjectForm(null);
+    }
+
+    // ---------- Lessons ----------
+    function renderLessonTable(){
+      const tb = qs('lessonTable').querySelector('tbody');
+      tb.innerHTML = '';
+      (DATA.lessons||[]).forEach(l=>{
+        const tr = document.createElement('tr');
+        tr.innerHTML = `<td>${esc(l.title)}</td><td>${esc(l.course_id||'')}</td><td>${esc(l.updated||'')}</td>
+        <td><button class="btn ghost" data-edit="${l.id}">Edit</button> <button class="btn ghost" data-del="${l.id}">Delete</button></td>`;
+        tb.appendChild(tr);
+      });
+      tb.querySelectorAll('[data-edit]').forEach(b=> b.onclick = ()=>{
+        const l = DATA.lessons.find(x=>x.id===b.dataset.edit);
+        fillLessonForm(l);
+      });
+      tb.querySelectorAll('[data-del]').forEach(b=> b.onclick = ()=>{
+        const id = b.dataset.del;
+        if(confirm('Delete lesson '+id+'?')){
+          DATA.lessons = DATA.lessons.filter(x=>x.id!==id);
+          renderLessonTable();
+        }
+      });
+    }
+
+    function fillLessonForm(l){
+      qs('l_id').value = l?.id || '';
+      qs('l_course').value = l?.course_id || '';
+      qs('l_title').value = l?.title || '';
+      qs('l_badge').value = l?.badge || 'free';
+      qs('l_diff').value = l?.difficulty || '';
+      qs('l_dur').value = l?.duration_minutes || '';
+      qs('l_updated').value = l?.updated || '';
+      const lines = (l?.sections||[]).map(s=> `${s.heading}|||${s.body_html}`);
+      qs('l_sections').value = lines.join("\n\n");
+    }
+
+    function saveLesson(){
+      const raw = qs('l_sections').value;
+      const sections = raw.split(/\n{2,}/).map(line=>{
+        const [heading, html] = line.split('|||');
+        if(!heading) return null;
+        return {heading: heading.trim(), body_html: (html||'').trim()};
+      }).filter(Boolean);
+
+      const l = {
+        id: qs('l_id').value.trim(),
+        course_id: qs('l_course').value.trim(),
+        title: qs('l_title').value.trim(),
+        badge: qs('l_badge').value,
+        difficulty: qs('l_diff').value.trim(),
+        duration_minutes: parseInt(qs('l_dur').value||'0',10),
+        updated: qs('l_updated').value,
+        sections
+      };
+      if(!l.id){return alert('ID is required');}
+      const i = (DATA.lessons||[]).findIndex(x=>x.id===l.id);
+      if(i>=0) DATA.lessons[i]=l; else (DATA.lessons||=[]).push(l);
+      DATA.lessons = DATA.lessons.sort((a,b)=> a.title.localeCompare(b.title));
+      renderLessonTable(); fillLessonForm(null);
+    }
+
+    // ---------- Import/Export ----------
+    function doExport(){
+      // sync site fields
+      DATA.site = {
+        title: qs('siteTitle').value.trim(),
+        accent: qs('siteAccent').value,
+        updated: qs('siteUpdated').value
+      };
+      const blob = new Blob([JSON.stringify(DATA, null, 2)], {type:'application/json'});
+      const a = document.createElement('a');
+      a.href = URL.createObjectURL(blob);
+      a.download = 'site-data.json';
+      a.click();
+      setTimeout(()=> URL.revokeObjectURL(a.href), 2500);
+    }
+
+    function doImport(e){
+      const f = e.target.files[0];
+      if(!f) return;
+      const reader = new FileReader();
+      reader.onload = () => {
+        try{
+          DATA = JSON.parse(reader.result);
+          hydrate();
+        }catch(err){
+          alert('Invalid JSON');
+        }
+      };
+      reader.readAsText(f);
+      e.target.value = '';
+    }
+
+    function esc(s){ return String(s).replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+  </script>
+</body>
+</html>
