@@ -1,0 +1,374 @@
+<!-- START of HTML -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Daily Bible Verse</title>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Roboto&display=swap');
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: 'Roboto', sans-serif;
+      background: linear-gradient(135deg, #fff8e1, #ffe0b2);
+      background-image: url('https://i.imgur.com/c3Z3Hf0.jpeg');
+      background-size: cover;
+      background-position: center;
+    }
+
+    .sidebar-container {
+      display: block;
+    }
+
+
+    .sidebar {
+      width: 250px;
+      background-color: rgba(255, 255, 255, 0.95);
+      padding: 20px;
+      overflow-y: auto;
+      box-shadow: 4px 0 10px rgba(0, 0, 0, 0.1);
+      height: 100vh;
+      position: fixed;
+      top: 0;
+      left: 0;
+      z-index: 100;
+    }
+
+    .sidebar h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 24px;
+      color: #6a1b9a;
+      margin-bottom: 10px;
+    }
+
+    .sidebar ul {
+      list-style-type: none;
+      padding: 0;
+    }
+
+    .sidebar li {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 10px;
+      border-bottom: 1px solid #ddd;
+      color: #4e342e;
+      word-break: break-word;
+    }
+
+    .sidebar li span {
+      cursor: pointer;
+      flex: 1;
+    }
+
+    .sidebar li button {
+      background-color: transparent;
+      border: none;
+      color: red;
+      cursor: pointer;
+    }
+
+    .sidebar li:hover {
+      background-color: #f3e5f5;
+    }
+
+    .mobile-toggle-btn {
+      display: none;
+      margin: 15px;
+    }
+
+    .content {
+      margin-left: 270px;
+      padding: 20px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+
+    .verse-container,
+    .response-section {
+      background-color: rgba(255, 255, 255, 0.85);
+      border-radius: 16px;
+      box-shadow: 0 8px 25px rgba(0, 0, 0, 0.2);
+      padding: 30px 40px;
+      width: 100%;
+      max-width: 650px;
+      text-align: center;
+      backdrop-filter: blur(12px);
+      margin-top: 20px;
+    }
+
+    .verse-container h1,
+    .response-section h2 {
+      font-family: 'Great Vibes', cursive;
+      font-size: 28px;
+      color: #6a1b9a;
+      text-shadow: 1px 1px 2px #fff;
+    }
+
+    .verse-container p {
+      font-size: 22px;
+      color: #4e342e;
+      line-height: 1.7;
+    }
+
+    .reference {
+      margin-top: 15px;
+      font-size: 18px;
+      color: #6d4c41;
+      font-style: italic;
+    }
+
+    .cross {
+      font-size: 40px;
+      color: #8e24aa;
+      margin-bottom: 10px;
+      animation: floatCross 3s ease-in-out infinite;
+      text-shadow: 0 0 10px rgba(255, 255, 255, 0.8);
+    }
+
+    @keyframes floatCross {
+      0% { transform: translateY(0px); }
+      50% { transform: translateY(-10px); }
+      100% { transform: translateY(0px); }
+    }
+
+    .response-section textarea {
+      width: 100%;
+      padding: 12px;
+      font-size: 16px;
+      border-radius: 10px;
+      border: 1px solid #ccc;
+      resize: vertical;
+      min-height: 120px;
+    }
+
+    button {
+      margin-top: 10px;
+      padding: 10px 20px;
+      font-size: 16px;
+      border: none;
+      border-radius: 8px;
+      background-color: #6a1b9a;
+      color: white;
+      cursor: pointer;
+    }
+
+    button:hover {
+      background-color: #4a148c;
+    }
+
+    footer {
+      text-align: center;
+      margin-top: 40px;
+      padding: 20px;
+      background: rgba(255, 255, 255, 0.85);
+      color: #4e342e;
+      font-size: 14px;
+    }
+
+    .popup-overlay {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background-color: rgba(0, 0, 0, 0.6);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 1000;
+    }
+
+    .popup-box {
+      background-color: white;
+      border-radius: 12px;
+      padding: 30px;
+      max-width: 500px;
+      text-align: center;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.2);
+    }
+
+    @media (max-width: 768px) {
+      .sidebar-container {
+        display: none;
+      }
+
+      .mobile-toggle-btn {
+        display: block;
+      }
+
+      .mobile-sidebar-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        background: rgba(255, 255, 255, 0.97);
+        width: 100%;
+        height: 100vh;
+        z-index: 1000;
+        overflow-y: auto;
+      }
+
+      .mobile-sidebar-overlay.active {
+        display: block;
+      }
+
+      .content {
+        margin-left: 0;
+      }
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Desktop Sidebar -->
+  <div class="sidebar-container">
+    <div class="sidebar">
+      <h2>Saved Reflections</h2>
+      <ul id="saved-list"></ul>
+    </div>
+  </div>
+
+  <!-- Mobile Sidebar Toggle -->
+  <button class="mobile-toggle-btn" onclick="toggleMobileSidebar()">📜 View Saved Reflections</button>
+
+  <!-- Mobile Sidebar Overlay -->
+  <div class="mobile-sidebar-overlay" id="mobileSidebar">
+    <div class="sidebar">
+      <button onclick="toggleMobileSidebar()" style="float:right;">✕</button>
+      <h2>Saved Reflections</h2>
+      <ul id="saved-list"></ul>
+    </div>
+  </div>
+
+  <!-- Main Content -->
+  <div class="content">
+    <div class="verse-container" id="verseBox">
+      <div class="cross">✝️</div>
+      <h1>Daily Inspiration</h1>
+      <p id="verse-text">Loading verse...</p>
+      <div class="reference" id="verse-ref"></div>
+      <button onclick="loadNewVerse()">Load New Passage</button>
+    </div>
+
+    <div class="response-section">
+      <h2>Reflect on the Verse</h2>
+      <textarea id="user-response" placeholder="What does this verse mean to you?"></textarea>
+      <button onclick="saveResponse()">Save Reflection</button>
+    </div>
+
+    <footer>
+      <p>Made by Zavier Chambers using the api-bible API and free image from Imgur</p>
+      <button onclick="togglePopup()">How to Use This Website</button>
+    </footer>
+  </div>
+
+  <!-- How to Use Popup -->
+  <div class="popup-overlay" id="popup" style="display: none;">
+    <div class="popup-box">
+      <h2>How to Use This Website</h2>
+      <p>
+        Every visit shows a random Bible verse. Reflect on it by writing your thoughts and saving them.
+        Your reflections appear in the sidebar and stay saved on your device. Click, delete, and revisit them anytime.
+      </p>
+      <button onclick="togglePopup()">Got it!</button>
+    </div>
+  </div>
+
+  <!-- Scripts -->
+  <script>
+    let currentRef = '';
+
+    function loadNewVerse() {
+      fetch('https://bible-api.com/data/web/random')
+        .then(response => response.json())
+        .then(data => {
+          const verse = data.random_verse;
+          document.getElementById('verse-text').textContent = verse.text;
+          currentRef = `${verse.book} ${verse.chapter}:${verse.verse}`;
+          document.getElementById('verse-ref').textContent = currentRef;
+          document.getElementById('user-response').value = '';
+        });
+    }
+
+    function saveResponse() {
+      const text = document.getElementById('verse-text').textContent;
+      const reflection = document.getElementById('user-response').value;
+      if (!text || !reflection) return;
+      const entry = { verse: text, reference: currentRef, reflection };
+      const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
+      saved.push(entry);
+      localStorage.setItem('savedReflections', JSON.stringify(saved));
+      loadSavedList();
+    }
+
+    function deleteEntry(index) {
+      const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
+      saved.splice(index, 1);
+      localStorage.setItem('savedReflections', JSON.stringify(saved));
+      loadSavedList();
+    }
+
+    function loadSavedList() {
+      const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
+      const lists = document.querySelectorAll('#saved-list');
+      lists.forEach(list => {
+        list.innerHTML = '';
+        saved.forEach((entry, index) => {
+          const li = document.createElement('li');
+          const span = document.createElement('span');
+          span.textContent = entry.reference;
+          span.onclick = () => {
+            document.getElementById('verse-text').textContent = entry.verse;
+            document.getElementById('verse-ref').textContent = entry.reference;
+            document.getElementById('user-response').value = entry.reflection;
+            toggleMobileSidebar(false);
+          };
+          const delBtn = document.createElement('button');
+          delBtn.textContent = '✕';
+          delBtn.onclick = (e) => {
+            e.stopPropagation();
+            deleteEntry(index);
+          };
+          li.appendChild(span);
+          li.appendChild(delBtn);
+          list.appendChild(li);
+        });
+      });
+    }
+
+    function togglePopup() {
+      const popup = document.getElementById('popup');
+      popup.style.display = popup.style.display === 'flex' ? 'none' : 'flex';
+    }
+
+    function toggleMobileSidebar(forceClose = null) {
+      const el = document.getElementById('mobileSidebar');
+      if (forceClose === true) {
+        el.classList.remove('active');
+      } else if (forceClose === false) {
+        el.classList.add('active');
+      } else {
+        el.classList.toggle('active');
+      }
+    }
+
+    window.onload = () => {
+      loadSavedList();
+      const saved = JSON.parse(localStorage.getItem('savedReflections') || '[]');
+      if (saved.length === 0) {
+        document.getElementById('popup').style.display = 'flex';
+      }
+      loadNewVerse();
+    };
+  </script>
+</body>
+</html>
+<!-- END of HTML -->
