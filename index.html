@@ -3,321 +3,223 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zavier Chambers • Portfolio · Courses</title>
-  <meta name="description" content="Zavier Chambers — cybersecurity projects and courses in a sleek, responsive one‑page site." />
-  <meta name="color-scheme" content="dark light">
+  <title>My Wall of Web Applications</title>
   <style>
-    :root {
-      --bg: 12 12 14;
-      --surface: 22 22 28;
-      --text: 236 236 244;
-      --muted: 170 170 190;
-      --line: 255 255 255 / .06;
-      --accent: 59 130 246; /* blue */
-      --accent-2: 99 102 241; /* indigo */
-      --radius: 18px;
-      --shadow-lg: 0 20px 60px rgba(0,0,0,.35);
-      --blur: 18px;
-      --font: ui-sans-serif, system-ui, -apple-system, Segoe UI, Roboto, Inter, "Helvetica Neue", Arial, "Noto Sans";
-    }
-    [data-theme="light"] {
-      --bg: 245 248 255;
-      --surface: 255 255 255;
-      --text: 25 27 33;
-      --muted: 90 95 115;
-      --line: 0 0 0 / .08;
-    }
-    *{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:var(--font);color:rgb(var(--text));background:rgb(var(--bg));line-height:1.6;overflow-x:hidden}
-
-    /* Background mesh */
-    .bg-mesh{position:fixed;inset:0;z-index:-2;pointer-events:none;background:radial-gradient(40% 40% at 10% 20%, rgba(59,130,246,.25), transparent 60%),radial-gradient(35% 35% at 90% 10%, rgba(99,102,241,.23), transparent 60%),radial-gradient(30% 30% at 80% 90%, rgba(16,185,129,.18), transparent 60%),radial-gradient(40% 40% at 0% 100%, rgba(232,121,249,.18), transparent 60%);filter:blur(60px) saturate(120%);animation:drift 26s cubic-bezier(.22,1,.36,1) infinite alternate}
-    @keyframes drift{0%{transform:translate3d(0,0,0) scale(1)}50%{transform:translate3d(3vw,-2vh,0) scale(1.05)}100%{transform:translate3d(-3vw,2vh,0) scale(1)}}
-
-    /* Navigation */
-    .nav{position:sticky;top:0;z-index:40;backdrop-filter:blur(var(--blur));-webkit-backdrop-filter:blur(var(--blur));background:linear-gradient(to bottom, rgba(10,10,12,.55), rgba(10,10,12,.25));border-bottom:1px solid rgba(255,255,255,.08)}
-    .nav-inner{max-width:1200px;margin:0 auto;padding:12px 20px;display:flex;align-items:center;gap:12px;justify-content:space-between;flex-wrap:wrap}
-    .brand{display:flex;align-items:center;gap:12px;text-decoration:none;color:inherit}
-    .brand-logo{width:36px;height:36px;border-radius:12px;background:linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent-2)));box-shadow:var(--shadow-lg)}
-    .nav-links{display:flex;flex-wrap:wrap;gap:4px}
-    .nav-links a{color:rgb(var(--muted));text-decoration:none;padding:12px 14px;border-radius:12px;transition:color .2s,background .2s}
-    .nav-links a:hover,.nav-links a:focus-visible{color:rgb(var(--text));background:rgba(255,255,255,.06);outline:none}
-
-    /* Buttons */
-    .btn{appearance:none;border:0;border-radius:999px;padding:10px 16px;cursor:pointer;color:rgb(var(--text));background:linear-gradient(135deg, rgb(var(--accent)), rgb(var(--accent-2)));box-shadow:0 8px 30px rgba(59,130,246,.35);transition:transform .12s,box-shadow .2s,opacity .2s}
-    .btn:hover,.btn:focus-visible{transform:translateY(-1px);box-shadow:0 16px 40px rgba(59,130,246,.45);outline:none}
-    .btn.ghost{background:rgba(255,255,255,.06);box-shadow:inset 0 0 0 1px rgba(255,255,255,.08)}
-    .btn.small{padding:8px 12px;font-size:14px}
-    .btn.flat{background:rgba(255,255,255,.06);box-shadow:none}
-
-    .picker{background:rgba(255,255,255,.06);padding:8px 12px;border-radius:999px;display:flex;align-items:center;gap:8px}
-    .picker input[type="color"]{width:22px;height:22px;border-radius:6px;border:none;background:transparent;padding:0}
-
-    /* Hero */
-    .hero{position:relative;max-width:1200px;margin:0 auto;padding:80px 20px 40px;text-align:center}
-    .title{font-size:clamp(28px,5.5vw,64px);font-weight:900;line-height:1.1;margin:14px auto;max-width:14ch;background:linear-gradient(135deg, rgb(var(--text)), rgba(255,255,255,.85));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .sub{color:rgb(var(--muted));max-width:60ch;margin:0 auto 28px;font-size:clamp(14px,2.4vw,18px)}
-    .cta{display:flex;gap:12px;justify-content:center;flex-wrap:wrap}
-
-    /* Layout helpers */
-    section{padding:56px 20px;scroll-margin-top:84px}
-    .wrap{max-width:1200px;margin:0 auto}
-    .grid{display:grid;gap:16px;grid-template-columns:repeat(12,1fr)}
-    .col-4{grid-column:span 12}
-    @media(min-width:700px){.col-4{grid-column:span 6}}
-    @media(min-width:1000px){.col-4{grid-column:span 4}}
-
-    /* Cards */
-    .card{position:relative;border-radius:var(--radius);overflow:clip;background:linear-gradient(180deg, rgba(255,255,255,.08), rgba(255,255,255,.04));border:1px solid rgba(255,255,255,.12);box-shadow:var(--shadow-lg);transition:transform .18s,box-shadow .2s,border-color .2s;padding:16px}
-    .card:hover,.card:focus-within{transform:translateY(-4px);box-shadow:0 24px 70px rgba(0,0,0,.4);border-color:rgba(255,255,255,.18)}
-    .thumb{aspect-ratio:16/10;background:linear-gradient(135deg, rgba(59,130,246,.25), rgba(99,102,241,.25));position:relative;border-radius:14px}
-    .thumb::after{content:"";position:absolute;inset:0;background:radial-gradient(60% 60% at 30% 30%, rgba(255,255,255,.2), transparent 50%);mix-blend-mode:overlay}
-    .card-body{padding:16px;display:grid;gap:10px}
-    .card h3{margin:0;font-size:18px}
-    .meta{color:rgb(var(--muted));font-size:14px}
-
-    /* Courses */
-    .course{display:grid;gap:12px;padding:18px;grid-template-columns:64px 1fr;align-items:center;border-radius:var(--radius);border:1px solid rgba(255,255,255,.08);background:rgba(255,255,255,.04)}
-    .icon{width:64px;height:64px;border-radius:16px;background:linear-gradient(135deg, rgba(59,130,246,.35), rgba(99,102,241,.35));display:grid;place-items:center;font-weight:800}
-
-    /* Section headers */
-    .section-head{max-width:900px;margin:0 auto 22px;text-align:center}
-    .section-title{font-size:clamp(22px,4.5vw,36px);line-height:1.15;margin:0 auto 8px;letter-spacing:.2px;background:linear-gradient(135deg, rgb(var(--text)), rgba(255,255,255,.85));-webkit-background-clip:text;background-clip:text;color:transparent}
-    .section-sub{margin:0 auto;color:rgb(var(--muted));max-width:60ch}
-    .section-underline{width:84px;height:4px;border-radius:999px;margin:14px auto 0;background:linear-gradient(90deg, rgb(var(--accent)), rgb(var(--accent-2)))}
-
-    footer{border-top:1px solid rgba(255,255,255,.08);padding:28px 20px;color:rgb(var(--muted));text-align:center}
-    .socials{display:flex;gap:10px;justify-content:center;margin:10px 0 0}
-    .socials a{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:12px;background:rgba(255,255,255,.06);color:rgb(var(--text));text-decoration:none}
-
-    /* Mobile polish */
-    @media(max-width:520px){
-      .picker{display:none}
-      .hero{padding-top:68px}
+    :root{
+      --ink:#e6f0ff;           /* light text for dark theme */
+      --muted:#9fb4ff;         /* soft secondary */
+      --stone:#1b1f3b;         /* deep frame */
+      --gold:#7cf8ff;          /* neon accent (cyan) */
+      --glow: 0 0 0 rgba(0,0,0,0); /* default */
     }
 
-    /* Focus visibility for a11y */
-    :focus-visible{outline:2px solid rgba(99,102,241,.6);outline-offset:3px;border-radius:12px}
+    /* ====== Base / Obsidian Aurora Theme ====== */
+    html,body{height:100%;}
+    html{scroll-behavior:smooth;}
+    body{
+      margin:0; color:var(--ink); font:16px/1.5 system-ui, -apple-system, Segoe UI, Roboto, Ubuntu, Cantarell, Noto Sans, Arial, "Apple Color Emoji","Segoe UI Emoji";
+      /* Animated aurora gradient */
+      background: radial-gradient(1200px 700px at 20% 10%, rgba(124,248,255,0.15), transparent 60%),
+                  radial-gradient(900px 600px at 80% 30%, rgba(255,120,220,0.12), transparent 65%),
+                  radial-gradient(1000px 600px at 50% 90%, rgba(120,160,255,0.12), transparent 70%),
+                  linear-gradient(180deg, #0a0c16, #0a0c16);
+      background-blend-mode: screen, screen, screen, normal;
+      overflow-x:hidden;
+      position: relative;
+      isolation: isolate;
+    }
 
-    @media(prefers-reduced-motion:reduce){.bg-mesh{animation:none}.btn,.card{transition:none}}
+    /* soft grain for depth */
+    body::after{
+      content:""; position:fixed; inset:0; pointer-events:none; z-index:0;
+      background-image: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="120" height="120" viewBox="0 0 120 120"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/><feColorMatrix type="saturate" values="0"/><feComponentTransfer><feFuncA type="table" tableValues="0 0.08"/></feComponentTransfer></filter><rect width="120" height="120" filter="url(%23n)"/></svg>');
+      opacity:.2; mix-blend-mode:soft-light;
+    }
+
+    /* ====== Moving Floor (neon grid) ====== */
+    .floor {
+      position: fixed; inset:auto 0 0 0; height:60vh; pointer-events:none; z-index:0;
+      perspective: 1000px; perspective-origin: 50% 100%;
+    }
+    .floor::before{
+      content:""; position:absolute; inset:-10vh -20vw 0 -20vw; 
+      background:
+        linear-gradient(rgba(10,12,22,0.75), rgba(10,12,22,0.75)),
+        repeating-linear-gradient(0deg, rgba(124,248,255,0.35) 0 2px, transparent 2px 120px),
+        repeating-linear-gradient(90deg, rgba(255,120,220,0.28) 0 2px, transparent 2px 120px);
+      transform-origin: 50% 100%;
+      transform: rotateX(64deg) translateZ(-120px);
+      box-shadow: 0 -20px 40px rgba(0,0,0,0.35) inset;
+      background-size: auto, 120px 120px, 120px 120px;
+      background-position: 0 var(--floorY, 0px), 0 var(--floorY, 0px), 0 var(--floorY, 0px);
+      filter: drop-shadow(0 -6px 22px rgba(124,248,255,.2));
+    }
+
+    /* ====== Header ====== */
+    header{
+      position:relative; z-index:2; padding:4rem 1rem 2rem; text-align:center;
+    }
+    .title{
+      font-size: clamp(2rem, 3.5vw + 1rem, 4rem);
+      letter-spacing:0.06em; margin:0; text-transform:uppercase;
+      text-shadow: 0 0 22px rgba(124,248,255,.25), 0 0 44px rgba(255,120,220,.18);
+    }
+    .subtitle{color:var(--muted); margin:0.5rem auto 0; max-width:60ch}
+
+    /* ====== Gallery Layout ====== */
+    .gallery{
+      position:relative; z-index:1; max-width:1100px; margin:0 auto; padding:2rem 1rem 20vh; /* bottom pad so last item clears floor */
+      display:flex; flex-direction:column; gap:5rem;
+    }
+    .spine{ /* neon central divider */
+      position:fixed; left:50%; top:0; bottom:0; width:2px; transform:translateX(-1px); z-index:1;
+      background: linear-gradient(to bottom, rgba(124,248,255,0.0), rgba(124,248,255,0.75), rgba(255,120,220,0.0));
+      opacity:0.35; pointer-events:none;
+      filter: drop-shadow(0 0 14px rgba(124,248,255,.55));
+    }
+
+    .piece{ /* the framed "art" */
+      width:min(520px, 86vw); position:relative; display:block; text-decoration:none; color:inherit;
+      filter: drop-shadow(0 30px 30px rgba(0,0,0,0.35));
+      transition: transform .35s ease, filter .35s ease;
+      --side: left; /* default, overridden via modifier */
+    }
+
+    .piece.left{align-self:flex-start; margin-left:max(0px, clamp(0px, 12vw, 160px) * 0.5);} 
+    .piece.right{align-self:flex-end; margin-right:max(0px, clamp(0px, 12vw, 160px) * 0.5);}    
+
+    .frame{ /* neon frame */
+      border: 14px solid var(--stone);
+      border-radius: 16px; background: rgba(16,20,40,0.7);
+      position:relative; overflow:hidden;
+      box-shadow: 0 0 0 1px rgba(124,248,255,.35) inset, 0 0 40px rgba(255,120,220,.15) inset;
+    }
+    .frame::before{ /* inner trim */
+      content:""; position:absolute; inset:6px; border: 2px solid rgba(124,248,255,0.6); border-radius:10px; pointer-events:none;
+      box-shadow: 0 0 24px rgba(124,248,255,.35), 0 0 64px rgba(255,120,220,.2);
+    }
+    .img{ /* artwork surface */
+      aspect-ratio: 16/10; background:
+        radial-gradient(800px 400px at 0% 0%, rgba(124,248,255,0.18), transparent 60%),
+        radial-gradient(600px 300px at 100% 100%, rgba(255,120,220,0.18), transparent 60%),
+        linear-gradient(180deg, rgba(255,255,255,0.06), rgba(255,255,255,0.02));
+      display:grid; place-items:center; font-weight:700; font-size:clamp(1rem, 1vw + .9rem, 1.35rem);
+      color:#cfe6ff; text-shadow:0 0 12px rgba(124,248,255,.3);
+    }
+
+    .meta{display:flex; align-items:center; justify-content:space-between; gap:1rem; padding:.85rem 1rem; color:var(--muted); font-size:.95rem;}
+    .meta .name{font-weight:700; color:var(--ink)}
+    .meta .badge{font-size:.75rem; padding:.25rem .55rem; border-radius:999px; border:1px solid rgba(124,248,255,0.35); background: rgba(20,24,44,0.7); color:#bfefff}
+
+    /* Hover effects: neon outer glow and gentle lift */
+    .piece:hover{filter: drop-shadow(0 0 22px rgba(124,248,255,.55)) drop-shadow(0 24px 40px rgba(0,0,0,.4)); transform: translateY(-6px) scale(1.01);} 
+    .piece:active{transform: translateY(-2px) scale(1.005);}   
+
+    /* side-lean tilt for depth */
+    .piece.left:hover .frame{transform: rotateZ(-.6deg);} 
+    .piece.right:hover .frame{transform: rotateZ(.6deg);} 
+    .frame{transition: transform .35s ease;}
+
+    /* ====== Scroll reveal ====== */
+    .reveal{opacity:0; transform: translateY(24px) scale(.98); transition: opacity .7s ease, transform .7s ease;}
+    .reveal.on{opacity:1; transform:none;}
+
+    /* ====== Footer ====== */
+    footer{position:relative; z-index:2; text-align:center; color:var(--muted); padding:4rem 1rem 8rem;}
+
+    /* ====== Mobile Tweaks ====== */
+    @media (max-width:640px){
+      .gallery{gap:3.5rem}
+      .meta{flex-direction:column; align-items:flex-start}
+      .piece.left,.piece.right{align-self:center; margin:0;}
+    }
   </style>
 </head>
 <body>
-  <div class="bg-mesh" aria-hidden="true"></div>
+  <div class="floor" aria-hidden="true"></div>
+  <div class="spine" aria-hidden="true"></div>
 
-  <nav class="nav" role="navigation" aria-label="Primary">
-    <div class="nav-inner">
-      <a class="brand" href="#home">
-        <span class="brand-logo" aria-hidden="true"></span>
-        <span><b>Zavier Chambers</b> • Portfolio</span>
-      </a>
-      <div class="nav-links">
-        <a href="#projects">Projects</a>
-        <a href="#courses">Courses</a>
-        <a href="#contact">Contact</a>
-      </div>
-      <div class="nav-right">
-        <div class="picker" title="Pick accent color">
-          <span style="font-size:12px;opacity:.8">Accent</span>
-          <input id="accentPicker" type="color" value="#3B82F6" aria-label="Pick accent color" />
-        </div>
-        <button class="btn ghost" id="themeToggle" aria-label="Toggle color theme">🌙</button>
-      </div>
-    </div>
-  </nav>
-
-  <header id="home" class="hero">
-    <h1 class="title">Everyone desires to be secure online.</h1>
-    <p class="sub">Friendly, educational, down‑to‑earth guidance from <b>Zavier “IT Guy” Chambers</b>. Explore real projects and short, practical courses built with security and clarity in mind.</p>
-    <div class="cta">
-      <a class="btn" href="#projects">See Projects</a>
-      <a class="btn ghost" href="#courses">Explore Courses</a>
-    </div>
+  <header>
+    <h1 class="title">My Wall of Web Applications</h1>
+    <p class="subtitle">Explore in neon glow. Tap an art piece to enter the app.</p>
   </header>
 
-  <!-- PROJECTS -->
-  <section id="projects" aria-labelledby="projects-title">
-    <div class="wrap">
-      <header class="section-head">
-        <h2 class="section-title" id="projects-title">Featured Projects</h2>
-        <div class="section-underline" aria-hidden="true"></div>
-        <p class="section-sub">Hands‑on security and automation work you can explore, fork, and build on.</p>
-      </header>
-
-      <div class="grid">
-        <article class="card col-4">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="card-body">
-            <h3>IAM Automation Toolkit</h3>
-            <p class="meta">Scripts and utilities to speed up identity management tasks with safety checks.</p>
-            <div class="cta">
-              <a class="btn small" href="#">Live Demo</a>
-              <a class="btn small flat" href="#">GitHub</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card col-4">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="card-body">
-            <h3>Dynamic Task List App</h3>
-            <p class="meta">A lightweight web app to manage tasks and import/export data with a modern UI.</p>
-            <div class="cta">
-              <a class="btn small" href="#">Live Demo</a>
-              <a class="btn small flat" href="#">GitHub</a>
-            </div>
-          </div>
-        </article>
-
-        <article class="card col-4">
-          <div class="thumb" aria-hidden="true"></div>
-          <div class="card-body">
-            <h3>Blue Team Lab</h3>
-            <p class="meta">A virtual lab for practicing detection, defense, and incident response scenarios.</p>
-            <div class="cta">
-              <a class="btn small" href="#">Overview</a>
-              <a class="btn small flat" href="#">GitHub</a>
-            </div>
-          </div>
-        </article>
+  <main class="gallery" id="gallery">
+    <a class="piece left reveal" href="https://example.com/app-1" target="_blank" rel="noopener">
+      <div class="frame">
+        <div class="img">Password Strength Visualizer</div>
       </div>
-    </div>
-  </section>
-
-  <!-- COURSES -->
-  <section id="courses" aria-labelledby="courses-title">
-    <div class="wrap">
-      <header class="section-head">
-        <h2 class="section-title" id="courses-title">Short Courses</h2>
-        <div class="section-underline" aria-hidden="true"></div>
-        <p class="section-sub">Practical, bite‑size lessons focused on scripting, identity, and security basics.</p>
-      </header>
-
-      <div class="grid">
-        <div class="col-4">
-          <div class="course">
-            <div class="icon">PS</div>
-            <div>
-              <h3>PowerShell for Beginners</h3>
-              <p class="meta">Get comfortable with scripting and automation. <b>2 hours</b></p>
-              <div class="cta" style="margin-top:8px">
-                <a class="btn small" href="#">Enroll</a>
-                <a class="btn small flat" href="#">Syllabus</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="course">
-            <div class="icon">AD</div>
-            <div>
-              <h3>Active Directory Essentials</h3>
-              <p class="meta">Understand user accounts, groups, and policies. <b>3 hours</b></p>
-              <div class="cta" style="margin-top:8px">
-                <a class="btn small" href="#">Enroll</a>
-                <a class="btn small flat" href="#">Syllabus</a>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="col-4">
-          <div class="course">
-            <div class="icon">CY</div>
-            <div>
-              <h3>Cybersecurity Basics</h3>
-              <p class="meta">Core concepts for staying safe online. <b>2.5 hours</b></p>
-              <div class="cta" style="margin-top:8px">
-                <a class="btn small" href="#">Enroll</a>
-                <a class="btn small flat" href="#">Syllabus</a>
-              </div>
-            </div>
-          </div>
-        </div>
+      <div class="meta">
+        <span class="name">Password Strength Visualizer</span>
+        <span class="badge">Web App</span>
       </div>
-    </div>
-  </section>
+    </a>
 
-  <!-- CONTACT -->
-  <section id="contact" aria-labelledby="contact-title">
-    <div class="wrap">
-      <header class="section-head">
-        <h2 class="section-title" id="contact-title">Get in Touch</h2>
-        <div class="section-underline" aria-hidden="true"></div>
-        <p class="section-sub">Have a project in mind or want to collaborate? Let’s talk.</p>
-      </header>
-
-      <div class="grid">
-        <div class="col-4">
-          <article class="card" style="padding:18px">
-            <h3 style="margin-top:0">Email Me</h3>
-            <p class="meta"><a href="mailto:hello@yourdomain.com">hello@yourdomain.com</a></p>
-            <a class="btn" href="mailto:hello@yourdomain.com">Send Email</a>
-          </article>
-        </div>
-        <div class="col-4">
-          <article class="card" style="padding:18px">
-            <h3 style="margin-top:0">Work With Me</h3>
-            <p class="meta">Custom automations, IAM tooling, and workshops. Tell me about your project.</p>
-            <a class="btn" href="#">Start a Project</a>
-          </article>
-        </div>
-        <div class="col-4">
-          <article class="card" style="padding:18px">
-            <h3 style="margin-top:0">Follow</h3>
-            <p class="meta">GitHub • LinkedIn • YouTube</p>
-            <div class="socials" aria-label="Social links">
-              <a href="#" title="GitHub">GH</a>
-              <a href="#" title="YouTube">YT</a>
-              <a href="#" title="LinkedIn">in</a>
-            </div>
-          </article>
-        </div>
+    <a class="piece right reveal" href="https://example.com/app-2" target="_blank" rel="noopener">
+      <div class="frame">
+        <div class="img">AD User Provisioning Dashboard</div>
       </div>
-    </div>
-  </section>
+      <div class="meta">
+        <span class="name">AD Provisioning Dashboard</span>
+        <span class="badge">Tool</span>
+      </div>
+    </a>
+
+    <a class="piece left reveal" href="https://example.com/app-3" target="_blank" rel="noopener">
+      <div class="frame">
+        <div class="img">URL Phishing Detector (Demo)</div>
+      </div>
+      <div class="meta">
+        <span class="name">URL Phishing Detector</span>
+        <span class="badge">Security</span>
+      </div>
+    </a>
+
+    <a class="piece right reveal" href="https://example.com/app-4" target="_blank" rel="noopener">
+      <div class="frame">
+        <div class="img">Markdown → Slides Generator</div>
+      </div>
+      <div class="meta">
+        <span class="name">Markdown to Slides</span>
+        <span class="badge">Utility</span>
+      </div>
+    </a>
+
+    <a class="piece left reveal" href="https://example.com/app-5" target="_blank" rel="noopener">
+      <div class="frame">
+        <div class="img">Two‑Factor Auth TOTP Tester</div>
+      </div>
+      <div class="meta">
+        <span class="name">TOTP Tester</span>
+        <span class="badge">Security</span>
+      </div>
+    </a>
+
+  </main>
 
   <footer>
-    <div>© <span id="year"></span> Zavier Chambers · Built with semantic HTML, modern CSS, and tiny JS.</div>
+    © <span id="year"></span> • Curated by You • Built as a single static file
   </footer>
 
   <script>
     (function(){
-      const root=document.documentElement;
-      const themeToggle=document.getElementById('themeToggle');
-      if(themeToggle){
-        const storedTheme=localStorage.getItem('theme');
-        if(storedTheme) root.setAttribute('data-theme',storedTheme);
-        themeToggle.textContent=root.getAttribute('data-theme')==='light'?'🌞':'🌙';
-        themeToggle.addEventListener('click',()=>{
-          const current=root.getAttribute('data-theme');
-          const next=current==='light'?'':'light';
-          if(next) root.setAttribute('data-theme',next); else root.removeAttribute('data-theme');
-          localStorage.setItem('theme',next);
-          themeToggle.textContent=next==='light'?'🌞':'🌙';
-        });
-      }
-
-      const pickerEl=document.getElementById('accentPicker');
-      if(pickerEl){
-        const storedAccent=localStorage.getItem('accent');
-        if(storedAccent) applyAccent(storedAccent);
-        pickerEl.addEventListener('input',e=>applyAccent(e.target.value));
-      }
-
-      function applyAccent(hex){
-        const rgb=hexToRgb(hex)||{r:59,g:130,b:246};
-        root.style.setProperty('--accent',`${rgb.r} ${rgb.g} ${rgb.b}`);
-        localStorage.setItem('accent',hex);
-      }
-      function hexToRgb(hex){
-        const m=/^#?([a-f\d]{2})([a-f\d]{2})([a-f\d]{2})$/i.exec(hex);
-        return m?{r:parseInt(m[1],16),g:parseInt(m[2],16),b:parseInt(m[3],16)}:null;
-      }
-
-      const yearEl=document.getElementById('year');
-      if(yearEl) yearEl.textContent=new Date().getFullYear();
+      const root = document.documentElement;
+      const update = () => {
+        const y = window.scrollY * 0.5;
+        root.style.setProperty('--floorY', `${-y}px`);
+      };
+      update();
+      window.addEventListener('scroll', update, {passive:true});
     })();
+
+    (function(){
+      const observer = new IntersectionObserver((entries)=>{
+        for(const e of entries){ if(e.isIntersecting){ e.target.classList.add('on'); observer.unobserve(e.target); } }
+      }, {root:null, rootMargin:'0px 0px -10% 0px', threshold:0.15});
+      document.querySelectorAll('.reveal').forEach(el=>observer.observe(el));
+    })();
+
+    document.getElementById('year').textContent = new Date().getFullYear();
   </script>
 </body>
 </html>
