@@ -90,7 +90,13 @@
   </main>
 
   <!-- PDF.js (text extraction) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js" integrity="sha512-6z6b3t7mF8r0YVw8C7zBq0eHc4hN2v8p+gFQ3Z3XKkN1b0l1n9c1mMJqVQbX6hN3lX6mQK8gq6o5I1y3Q0qUtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script>
+    // Configure the PDF.js worker for legacy UMD build
+    if (window.pdfjsLib) {
+      pdfjsLib.GlobalWorkerOptions.workerSrc = 'https://cdnjs.cloudflare.com/ajax/libs/pdf.js/2.16.105/pdf.worker.min.js';
+    }
+  </script>
   <!-- jsPDF (PDF creation) -->
   <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-hLQ0GxI8QmQ4Tlp8Jb7U2a1xwq5H0l8iXxQk3rQq0K2mC+e9cBgK2J9ZkqTg5vVd4g7l+T8gT0Y5qQqv9u1UO2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
