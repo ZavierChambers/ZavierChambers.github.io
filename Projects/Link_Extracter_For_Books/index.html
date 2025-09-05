@@ -46,6 +46,8 @@
     .list a{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%}
     /* Log window: fixed height */
     .log{height:var(--h-log); max-height:var(--h-log)}
+    /* ---- Log should never resize layout: clamp & scroll ---- */
+    .log{height:var(--h-log); max-height:var(--h-log); overflow:auto; overflow-x:auto; white-space:pre-wrap; word-break:break-word; overflow-wrap:anywhere;}
   </style>
 </head>
 <body>
@@ -136,7 +138,15 @@
     statusEl.className = 'tag' + (cls ? ' ' + cls : '');
   }
   function log(msg){
-    logEl.textContent += "\n" + msg;
+    // Append new line and keep the log compact (last 200 lines)
+    const next = (logEl.textContent ? logEl.textContent + "
+" : "") + String(msg);
+    const lines = next.split('
+');
+    const MAX_LINES = 200;
+    const trimmed = lines.length > MAX_LINES ? lines.slice(lines.length - MAX_LINES) : lines;
+    logEl.textContent = trimmed.join('
+');
     logEl.scrollTop = logEl.scrollHeight;
   }
   function reset(){
