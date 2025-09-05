@@ -1,0 +1,287 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>PDF URL Extractor — by IT Guy</title>
+  <style>
+    :root{
+      --bg:#0b1020; --card:#111832; --muted:#a7b0d0; --text:#e8edff; --accent:#7aa2ff; --ok:#6ee7b7; --warn:#fcd34d; --err:#fca5a5;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:linear-gradient(180deg,#0b1020,#0d1330);color:var(--text);font:16px/1.4 system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Inter,"Noto Sans",sans-serif}
+    header{padding:28px 18px;text-align:center}
+    h1{margin:0 0 8px;font-weight:800;letter-spacing:.2px}
+    .sub{opacity:.8}
+    .wrap{max-width:980px;margin:0 auto;padding:0 18px 60px;display:grid;gap:16px}
+    .card{background:var(--card);border:1px solid #1d2954;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
+    .flex{display:flex;gap:16px;flex-wrap:wrap}
+    .p{padding:18px}
+    .dropzone{border:2px dashed #2a3b79;border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:.2s}
+    .dropzone:hover{background:#0f1836}
+    .hidden{display:none}
+    button{background:var(--accent);border:none;color:#07102a;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
+    button[disabled]{opacity:.45;cursor:not-allowed}
+    .muted{color:var(--muted)}
+    .log{font-family:ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, "Liberation Mono", monospace;background:#0a0f24;color:#c9d4ff;padding:14px;border-radius:12px;max-height:300px;overflow:auto;border:1px solid #1b254b}
+    .tag{display:inline-block;padding:.2em .55em;border-radius:999px;background:#1a2655;border:1px solid #2b3e86;margin:.15rem .25rem 0 0;font-size:.85em}
+    .ok{color:var(--ok)}.warn{color:var(--warn)}.err{color:var(--err)}
+    .footer{opacity:.7;text-align:center;padding:20px}
+    a{color:var(--accent)}
+    .grid{display:grid;grid-template-columns:1fr;gap:16px}
+    @media (min-width:880px){.grid{grid-template-columns:1.1fr .9fr}}
+    .list{padding:10px 0 0;margin:0}
+    .list li{list-style:none;padding:6px 0;border-bottom:1px dashed #27356f;word-break:break-all}
+    .kbd{border:1px solid #33417a;border-bottom-width:2px;padding:.08rem .45rem;border-radius:6px;background:#0b1433;white-space:nowrap}
+  </style>
+</head>
+<body>
+  <header>
+    <h1>PDF URL Extractor</h1>
+    <div class="sub">Extract <span class="kbd">http(s)</span>/<span class="kbd">www.</span> links from any PDF and generate a new, clickable PDF — all in your browser.</div>
+  </header>
+
+  <main class="wrap">
+    <section class="grid">
+      <div class="card p">
+        <h2 style="margin-top:0">1) Choose a PDF</h2>
+        <div id="drop" class="dropzone" tabindex="0" role="button" aria-label="Upload or drop a PDF here">
+          <input id="file" type="file" accept="application/pdf" class="hidden" />
+          <p style="margin:6px 0 12px">Drag & drop your PDF here, or click to browse.</p>
+          <div class="muted" id="fileInfo">No file selected.</div>
+        </div>
+        <div style="margin-top:12px" class="flex">
+          <button id="extractBtn" disabled>Extract Links</button>
+          <button id="clearBtn" class="muted" style="background:#1b2757;color:#c8d2ff">Clear</button>
+        </div>
+        <p class="muted" style="margin-top:10px">Your file stays local — nothing is uploaded.</p>
+      </div>
+
+      <div class="card p">
+        <h2 style="margin-top:0">2) Results</h2>
+        <div class="flex" style="align-items:center">
+          <div class="muted">Unique URLs found: <strong id="count">0</strong></div>
+          <span class="tag" id="status">Idle</span>
+          <button id="copyBtn" disabled>Copy All</button>
+          <button id="downloadBtn" disabled>Download PDF</button>
+        </div>
+        <ul class="list" id="urlList"></ul>
+      </div>
+    </section>
+
+    <section class="card p">
+      <h2 style="margin-top:0">Log</h2>
+      <pre id="log" class="log" aria-live="polite">Ready. Drop a PDF to begin…</pre>
+      <details style="margin-top:10px">
+        <summary>How it works</summary>
+        <ul>
+          <li>Uses <strong>PDF.js</strong> to extract page text in the browser.</li>
+          <li>Finds URLs with a regex like <code>/(?:https?:\/\/|www\.)\S+/</code> and trims trailing punctuation.</li>
+          <li>Deduplicates & sorts results.</li>
+          <li>Generates a new PDF of clickable links using <strong>jsPDF</strong>.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="footer muted">
+      <div>Author: <strong>Zavier Chambers (IT Guy)</strong> · Version 1.0 · MIT License</div>
+      <div>Built as a single-file static app (HTML/CSS/JS). Safe to host on GitHub Pages.</div>
+    </section>
+  </main>
+
+  <!-- PDF.js (text extraction) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/pdf.js/4.3.136/pdf.min.js" integrity="sha512-6z6b3t7mF8r0YVw8C7zBq0eHc4hN2v8p+gFQ3Z3XKkN1b0l1n9c1mMJqVQbX6hN3lX6mQK8gq6o5I1y3Q0qUtw==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <!-- jsPDF (PDF creation) -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-hLQ0GxI8QmQ4Tlp8Jb7U2a1xwq5H0l8iXxQk3rQq0K2mC+e9cBgK2J9ZkqTg5vVd4g7l+T8gT0Y5qQqv9u1UO2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+
+  <script>
+  // ======= Utility DOM helpers =======
+  const $ = (sel) => document.querySelector(sel);
+  const logEl = $('#log');
+  const fileEl = $('#file');
+  const dropEl = $('#drop');
+  const infoEl = $('#fileInfo');
+  const extractBtn = $('#extractBtn');
+  const clearBtn = $('#clearBtn');
+  const copyBtn = $('#copyBtn');
+  const downloadBtn = $('#downloadBtn');
+  const listEl = $('#urlList');
+  const countEl = $('#count');
+  const statusEl = $('#status');
+
+  let currentFile = null;
+  let foundUrls = [];
+
+  function setStatus(text, cls){
+    statusEl.textContent = text;
+    statusEl.className = 'tag' + (cls ? ' ' + cls : '');
+  }
+  function log(msg){
+    logEl.textContent += "\n" + msg;
+    logEl.scrollTop = logEl.scrollHeight;
+  }
+  function reset(){
+    currentFile = null;
+    foundUrls = [];
+    listEl.innerHTML = '';
+    countEl.textContent = '0';
+    infoEl.textContent = 'No file selected.';
+    extractBtn.disabled = true;
+    copyBtn.disabled = true;
+    downloadBtn.disabled = true;
+    setStatus('Idle');
+    logEl.textContent = 'Ready. Drop a PDF to begin…';
+  }
+
+  clearBtn.addEventListener('click', reset);
+
+  // ======= File selection & drag-drop =======
+  dropEl.addEventListener('click', () => fileEl.click());
+  dropEl.addEventListener('keydown', (e)=>{ if(e.key==='Enter' || e.key===' '){ e.preventDefault(); fileEl.click(); }});
+  dropEl.addEventListener('dragover', (e)=>{ e.preventDefault(); dropEl.style.background = '#0f1836';});
+  dropEl.addEventListener('dragleave', ()=>{ dropEl.style.background = '';});
+  dropEl.addEventListener('drop', (e)=>{
+    e.preventDefault(); dropEl.style.background = '';
+    const f = e.dataTransfer.files?.[0];
+    if (f && f.type === 'application/pdf'){ handleFile(f); }
+    else if (f) alert('Please drop a PDF file.');
+  });
+  fileEl.addEventListener('change', ()=>{
+    const f = fileEl.files?.[0];
+    if (f) handleFile(f);
+  });
+
+  function handleFile(f){
+    currentFile = f;
+    infoEl.textContent = `${f.name} — ${(f.size/1024/1024).toFixed(2)} MB`;
+    extractBtn.disabled = false;
+    log(`Selected: ${f.name} (${(f.size/1024).toFixed(0)} KB)`);
+  }
+
+  // ======= URL extraction using PDF.js =======
+  async function extractUrlsFromPdf(file){
+    const arrayBuf = await file.arrayBuffer();
+    const loadingTask = pdfjsLib.getDocument({ data: arrayBuf });
+    const pdf = await loadingTask.promise;
+
+    const urlSet = new Set();
+    const total = pdf.numPages;
+    const rawPattern = /(?:https?:\/\/|www\.)\S+/g;
+
+    for (let i=1; i<=total; i++){
+      const page = await pdf.getPage(i);
+      const content = await page.getTextContent();
+      const text = content.items.map(it => it.str).join(' ');
+
+      const found = text.match(rawPattern) || [];
+      /** Clean trailing punctuation similar to the Python version */
+      const cleaned = found.map(r => r.replace(/[\.,;:\)\]\}"'\u2019\u201d]+$/,'')).filter(Boolean);
+
+      cleaned.forEach(u => urlSet.add(u));
+      if (cleaned.length)
+        log(`[Page ${i}/${total}] → found ${cleaned.length} link(s): ${JSON.stringify(cleaned)}`);
+      else
+        log(`[Page ${i}/${total}] → no links found`);
+    }
+
+    const urls = Array.from(urlSet).sort((a,b)=>a.localeCompare(b));
+    return urls;
+  }
+
+  function renderList(urls){
+    listEl.innerHTML = '';
+    urls.forEach(u=>{
+      const li = document.createElement('li');
+      const a = document.createElement('a');
+      a.href = u.startsWith('http://')||u.startsWith('https://') ? u : `http://${u}`;
+      a.target = '_blank'; a.rel = 'noopener';
+      a.textContent = u;
+      li.appendChild(a);
+      listEl.appendChild(li);
+    });
+    countEl.textContent = String(urls.length);
+    copyBtn.disabled = urls.length === 0;
+    downloadBtn.disabled = urls.length === 0;
+  }
+
+  extractBtn.addEventListener('click', async ()=>{
+    if (!currentFile) return;
+    setStatus('Extracting…','warn');
+    log(`Opening ${currentFile.name}…`);
+    try{
+      const urls = await extractUrlsFromPdf(currentFile);
+      foundUrls = urls;
+      if (!urls.length){
+        setStatus('No URLs found','err');
+        log("No URLs found in the entire document.");
+      } else {
+        setStatus('Done','ok');
+        renderList(urls);
+        log(`\n✅ Found ${urls.length} unique URL(s).`);
+      }
+    }catch(err){
+      console.error(err);
+      setStatus('Error','err');
+      log('Error: ' + (err?.message || err));
+      alert('Failed to read this PDF. Some scanned PDFs contain only images with no selectable text.');
+    }
+  });
+
+  // ======= Copy & Download =======
+  copyBtn.addEventListener('click', async ()=>{
+    if (!foundUrls.length) return;
+    const text = foundUrls.join('\n');
+    await navigator.clipboard.writeText(text);
+    log('📋 Copied all URLs to clipboard.');
+  });
+
+  downloadBtn.addEventListener('click', async ()=>{
+    if (!foundUrls.length) return;
+    const nameNoExt = (currentFile?.name || 'links').replace(/\.pdf$/i,'');
+    setStatus('Building PDF…','warn');
+
+    // Build a simple, clean PDF of clickable links using jsPDF
+    const { jsPDF } = window.jspdf;
+    const doc = new jsPDF({ unit:'pt', format:'a4' });
+
+    const margin = 48;
+    const lineH = 18; // 12pt font → ~18pt leading
+    let x = margin, y = margin + 24;
+
+    doc.setFont('helvetica','bold');
+    doc.setFontSize(14);
+    doc.text('Clickable URLs Extracted from PDF', x, y);
+    y += 18;
+    doc.setFont('helvetica','normal');
+    doc.setFontSize(12);
+
+    for (const url of foundUrls){
+      const full = (url.startsWith('http://')||url.startsWith('https://')) ? url : `http://${url}`;
+      // Wrap long URLs within page width
+      const maxWidth = doc.internal.pageSize.getWidth() - margin*2;
+      const lines = doc.splitTextToSize(url, maxWidth);
+
+      for (let i=0;i<lines.length;i++){
+        if (y > doc.internal.pageSize.getHeight() - margin){
+          doc.addPage();
+          y = margin;
+        }
+        const line = lines[i];
+        doc.setTextColor(0, 0, 255);
+        doc.textWithLink(line, x, y, { url: full });
+        y += lineH;
+      }
+      // Small spacer between entries
+      y += 6;
+    }
+
+    doc.save(`${nameNoExt}_extracted_links.pdf`);
+    setStatus('Saved','ok');
+    log('💾 Clickable PDF downloaded.');
+  });
+
+  // Initialize
+  reset();
+  </script>
+</body>
+</html>
