@@ -1,0 +1,348 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Password Bruteforce Demo — Live + Countdown</title>
+  <style>
+    :root{
+      --bg:#0b1220; --panel:#111827; --text:#e2e8f0; --muted:#94a3b8; --accent:#7c3aed; --ok:#10b981; --ring:#1f2a44;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Helvetica,Arial,sans-serif;min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px}
+    .card{background:var(--panel);width:100%;max-width:900px;border-radius:16px;border:1px solid #0f172a;box-shadow:0 0 40px rgba(0,0,0,.55);padding:22px}
+    h1{margin:0 0 6px;font-size:clamp(22px,3vw,32px)}
+    .sub{color:var(--muted);margin:0 0 16px}
+    label.k{display:block;color:#9db0c6;font-size:12px;margin-top:10px}
+    input,select,button{width:100%;padding:12px;border-radius:10px;border:1px solid #243041;background:#0a1020;color:var(--text);font-size:16px}
+    button{background:linear-gradient(180deg,#1a2140,#11162e);border:1px solid #2a385f;cursor:pointer;font-weight:700}
+    button:hover{filter:brightness(1.1)}
+    .row{display:flex;gap:10px;flex-wrap:wrap}
+    .big{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:clamp(20px,4.2vw,36px);letter-spacing:.4px;text-align:center;background:#030712;border:1px solid #1f2937;border-radius:12px;padding:14px;margin-top:10px}
+    .panel{margin-top:16px;padding:14px;border:1px solid var(--ring);border-radius:12px;background:#0e162a}
+    .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace}
+    .bar{height:10px;background:#0f172a;border-radius:999px;overflow:hidden}
+    .bar span{display:block;height:100%;width:0;background:linear-gradient(90deg,#7c3aed,#06b6d4,#22c55e)}
+    #liveAttempt{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,monospace;font-size:28px;letter-spacing:2px;background:#030712;border:1px solid #1f2937;border-radius:10px;padding:12px}
+    #liveAttempt.found{border-color:var(--ok);color:var(--ok);font-weight:800}
+    .pill{display:inline-flex;gap:8px;align-items:center;background:#1e293b;border:1px solid #334155;color:#cbd5e1;border-radius:999px;padding:6px 10px;font-size:12px}
+  </style>
+</head>
+<body>
+  <div class="card">
+    <h1>🔐 Bruteforce Visualizer</h1>
+    <p class="sub">Fixed charset: <b>upper + lower + digits + common symbols</b> (~94 printable). Starts at <span class="mono">aaaa…</span> and counts up. Local demo only — no network.</p>
+
+    <label class="k">Password (we only use its characters &amp; length)</label>
+    <input id="pwd" type="text" placeholder="Enter password" autocomplete="off" />
+
+    <div class="row">
+      <div style="flex:1;min-width:220px">
+        <label class="k">Guess speed (attempts/sec)</label>
+        <select id="speed">
+          <option value="measured" selected>Use measured speed</option>
+          <option value="1">1/sec (online)</option>
+          <option value="1000">1,000/sec (slow hash)</option>
+          <option value="100000">100,000/sec</option>
+          <option value="1000000">1,000,000/sec</option>
+          <option value="100000000">100,000,000/sec</option>
+          <option value="1000000000">1,000,000,000/sec (fast hash demo)</option>
+          <option value="1000000000000">1,000,000,000,000/sec</option>
+        </select>
+      </div>
+      <div style="flex:1;min-width:220px">
+        <label class="k">Controls</label>
+        <div class="row">
+          <button id="startBtn">▶ Start</button>
+          <button id="pauseBtn" disabled>⏸ Pause</button>
+          <button id="resetBtn" disabled>⟲ Reset</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- BIG CENTER METRIC -->
+    <div class="big" id="exactBig">Exact time to this password: —</div>
+
+    <div class="panel">
+      <div class="row" style="justify-content:space-between;align-items:center">
+        <span class="pill">Live brute-force (fixed length; starts at <span class="mono">aaaa…</span>)</span>
+        <span class="pill">Charset size: <span id="N">94</span></span>
+      </div>
+      <div id="liveAttempt" style="margin-top:10px">—</div>
+      <div class="row" style="margin-top:8px;color:#9fb0c7;font-size:12px">
+        <div>Progress to <span class="mono">zzzz…</span>: <span id="pct">0%</span></div>
+        <div>Attempts: <span id="attempts">0</span></div>
+        <div>Measured speed: <span id="aps">0/sec</span></div>
+      </div>
+      <div class="bar" style="margin-top:8px"><span id="bar"></span></div>
+
+      <div class="row" style="margin-top:10px;gap:12px;flex-wrap:wrap">
+        <div class="pill">Exact time to this password: <span id="etaFind" class="mono">—</span></div>
+        <div class="pill">To max (countdown): <span id="etaMax" class="mono">—</span></div>
+      </div>
+    </div>
+  </div>
+
+  <script>
+    // Fixed charset: upper+lower+digits+common printable symbols (~94)
+    const FULL =
+      "abcdefghijklmnopqrstuvwxyz" +
+      "ABCDEFGHIJKLMNOPQRSTUVWXYZ" +
+      "0123456789" +
+      "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~";
+
+    // ---------- Utilities ----------
+    const $ = id => document.getElementById(id);
+    function allInSet(str,set){ for(const ch of str){ if(!set.includes(ch)) return false; } return true; }
+    function powBig(a,b){ let r = 1n, A = BigInt(a); for(let i=0;i<b;i++) r *= A; return r; }
+    function idxToStr(idx,len,set){
+      const base = BigInt(set.length);
+      let n = idx;
+      const out = Array(len).fill(set[0]);
+      for(let i=len-1;i>=0;i--){
+        const rem = n % base;
+        out[i] = set[Number(rem)];
+        n = n / base;
+      }
+      return out.join('');
+    }
+    function strToIdx(str,set){
+      const base = BigInt(set.length);
+      let n = 0n;
+      for(let i=0;i<str.length;i++){
+        const pos = set.indexOf(str[i]);
+        if(pos < 0) throw new Error("char outside charset");
+        n = n * base + BigInt(pos);
+      }
+      return n;
+    }
+
+    // ----- Calendar constants (average) -----
+    // Use averages to keep long-horizon units stable
+    const SEC = 1n;
+    const MIN = 60n;
+    const HOUR = 3600n;
+    const DAY = 86400n;                   // 24*3600
+    const YEAR = 31556952n;               // 365.2425 days
+    const MONTH = 2629746n;               // 30.44 days
+
+    // Format BigInt seconds into "Yy Mmo Dd HH:MM:SS"
+    function toDurationFromSecondsBigStable(secBig){
+      if (secBig <= 0n) return 'Instant';
+      let s = secBig;
+
+      const y  = s / YEAR;  s -= y * YEAR;
+      const mo = s / MONTH; s -= mo * MONTH;
+      const d  = s / DAY;   s -= d * DAY;
+      const h  = s / HOUR;  s -= h * HOUR;
+      const m  = s / MIN;   s -= m * MIN;
+      const ss = s;
+
+      const pad = x => String(x).padStart(2,'0');
+      const parts = [];
+      if (y > 0n)  parts.push(group(y)+'y');
+      if (mo > 0n) parts.push(group(mo)+'mo');
+      if (d > 0n)  parts.push(group(d)+'d');
+      parts.push(pad(h)+':'+pad(m)+':'+pad(ss));
+      return parts.join(' ');
+    }
+
+    // Group digits for readability (e.g., 541,369,402,338,886)
+    function group(xBig){ return xBig.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ','); }
+
+    // Ceiling division: ceil(count / aps)
+    function bigDivSecondsCeil(countBig, apsFloat){
+      const aps = Math.max(1, Math.floor(apsFloat || 1));
+      const apsBig = BigInt(aps);
+      return (countBig + apsBig - 1n) / apsBig;
+    }
+
+    // ---------- State ----------
+    const state = {
+      running:false, paused:false, raf:0,
+      idx:0n, attempts:0n, keyspace:0n, len:0,
+      lastCount:0n, lastTime:0,
+      measuredAPS: 0,
+      emaAPS: 0,            // ← smoothing
+      emaAlpha: 0.2,        // ← smoothing factor
+      lastEtaUpdateMs: 0,   // ← throttle big display
+      countdownTimer:0, targetIdx:0n
+    };
+
+    // ---------- Speed selection ----------
+    function getSelectedSpeedAPS(){
+      const sel = $('speed').value;
+      if (sel === 'measured') {
+        return Math.max(1, Math.round(state.emaAPS || state.measuredAPS || 1));
+      }
+      return Number(sel) || 1;
+    }
+
+    // ---------- Big display helper ----------
+    function setExactBig(secBig){
+      $('exactBig').textContent = 'Exact time to this password: ' + toDurationFromSecondsBigStable(secBig);
+    }
+
+    // ---------- Init / Loop ----------
+    function init(){
+      const pwd = $('pwd').value || '';
+      if(!pwd){ alert('Enter a password first.'); return false; }
+      if(!allInSet(pwd,FULL)){ alert('Your password contains characters outside the fixed charset.'); return false; }
+
+      state.len = pwd.length;
+      state.keyspace = powBig(FULL.length, state.len);
+      state.idx = 0n;
+      state.attempts = 0n;
+      state.paused = false;
+      state.running = true;
+      state.lastCount = 0n;
+      state.lastTime = performance.now();
+      state.targetIdx = strToIdx(pwd, FULL);
+
+      $('startBtn').disabled = true; $('pauseBtn').disabled = false; $('resetBtn').disabled = false;
+      $('liveAttempt').classList.remove('found'); $('liveAttempt').textContent = idxToStr(0n,state.len,FULL);
+      $('bar').style.width='0%'; $('pct').textContent='0%'; $('attempts').textContent='0'; $('aps').textContent='0/sec';
+      $('etaFind').textContent='—';
+
+      // initialize big metric from current speed (from start position)
+      const aps = getSelectedSpeedAPS();
+      setExactBig(bigDivSecondsCeil(state.targetIdx, aps));
+
+      startCountdownToMax();
+      loop();
+      return true;
+    }
+
+    function loop(){
+      if(!state.running){ return; }
+      if(state.paused){ state.raf = requestAnimationFrame(loop); return; }
+
+      const maxIdx = state.keyspace - 1n;
+      const work = 8000; // attempts per frame chunk
+      const target = $('pwd').value;
+
+      for(let i=0;i<work && state.idx<=maxIdx;i++){
+        const guess = idxToStr(state.idx, state.len, FULL);
+        if(i===work-1) $('liveAttempt').textContent = guess;
+
+        if(guess === target){
+          state.attempts++;
+          state.running=false;
+          $('liveAttempt').textContent = guess + '  ✓';
+          $('liveAttempt').classList.add('found');
+          $('bar').style.width='100%';
+          $('pct').textContent='100%';
+          $('attempts').textContent = state.attempts.toString();
+          stopCountdownToMax();
+          updateETAAndBig(true);
+          return;
+        }
+        state.idx++; state.attempts++;
+      }
+
+      // Progress (safe-ish ratio for UI)
+      const progress = Number(state.idx <= 0xfffffffffffffn ? state.idx : 0n) /
+                       Number(state.keyspace <= 0xfffffffffffffn ? state.keyspace : 1n);
+      const pct = isFinite(progress) ? (progress*100).toFixed(2) : '0.00';
+      $('bar').style.width = pct + '%';
+      $('pct').textContent = pct + '%';
+      $('attempts').textContent = state.attempts.toString();
+
+      // APS measurement every ~0.5s (EMA smoothing)
+      const now = performance.now();
+      const dt = (now - state.lastTime)/1000;
+      if(dt >= 0.5){
+        const delta = Number(state.attempts - state.lastCount);
+        state.measuredAPS = Math.max(1, Math.round(delta / dt));
+        state.emaAPS = state.emaAPS
+          ? (state.emaAPS*(1 - state.emaAlpha) + state.measuredAPS*state.emaAlpha)
+          : state.measuredAPS;
+        $('aps').textContent = new Intl.NumberFormat('en-US').format(Math.round(state.emaAPS)) + '/sec';
+        state.lastCount = state.attempts;
+        state.lastTime = now;
+      }
+
+      updateETAAndBig(false);
+
+      if(state.idx > maxIdx){
+        state.running=false;
+        $('liveAttempt').textContent='exhausted keyspace';
+        $('bar').style.width='100%';
+        $('pct').textContent='100%';
+        stopCountdownToMax();
+        updateETAAndBig(true);
+        return;
+      }
+      state.raf = requestAnimationFrame(loop);
+    }
+
+    function updateETAAndBig(forceNow){
+      const aps = getSelectedSpeedAPS();
+
+      // Exact time to this password (remaining distance)
+      const remainingToFind = state.targetIdx > state.idx ? (state.targetIdx - state.idx) : 0n;
+      const secToFind = bigDivSecondsCeil(remainingToFind, aps);
+
+      // Small pill can update freely
+      $('etaFind').textContent = toDurationFromSecondsBigStable(secToFind);
+
+      // Big center metric: throttle to once per second (unless forced)
+      const nowMs = performance.now();
+      if (forceNow || nowMs - state.lastEtaUpdateMs >= 1000) {
+        state.lastEtaUpdateMs = nowMs;
+        setExactBig(secToFind);
+      }
+    }
+
+    // Countdown to max (time to reach zzzz…)
+    function startCountdownToMax(){
+      stopCountdownToMax();
+      state.countdownTimer = setInterval(()=>{
+        const aps = getSelectedSpeedAPS();
+        const remaining = state.idx <= state.keyspace ? (state.keyspace - state.idx) : 0n;
+        const sec = bigDivSecondsCeil(remaining, aps);
+        $('etaMax').textContent = toDurationFromSecondsBigStable(sec);
+      }, 250);
+    }
+    function stopCountdownToMax(){ if(state.countdownTimer){ clearInterval(state.countdownTimer); state.countdownTimer = 0; } }
+
+    // ---------- Controls ----------
+    function pause(){ if(!state.running) return; state.paused = !state.paused; $('pauseBtn').textContent = state.paused ? '▶ Resume' : '⏸ Pause'; }
+    function reset(){
+      cancelAnimationFrame(state.raf); stopCountdownToMax();
+      state.running=false; state.paused=false;
+      state.measuredAPS = 0; state.emaAPS = 0; // reset smoothing so pre-start is clean
+      $('startBtn').disabled=false; $('pauseBtn').disabled=true; $('resetBtn').disabled=true;
+      $('liveAttempt').textContent='—'; $('liveAttempt').classList.remove('found');
+      $('bar').style.width='0%'; $('pct').textContent='0%'; $('attempts').textContent='0';
+      $('aps').textContent='0/sec'; $('etaFind').textContent='—'; $('etaMax').textContent='—';
+      $('exactBig').textContent='Exact time to this password: —';
+    }
+
+    // ---------- Wire up ----------
+    $('startBtn').addEventListener('click', ()=>{ init(); });
+    $('pauseBtn').addEventListener('click', pause);
+    $('resetBtn').addEventListener('click', reset);
+
+    // Pre-start updates so the big number reacts to typing/speed (throttled, EMA-aware)
+    function prestartUpdate(){
+      const pwd = $('pwd').value || '';
+      if(!pwd || !allInSet(pwd,FULL)){
+        $('exactBig').textContent='Exact time to this password: —';
+        return;
+      }
+      const targetIdx = strToIdx(pwd, FULL);
+      const aps = getSelectedSpeedAPS();
+      const secBig = bigDivSecondsCeil(targetIdx, aps);
+
+      const nowMs = performance.now();
+      if (nowMs - state.lastEtaUpdateMs >= 300) { // gentler during typing
+        state.lastEtaUpdateMs = nowMs;
+        setExactBig(secBig);
+      }
+    }
+    $('pwd').addEventListener('input', prestartUpdate);
+    $('speed').addEventListener('change', ()=>{ if(!state.running){ prestartUpdate(); } });
+  </script>
+</body>
+</html>
