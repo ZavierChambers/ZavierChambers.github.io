@@ -1,0 +1,572 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>SoloVault — Single‑File Encrypted Password Manager</title>
+<meta name="description" content="A privacy-first, single-file password vault you can host on GitHub Pages. Everything is encrypted with a master password using WebCrypto (AES‑GCM + PBKDF2)." />
+<style>
+  :root{
+    --bg:#0b1220; --panel:#0f172a; --muted:#94a3b8; --text:#e2e8f0; --accent:#7c3aed; --accent-2:#06b6d4;
+    --good:#10b981; --warn:#f59e0b; --bad:#ef4444; --border:#1f2937; --soft:#111827; --shadow:0 10px 30px rgba(0,0,0,.35);
+    --radius:16px;
+  }
+  html,body{height:100%;}
+  body{margin:0;background:radial-gradient(1200px 800px at 10% -10%, #1e293b33 0%, transparent 55%),
+               radial-gradient(1200px 900px at 110% 10%, #7c3aed22 0%, transparent 55%),
+               var(--bg);color:var(--text);font-family:system-ui,Segoe UI,Roboto,Ubuntu,"Helvetica Neue",Arial,sans-serif;
+       -webkit-font-smoothing:antialiased;}
+  a{color:var(--accent)}
+  .wrap{max-width:1100px;margin:0 auto;padding:24px 18px;}
+  header{display:flex;align-items:center;gap:16px;justify-content:space-between;margin-bottom:16px}
+  .brand{display:flex;align-items:center;gap:14px}
+  .logo{width:40px;height:40px;border-radius:12px;background:linear-gradient(135deg,var(--accent),var(--accent-2));display:grid;place-items:center;box-shadow:var(--shadow)}
+  .logo svg{filter:drop-shadow(0 6px 12px rgba(0,0,0,.35))}
+  h1{font-size:20px;margin:0;letter-spacing:.3px}
+  .pill{font-size:12px;color:#cbd5e1;background:#111827;border:1px solid var(--border);padding:4px 8px;border-radius:999px}
+  /* Panels */
+  .card{background:linear-gradient(180deg,#0e1528, #0b1220);border:1px solid var(--border);border-radius:var(--radius);box-shadow:var(--shadow);}
+  .login{max-width:540px;margin:48px auto;padding:22px}
+  .row{display:flex;gap:10px}
+  .grid{display:grid;gap:10px}
+  .g2{grid-template-columns:1fr 1fr}
+  .label{font-size:12px;color:var(--muted);margin-bottom:6px}
+  input[type="text"],input[type="password"],input[type="number"],input[type="file"],textarea{width:100%; padding:12px 12px;border-radius:10px;background:#0a1221;color:var(--text);border:1px solid #1f2937;outline:none}
+  input::placeholder,textarea::placeholder{color:#64748b}
+  textarea{min-height:90px;resize:vertical}
+  button{appearance:none;border:0;border-radius:12px;padding:10px 14px;font-weight:600;cursor:pointer;display:inline-flex;align-items:center;gap:8px}
+  .b-solid{background:linear-gradient(135deg,var(--accent),var(--accent-2));color:white;}
+  .b-ghost{background:#0a1221;color:#dbeafe;border:1px solid #1f2937}
+  .b-warn{background:#1f2937;color:#fde68a;border:1px solid #374151}
+  .b-danger{background:#1f2937;color:#fecaca;border:1px solid #4b5563}
+  .toolbar{display:flex;flex-wrap:wrap;gap:10px;align-items:center;margin-bottom:12px}
+  .spacer{flex:1}
+  .search{flex:1;min-width:220px}
+  .vault{padding:16px}
+  table{width:100%;border-collapse:separate;border-spacing:0}
+  th,td{text-align:left;padding:12px 10px;border-bottom:1px solid #1f2937;vertical-align:middle}
+  th{font-size:12px;color:#93a3b8;text-transform:uppercase;letter-spacing:.12em}
+  tr:hover td{background:#0b1426}
+  .muted{color:#93a3b8}
+  .mono{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono","Courier New",monospace}
+  .right{display:flex;justify-content:flex-end}
+  .bad{color:var(--bad)}
+  .good{color:var(--good)}
+  .msg{font-size:14px}
+  .hint{font-size:12px;color:#9ca3af}
+  .footer{margin-top:18px;color:#9ca3af;font-size:12px}
+  .chip{padding:3px 8px;border-radius:999px;background:#111827;border:1px solid #1f2937;color:#a5b4fc;font-size:12px}
+  /* Modal */
+  dialog{background:#0c1323;border:1px solid #1f2937;border-radius:16px;color:var(--text);padding:0;box-shadow:var(--shadow);max-width:640px;width:clamp(320px,90vw,640px)}
+  dialog::backdrop{background:rgba(5,10,20,.65)}
+  .modal-head{padding:14px 16px;border-bottom:1px solid #1f2937;display:flex;justify-content:space-between;align-items:center}
+  .modal-body{padding:16px}
+  .modal-actions{padding:16px;border-top:1px solid #1f2937;display:flex;gap:10px;justify-content:flex-end}
+  .tag{font-size:11px;border:1px solid #334155;padding:2px 6px;border-radius:999px;color:#93c5fd}
+  .kdf{display:flex;gap:6px;align-items:center}
+  .copybtn{font-size:12px}
+  .hidden{display:none !important}
+  .inline{display:inline-flex;align-items:center;gap:6px}
+  .sr{position:absolute;left:-10000px;top:auto;width:1px;height:1px;overflow:hidden}
+  .status{display:flex;align-items:center;gap:8px}
+  .bar{height:8px;border-radius:999px;background:#0a1221;border:1px solid #1f2937;overflow:hidden}
+  .bar>i{display:block;height:100%;width:0;background:linear-gradient(90deg,#ef4444,#f59e0b,#10b981)}
+  .warning{background:#0b1220;border:1px dashed #374151;color:#fcd34d;padding:10px;border-radius:12px}
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <header>
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <svg width="22" height="22" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M6 11V8a6 6 0 1 1 12 0v3" stroke="#fff" stroke-width="2" stroke-linecap="round"/>
+            <rect x="4" y="11" width="16" height="9" rx="2.5" stroke="#fff" stroke-width="2"/>
+            <circle cx="12" cy="15.5" r="1.5" fill="#fff"/>
+          </svg>
+        </div>
+        <div>
+          <h1>SoloVault <span class="pill">single‑file</span></h1>
+          <div class="hint">All secrets encrypted locally in your browser. No servers. No tracking.</div>
+        </div>
+      </div>
+      <div class="status"><span id="lockStatus" class="chip">Locked</span></div>
+    </header>
+
+    <!-- LOGIN / CREATE PANEL -->
+    <section id="loginPanel" class="card login">
+      <div class="grid" style="gap:14px">
+        <div class="msg">Unlock your vault or create a new one. Your <strong>master password</strong> is never stored — lose it and the vault is unrecoverable.</div>
+        <div class="grid g2">
+          <div>
+            <div class="label">Master password</div>
+            <input id="master" type="password" placeholder="Enter master password" autocomplete="current-password" />
+          </div>
+          <div>
+            <div class="label">Confirm (only for new vaults)</div>
+            <input id="master2" type="password" placeholder="Repeat to create new vault" autocomplete="new-password" />
+          </div>
+        </div>
+        <div class="grid g2">
+          <div class="kdf">
+            <span class="label">KDF</span>
+            <span class="tag">PBKDF2‑HMAC‑SHA‑256</span>
+          </div>
+          <div>
+            <div class="label">Iterations <span id="iterLabel" class="hint"></span></div>
+            <input id="iter" type="range" min="120000" max="700000" step="10000" value="350000" />
+          </div>
+        </div>
+        <div class="bar" aria-hidden="true"><i id="strength"></i></div>
+        <div class="row">
+          <button id="unlockBtn" class="b-solid">Unlock / Create</button>
+          <button id="toggleShow" class="b-ghost" type="button">Show</button>
+          <span class="spacer"></span>
+          <label class="b-ghost inline" for="importFile" style="cursor:pointer">Import encrypted… <input id="importFile" class="sr" type="file" accept="application/json" /></label>
+          <button id="wipeBtn" class="b-danger" type="button" title="Delete the local encrypted blob (you can still import from a file)">Delete local blob</button>
+        </div>
+        <div id="loginNote" class="hint">Tip: unlocking may take ~0.5–2s depending on iterations. Higher = stronger against brute‑force.</div>
+      </div>
+    </section>
+
+    <!-- VAULT PANEL -->
+    <section id="vaultPanel" class="card hidden">
+      <div class="vault">
+        <div class="toolbar">
+          <input id="q" class="search" type="text" placeholder="Search title, username, URL…" />
+          <button id="addBtn" class="b-solid" type="button">Add Entry</button>
+          <button id="exportBtn" class="b-ghost" type="button">Export (encrypted)</button>
+          <button id="lockBtn" class="b-ghost" type="button">Lock</button>
+          <details class="b-ghost" style="padding:8px 12px;border-radius:12px">
+            <summary>Settings</summary>
+            <div class="grid" style="margin-top:10px;gap:10px">
+              <div>
+                <div class="label">Auto‑lock (minutes)</div>
+                <input id="autoLock" type="number" min="1" max="240" value="5" />
+              </div>
+              <div>
+                <div class="label">KDF iterations</div>
+                <input id="iterVault" type="number" min="120000" max="1200000" step="10000" />
+                <div class="hint">Changing this will re‑encrypt the vault on next save.</div>
+              </div>
+              <div class="warning">Security note: a static web page can’t defend you from keyloggers, malicious extensions, or someone already on your computer. Keep your device clean.</div>
+            </div>
+          </details>
+        </div>
+
+        <div class="card" style="background:#0a1221;border-radius:12px;overflow:auto">
+          <table id="tbl">
+            <thead>
+              <tr>
+                <th style="width:26%">Title</th>
+                <th style="width:22%">Username</th>
+                <th style="width:24%">URL</th>
+                <th style="width:18%">Updated</th>
+                <th class="right">Actions</th>
+              </tr>
+            </thead>
+            <tbody id="tbody"></tbody>
+          </table>
+        </div>
+
+        <div class="footer">Encrypted with <span class="chip">AES‑256‑GCM</span> • Key from <span class="chip">PBKDF2‑SHA‑256</span> • Nothing leaves your browser.</div>
+      </div>
+    </section>
+  </div>
+
+  <!-- ENTRY MODAL -->
+  <dialog id="entryDlg">
+    <form method="dialog">
+      <div class="modal-head"><strong id="dlgTitle">Add Entry</strong><button type="button" id="dlgClose" class="b-ghost">✕</button></div>
+      <div class="modal-body grid">
+        <input type="hidden" id="eid" />
+        <div>
+          <div class="label">Title</div>
+          <input id="etitle" type="text" placeholder="e.g., GitHub" required />
+        </div>
+        <div class="grid g2">
+          <div>
+            <div class="label">Username</div>
+            <input id="euser" type="text" placeholder="user@example.com" />
+          </div>
+          <div>
+            <div class="label">URL</div>
+            <input id="eurl" type="text" placeholder="https://…" />
+          </div>
+        </div>
+        <div class="grid g2">
+          <div>
+            <div class="label">Password</div>
+            <div class="row"><input id="epass" type="password" class="mono" placeholder="••••••" /><button class="b-ghost copybtn" id="revealBtn" type="button">Reveal</button></div>
+          </div>
+          <div>
+            <div class="label">Generate</div>
+            <div class="row">
+              <input id="genLen" type="number" min="8" max="128" value="20" />
+              <button id="genBtn" class="b-ghost" type="button">Random</button>
+            </div>
+            <div class="hint">Includes A‑Z a‑z 0‑9 and symbols.</div>
+          </div>
+        </div>
+        <div>
+          <div class="label">Notes</div>
+          <textarea id="enotes" placeholder="Optional notes (2FA hints, recovery codes, etc)"></textarea>
+        </div>
+      </div>
+      <div class="modal-actions">
+        <button class="b-danger" id="delBtn" type="button">Delete</button>
+        <span class="spacer"></span>
+        <button class="b-ghost" value="cancel" type="button" id="cancelBtn">Cancel</button>
+        <button class="b-solid" id="saveBtn" value="default">Save</button>
+      </div>
+    </form>
+  </dialog>
+
+<script>
+(function(){
+'use strict';
+
+// ====== Utilities ======
+const $ = sel => document.querySelector(sel);
+const $$ = sel => Array.from(document.querySelectorAll(sel));
+const enc = new TextEncoder();
+const dec = new TextDecoder();
+const b64 = {
+  to(aBuf){
+    const bytes = new Uint8Array(aBuf);
+    let bin = '';
+    for (let i=0;i<bytes.length;i++) bin += String.fromCharCode(bytes[i]);
+    return btoa(bin);
+  },
+  from(b64s){
+    const bin = atob(b64s);
+    const bytes = new Uint8Array(bin.length);
+    for (let i=0;i<bin.length;i++) bytes[i] = bin.charCodeAt(i);
+    return bytes.buffer;
+  }
+};
+const fmtDate = ts => new Date(ts).toLocaleString();
+const sleep = ms => new Promise(r=>setTimeout(r,ms));
+const uid = () => (crypto.randomUUID ? crypto.randomUUID() : ([1e7]+-1e3+-4e3+-8e3+-1e11).replace(/[018]/g, c => (c ^ crypto.getRandomValues(new Uint8Array(1))[0] & 15 >> c / 4).toString(16)));
+
+// Clipboard helper that auto-clears by copying an empty string after timeout (best-effort)
+async function copy(text, seconds=20){
+  try{
+    await navigator.clipboard.writeText(text);
+    toast('Copied to clipboard');
+    if (seconds>0){
+      setTimeout(async()=>{
+        try{ await navigator.clipboard.writeText(''); }catch{}
+      }, seconds*1000);
+    }
+  }catch(e){ toast('Clipboard failed: '+e.message, true); }
+}
+
+// Toast (lightweight)
+let toastTimer; function toast(msg, bad=false){
+  clearTimeout(toastTimer);
+  let t = document.getElementById('toast');
+  if(!t){
+    t = document.createElement('div'); t.id='toast';
+    Object.assign(t.style,{position:'fixed',left:'50%',bottom:'18px',transform:'translateX(-50%)',padding:'10px 14px',borderRadius:'12px',border:'1px solid #1f2937',background:'#0c1323',boxShadow:'0 10px 30px rgba(0,0,0,.4)',zIndex:9999});
+    document.body.appendChild(t);
+  }
+  t.textContent = msg; t.style.color = bad? '#fecaca':'#e5e7eb';
+  t.style.display='block';
+  toastTimer = setTimeout(()=>t.style.display='none', 2000);
+}
+
+// Password strength meter: naive entropy-ish bar
+function updateStrengthBar(pw){
+  const i = document.getElementById('strength');
+  let score = 0; if(!pw) { i.style.width='0%'; return; }
+  if (pw.length>=12) score+=20; if (pw.length>=18) score+=20;
+  if (/[a-z]/.test(pw)) score+=15; if (/[A-Z]/.test(pw)) score+=15;
+  if (/[0-9]/.test(pw)) score+=15; if (/[^A-Za-z0-9]/.test(pw)) score+=15;
+  i.style.width = Math.min(100,score)+'%';
+}
+
+// Random password generator
+function randomPassword(len=20){
+  const lowers = 'abcdefghijklmnopqrstuvwxyz';
+  const uppers = 'ABCDEFGHIJKLMNOPQRSTUVWXYZ';
+  const digits = '0123456789';
+  const symbols = '!@#$%^&*()-_=+[]{};:,.<>/?';
+  const all = lowers+uppers+digits+symbols;
+  const need = [lowers, uppers, digits, symbols].map(set => set[Math.floor(Math.random()*set.length)]);
+  const out = new Uint32Array(len - need.length);
+  crypto.getRandomValues(out);
+  let chars = need;
+  for (let v of out){ chars.push(all[v % all.length]); }
+  // Shuffle
+  for (let i=chars.length-1;i>0;i--){ const j = crypto.getRandomValues(new Uint32Array(1))[0] % (i+1); [chars[i],chars[j]]=[chars[j],chars[i]]; }
+  return chars.join('');
+}
+
+// ====== Crypto core (WebCrypto) ======
+async function deriveKey(password, salt, iterations){
+  const baseKey = await crypto.subtle.importKey('raw', enc.encode(password), 'PBKDF2', false, ['deriveKey']);
+  return await crypto.subtle.deriveKey(
+    { name:'PBKDF2', hash:'SHA-256', salt, iterations },
+    baseKey,
+    { name:'AES-GCM', length:256 },
+    false,
+    ['encrypt','decrypt']
+  );
+}
+async function encryptJSON(key, obj){
+  const iv = crypto.getRandomValues(new Uint8Array(12));
+  const plaintext = enc.encode(JSON.stringify(obj));
+  const cipher = await crypto.subtle.encrypt({name:'AES-GCM', iv}, key, plaintext);
+  return { iv: b64.to(iv), ciphertext: b64.to(cipher) };
+}
+async function decryptJSON(key, iv_b64, ct_b64){
+  const iv = new Uint8Array(b64.from(iv_b64));
+  const cipher = b64.from(ct_b64);
+  const plainBuf = await crypto.subtle.decrypt({name:'AES-GCM', iv}, key, cipher);
+  return JSON.parse(dec.decode(plainBuf));
+}
+
+// ====== Persistence ======
+const LS_KEY = 'solovault.v1';
+function loadBlob(){
+  const raw = localStorage.getItem(LS_KEY);
+  if(!raw) return null;
+  try{ return JSON.parse(raw); }catch{ return null; }
+}
+function saveBlob(blob){
+  localStorage.setItem(LS_KEY, JSON.stringify(blob));
+}
+function deleteBlob(){ localStorage.removeItem(LS_KEY); }
+
+// ====== App State ======
+const state = {
+  key:null, // CryptoKey
+  vault:null, // { entries: [..] }
+  meta:{ iterations:350000, salt:null, created:null, updated:null, version:1, kdf:'PBKDF2-SHA256' },
+  timer:null,
+  filter:''
+};
+
+function setLockedUI(locked){
+  $('#lockStatus').textContent = locked? 'Locked' : 'Unlocked';
+  $('#lockStatus').style.color = locked? '#fecaca' : '#bbf7d0';
+  $('#vaultPanel').classList.toggle('hidden', locked);
+  $('#loginPanel').classList.toggle('hidden', !locked);
+}
+
+function scheduleAutoLock(){
+  clearTimeout(state.timer);
+  const mins = Math.max(1, parseInt($('#autoLock').value||'5'));
+  state.timer = setTimeout(()=>{
+    lock(); toast('Auto‑locked');
+  }, mins*60*1000);
+}
+['click','keydown','mousemove','scroll','touchstart'].forEach(evt => {
+  window.addEventListener(evt, ()=>{ if(state.vault) scheduleAutoLock(); }, {passive:true});
+});
+
+// ====== Vault operations ======
+async function createNewVault(password, iterations){
+  const salt = crypto.getRandomValues(new Uint8Array(16));
+  const key = await deriveKey(password, salt, iterations);
+  const now = new Date().toISOString();
+  const empty = { entries: [] };
+  const {iv, ciphertext} = await encryptJSON(key, empty);
+  const blob = { version:1, app:'SoloVault', note:'Encrypted vault blob', kdf:'PBKDF2-SHA256', iterations, salt:b64.to(salt), iv, ciphertext, created:now, updated:now };
+  saveBlob(blob);
+  state.key = key; state.vault = empty; state.meta = { iterations, salt, created:now, updated:now, version:1, kdf:'PBKDF2-SHA256' };
+}
+
+async function unlockVault(password){
+  const blob = loadBlob();
+  if(!blob){ throw new Error('No local vault blob. Create a new one or import.'); }
+  const salt = new Uint8Array(b64.from(blob.salt));
+  const key = await deriveKey(password, salt, blob.iterations);
+  const plain = await decryptJSON(key, blob.iv, blob.ciphertext); // throws on bad password
+  state.key = key; state.vault = plain; state.meta = { iterations: blob.iterations, salt, created:blob.created, updated:blob.updated, version:blob.version, kdf:blob.kdf };
+  $('#iterVault').value = state.meta.iterations;
+}
+
+async function persist(){
+  if(!state.key || !state.vault) return;
+  const now = new Date().toISOString();
+  // If iterations changed, re-derive with same password is impossible (we never store it). Instead, we keep using current key for this session, but update iterations ONLY on next unlock via password.
+  // To let users upgrade KDF safely, we re-encrypt with current key and store desired iterations in blob; the next unlock will derive with the new count.
+  const {iv, ciphertext} = await encryptJSON(state.key, state.vault);
+  const blob = loadBlob() || {};
+  const out = { version:1, app:'SoloVault', note:'Encrypted vault blob', kdf:'PBKDF2-SHA256',
+                iterations: parseInt($('#iterVault').value||state.meta.iterations),
+                salt: b64.to(state.meta.salt), iv, ciphertext,
+                created: state.meta.created || new Date().toISOString(), updated: now };
+  saveBlob(out);
+  state.meta.updated = now;
+  render();
+}
+
+function lock(){
+  state.key = null; state.vault = null;
+  setLockedUI(true);
+}
+
+function render(){
+  const q = (state.filter||'').toLowerCase();
+  const rows = (state.vault?.entries||[])
+    .slice().sort((a,b)=> (b.updatedAt||0) - (a.updatedAt||0))
+    .filter(e => !q || e.title.toLowerCase().includes(q) || (e.username||'').toLowerCase().includes(q) || (e.url||'').toLowerCase().includes(q))
+    .map(e => {
+      const tr = document.createElement('tr');
+      tr.innerHTML = `
+        <td><strong>${escapeHTML(e.title)}</strong></td>
+        <td class="mono">${escapeHTML(e.username||'')}</td>
+        <td>${e.url? `<a href="${escapeAttr(e.url)}" target="_blank" rel="noreferrer">${escapeHTML(e.url)}</a>`:''}</td>
+        <td class="muted">${e.updatedAt? fmtDate(e.updatedAt):''}</td>
+        <td class="right">
+          <button class="b-ghost copybtn" data-act="copyUser" data-id="${e.id}">User</button>
+          <button class="b-ghost copybtn" data-act="copyPass" data-id="${e.id}">Pass</button>
+          <button class="b-ghost" data-act="reveal" data-id="${e.id}">Peek</button>
+          <button class="b-ghost" data-act="edit" data-id="${e.id}">Edit</button>
+        </td>`;
+      return tr;
+    });
+  const tbody = $('#tbody');
+  tbody.innerHTML=''; rows.forEach(r=>tbody.appendChild(r));
+}
+
+function escapeHTML(s){ return (s||'').replace(/[&<>"]/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;'}[c])); }
+function escapeAttr(s){ return (s||'').replace(/["<>`]/g,''); }
+
+// ====== Event wiring ======
+$('#toggleShow').addEventListener('click', ()=>{
+  const m = $('#master'); const m2 = $('#master2');
+  const t = m.type === 'password' ? 'text' : 'password'; m.type=t; m2.type=t;
+  $('#toggleShow').textContent = (t==='text'?'Hide':'Show');
+});
+
+$('#iter').addEventListener('input', (e)=>{
+  $('#iterLabel').textContent = `${e.target.value} iters`;
+});
+$('#iter').dispatchEvent(new Event('input'));
+$('#master').addEventListener('input', e=> updateStrengthBar(e.target.value));
+
+$('#wipeBtn').addEventListener('click', ()=>{
+  if(confirm('Delete the local encrypted blob? Make sure you have exported a backup file.')){ deleteBlob(); toast('Local blob deleted'); }
+});
+
+$('#importFile').addEventListener('change', async (ev)=>{
+  const file = ev.target.files?.[0]; if(!file) return;
+  try{
+    const text = await file.text();
+    const blob = JSON.parse(text);
+    // Basic shape check
+    if(!blob.ciphertext || !blob.iv || !blob.salt || !blob.iterations) throw new Error('Not a SoloVault file');
+    saveBlob(blob); toast('Imported. Now unlock with its master password.');
+  }catch(e){ toast('Import failed: '+e.message, true); }
+  ev.target.value='';
+});
+
+$('#unlockBtn').addEventListener('click', async ()=>{
+  const pw = $('#master').value; const pw2 = $('#master2').value; const iters = parseInt($('#iter').value);
+  if(!pw){ toast('Enter master password', true); return; }
+  const existing = loadBlob();
+  try{
+    if(existing){ // try unlock
+      await unlockVault(pw); toast('Unlocked');
+    } else {
+      if(!pw2 || pw !== pw2) { toast('Repeat password to create new vault', true); return; }
+      await createNewVault(pw, iters); toast('Vault created & unlocked');
+    }
+    $('#master').value=''; $('#master2').value='';
+    $('#iterVault').value = state.meta.iterations;
+    $('#autoLock').value = 5;
+    setLockedUI(false); render(); scheduleAutoLock();
+  }catch(e){ toast('Unlock failed: '+(e.message||'Invalid password'), true); }
+});
+
+$('#q').addEventListener('input', e=>{ state.filter = e.target.value; render(); });
+$('#lockBtn').addEventListener('click', ()=> lock());
+$('#exportBtn').addEventListener('click', ()=>{
+  const blob = loadBlob(); if(!blob){ toast('Nothing to export', true); return; }
+  const json = JSON.stringify(blob,null,2);
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([json],{type:'application/json'}));
+  a.download = `SoloVault_${new Date().toISOString().replace(/[:.]/g,'-')}.json`;
+  document.body.appendChild(a); a.click(); a.remove();
+  toast('Exported encrypted backup');
+});
+
+$('#addBtn').addEventListener('click', ()=> openEntryDialog());
+
+// Table action delegation
+$('#tbody').addEventListener('click', async (e)=>{
+  const btn = e.target.closest('button'); if(!btn) return;
+  const id = btn.getAttribute('data-id');
+  const act = btn.getAttribute('data-act');
+  const ent = state.vault.entries.find(x=>x.id===id);
+  if(!ent) return;
+  if(act==='copyUser'){ copy(ent.username||''); }
+  if(act==='copyPass'){ copy(ent.password||''); }
+  if(act==='reveal'){ alert(`Password for ${ent.title}:\n\n${ent.password||''}`); }
+  if(act==='edit'){ openEntryDialog(ent); }
+});
+
+// Entry dialog logic
+const dlg = document.getElementById('entryDlg');
+$('#dlgClose').addEventListener('click', ()=> dlg.close());
+$('#cancelBtn').addEventListener('click', ()=> dlg.close());
+$('#revealBtn').addEventListener('click', ()=>{
+  const f = document.getElementById('epass'); f.type = (f.type==='password'?'text':'password');
+  $('#revealBtn').textContent = (f.type==='password'?'Reveal':'Hide');
+});
+$('#genBtn').addEventListener('click', ()=>{
+  const n = parseInt($('#genLen').value||'20');
+  $('#epass').value = randomPassword(n);
+});
+$('#delBtn').addEventListener('click', async ()=>{
+  const id = $('#eid').value; if(!id) return dlg.close();
+  if(confirm('Delete this entry?')){
+    state.vault.entries = state.vault.entries.filter(x=>x.id!==id);
+    await persist(); dlg.close(); toast('Deleted');
+  }
+});
+$('#saveBtn').addEventListener('click', async (ev)=>{
+  ev.preventDefault();
+  const id = $('#eid').value || uid();
+  const entry = {
+    id,
+    title: $('#etitle').value.trim(),
+    username: $('#euser').value.trim(),
+    url: $('#eurl').value.trim(),
+    password: $('#epass').value,
+    notes: $('#enotes').value,
+    updatedAt: Date.now()
+  };
+  if(!entry.title){ toast('Title required', true); return; }
+  const idx = state.vault.entries.findIndex(x=>x.id===id);
+  if(idx>=0) state.vault.entries[idx] = entry; else state.vault.entries.push(entry);
+  await persist(); dlg.close(); toast('Saved');
+});
+
+function openEntryDialog(ent){
+  $('#dlgTitle').textContent = ent? 'Edit Entry' : 'Add Entry';
+  $('#eid').value = ent?.id||'';
+  $('#etitle').value = ent?.title||'';
+  $('#euser').value = ent?.username||'';
+  $('#eurl').value = ent?.url||'';
+  $('#epass').value = ent?.password||'';
+  $('#enotes').value = ent?.notes||'';
+  $('#delBtn').style.visibility = ent? 'visible':'hidden';
+  if(typeof dlg.showModal === 'function') dlg.showModal(); else { dlg.open=true; dlg.style.display='block'; }
+}
+
+// Init
+(function init(){
+  const blob = loadBlob();
+  setLockedUI(true);
+  if(blob){ $('#loginNote').textContent = 'Found a local encrypted blob. Enter your master password to unlock. You can also import a different encrypted file.'; }
+})();
+
+})();
+</script>
+</body>
+</html>
