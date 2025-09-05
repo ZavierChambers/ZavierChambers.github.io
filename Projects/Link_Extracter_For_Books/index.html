@@ -33,6 +33,19 @@
     .list{padding:10px 0 0;margin:0}
     .list li{list-style:none;padding:6px 0;border-bottom:1px dashed #27356f;word-break:break-all}
     .kbd{border:1px solid #33417a;border-bottom-width:2px;padding:.08rem .45rem;border-radius:6px;background:#0b1433;white-space:nowrap}
+    /* ---- Stabilize layout to prevent bouncing ---- */
+    :root{ --h-drop:160px; --h-results:280px; --h-log:260px; }
+    /* Keep cards roughly same height as initial load */
+    .section-upload{min-height:320px}
+    .section-results{min-height:320px}
+    /* Fixed-size drop area so it doesn't grow/shrink */
+    .dropzone{height:var(--h-drop); display:grid; place-content:center}
+    /* Results list: fixed viewport with scrolling instead of pushing layout */
+    .list{height:var(--h-results); overflow:auto; padding:8px 0 0; margin:0}
+    .list li{list-style:none; padding:4px 0; border-bottom:1px dashed #27356f; display:flex; align-items:center; min-height:28px}
+    .list a{display:block; white-space:nowrap; overflow:hidden; text-overflow:ellipsis; width:100%}
+    /* Log window: fixed height */
+    .log{height:var(--h-log); max-height:var(--h-log)}
   </style>
 </head>
 <body>
@@ -43,7 +56,7 @@
 
   <main class="wrap">
     <section class="grid">
-      <div class="card p">
+      <div class="card p section-upload">
         <h2 style="margin-top:0">1) Choose a PDF</h2>
         <div id="drop" class="dropzone" tabindex="0" role="button" aria-label="Upload or drop a PDF here">
           <input id="file" type="file" accept="application/pdf" class="hidden" />
@@ -57,7 +70,7 @@
         <p class="muted" style="margin-top:10px">Your file stays local — nothing is uploaded.</p>
       </div>
 
-      <div class="card p">
+      <div class="card p section-results">
         <h2 style="margin-top:0">2) Results</h2>
         <div class="flex" style="align-items:center">
           <div class="muted">Unique URLs found: <strong id="count">0</strong></div>
@@ -98,7 +111,7 @@
     }
   </script>
   <!-- jsPDF (PDF creation) -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/jspdf/2.5.1/jspdf.umd.min.js" integrity="sha512-hLQ0GxI8QmQ4Tlp8Jb7U2a1xwq5H0l8iXxQk3rQq0K2mC+e9cBgK2J9ZkqTg5vVd4g7l+T8gT0Y5qQqv9u1UO2A==" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
+  <script src="https://cdn.jsdelivr.net/npm/jspdf@2.5.1/dist/jspdf.umd.min.js" crossorigin="anonymous" referrerpolicy="no-referrer"></script>
 
   <script>
   // ======= Utility DOM helpers =======
@@ -201,7 +214,7 @@
       const a = document.createElement('a');
       a.href = u.startsWith('http://')||u.startsWith('https://') ? u : `http://${u}`;
       a.target = '_blank'; a.rel = 'noopener';
-      a.textContent = u;
+      a.textContent = u; a.title = u;
       li.appendChild(a);
       listEl.appendChild(li);
     });
@@ -241,49 +254,55 @@
     log('📋 Copied all URLs to clipboard.');
   });
 
-  downloadBtn.addEventListener('click', async ()=>{
+  downloadBtn.addEventListener('click', async () => {
     if (!foundUrls.length) return;
-    const nameNoExt = (currentFile?.name || 'links').replace(/\.pdf$/i,'');
+    const nameNoExt = (currentFile?.name || 'links').replace(/\.pdf$/i, '');
     setStatus('Building PDF…','warn');
-
-    // Build a simple, clean PDF of clickable links using jsPDF
-    const { jsPDF } = window.jspdf;
-    const doc = new jsPDF({ unit:'pt', format:'a4' });
-
-    const margin = 48;
-    const lineH = 18; // 12pt font → ~18pt leading
-    let x = margin, y = margin + 24;
-
-    doc.setFont('helvetica','bold');
-    doc.setFontSize(14);
-    doc.text('Clickable URLs Extracted from PDF', x, y);
-    y += 18;
-    doc.setFont('helvetica','normal');
-    doc.setFontSize(12);
-
-    for (const url of foundUrls){
-      const full = (url.startsWith('http://')||url.startsWith('https://')) ? url : `http://${url}`;
-      // Wrap long URLs within page width
-      const maxWidth = doc.internal.pageSize.getWidth() - margin*2;
-      const lines = doc.splitTextToSize(url, maxWidth);
-
-      for (let i=0;i<lines.length;i++){
-        if (y > doc.internal.pageSize.getHeight() - margin){
-          doc.addPage();
-          y = margin;
-        }
-        const line = lines[i];
-        doc.setTextColor(0, 0, 255);
-        doc.textWithLink(line, x, y, { url: full });
-        y += lineH;
+    try {
+      if (!window.jspdf || !window.jspdf.jsPDF) {
+        throw new Error('jsPDF not loaded');
       }
-      // Small spacer between entries
-      y += 6;
-    }
+      const { jsPDF } = window.jspdf;
+      const doc = new jsPDF({ unit:'pt', format:'a4' });
 
-    doc.save(`${nameNoExt}_extracted_links.pdf`);
-    setStatus('Saved','ok');
-    log('💾 Clickable PDF downloaded.');
+      const margin = 48;
+      const lineH = 18; // 12pt font → ~18pt leading
+      let x = margin, y = margin + 24;
+
+      doc.setFont('helvetica','bold');
+      doc.setFontSize(14);
+      doc.text('Clickable URLs Extracted from PDF', x, y);
+      y += 18;
+      doc.setFont('helvetica','normal');
+      doc.setFontSize(12);
+
+      for (const url of foundUrls){
+        const full = (url.startsWith('http://')||url.startsWith('https://')) ? url : `http://${url}`;
+        const maxWidth = doc.internal.pageSize.getWidth() - margin*2;
+        const lines = doc.splitTextToSize(url, maxWidth);
+
+        for (let i=0;i<lines.length;i++){
+          if (y > doc.internal.pageSize.getHeight() - margin){
+            doc.addPage();
+            y = margin;
+          }
+          const line = lines[i];
+          doc.setTextColor(0, 0, 255);
+          doc.textWithLink(line, x, y, { url: full });
+          y += lineH;
+        }
+        y += 6;
+      }
+
+      doc.save(`${nameNoExt}_extracted_links.pdf`);
+      setStatus('Saved','ok');
+      log('💾 Clickable PDF downloaded.');
+    } catch (err) {
+      console.error(err);
+      setStatus('Error','err');
+      log('Error (Download): ' + (err?.message || err));
+      alert('Could not build the PDF. If the issue persists, try a hard refresh.');
+    }
   });
 
   // Initialize
