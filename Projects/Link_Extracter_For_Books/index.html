@@ -17,7 +17,9 @@
     .card{background:var(--card);border:1px solid #1d2954;border-radius:16px;box-shadow:0 10px 30px rgba(0,0,0,.25)}
     .flex{display:flex;gap:16px;flex-wrap:wrap}
     .p{padding:18px}
-    .dropzone{border:2px dashed #2a3b79;border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:.2s}
+    .dropzone{border:2px dashed #2a3b79;border-radius:14px;padding:20px;text-align:center;cursor:pointer;transition:.2s;position:relative;height:var(--h-drop);display:grid;place-content:center}
+    .file-overlay{position:absolute;inset:0;opacity:0;cursor:pointer;width:100%;height:100%}
+    .file-overlay:focus{outline:2px solid #7aa2ff;outline-offset:-2px}
     .dropzone:hover{background:#0f1836}
     .hidden{display:none}
     button{background:var(--accent);border:none;color:#07102a;padding:10px 14px;border-radius:12px;font-weight:700;cursor:pointer}
@@ -61,7 +63,7 @@
       <div class="card p section-upload">
         <h2 style="margin-top:0">1) Choose a PDF</h2>
         <div id="drop" class="dropzone" tabindex="0" role="button" aria-label="Upload or drop a PDF here">
-          <input id="file" type="file" accept="application/pdf" class="hidden" />
+          <input id="file" type="file" accept="application/pdf" class="file-overlay" aria-label="Choose a PDF file" />
           <p style="margin:6px 0 12px">Drag & drop your PDF here, or click to browse.</p>
           <div class="muted" id="fileInfo">No file selected.</div>
         </div>
