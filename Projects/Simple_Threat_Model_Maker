@@ -1,0 +1,338 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+<title>Simple Threat Model</title>
+<style>
+  :root{
+    --bg:#0b1220; --panel:#0f172a; --text:#e2e8f0; --muted:#94a3b8; --line:#1e293b; --accent:#7c3aed;
+    --low:#16a34a; --mod:#d97706; --high:#ea580c; --crit:#dc2626; --chip:#182235;
+    --radius:12px;
+  }
+  [data-theme="light"]{
+    --bg:#f6f7fb; --panel:#ffffff; --text:#0b1220; --muted:#475569; --line:#e2e8f0; --chip:#f1f5f9; --accent:#6d28d9;
+  }
+  *{box-sizing:border-box}
+  html,body{height:100%}
+  body{margin:0;font:15px/1.5 system-ui, -apple-system, Segoe UI, Inter, Roboto, Arial;background:var(--bg);color:var(--text)}
+  header{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);z-index:5}
+  .bar{max-width:1000px;margin:0 auto;padding:12px 14px;display:flex;gap:10px;align-items:center}
+  .title{font-weight:800}
+  .sp{flex:1}
+  .btn{border:1px solid var(--line);background:transparent;color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
+  .btn.primary{background:var(--accent);border-color:transparent;color:#fff}
+  main{max-width:1000px;margin:16px auto;display:grid;gap:12px;padding:0 14px}
+  .card{background:var(--panel);border:1px solid var(--line);border-radius:var(--radius)}
+  .pad{padding:12px}
+  h3{margin:0 0 8px;color:var(--muted);font-size:14px;letter-spacing:.3px}
+
+  /* compact heatmap */
+  .heat{display:grid;grid-template-columns:repeat(5,1fr);border:1px solid var(--line);border-radius:10px;overflow:hidden}
+  .cell{aspect-ratio:1/1;display:flex;align-items:center;justify-content:center;border-right:1px solid var(--line);border-bottom:1px solid var(--line);font-weight:700}
+  .cell:nth-child(5n){border-right:0}
+  .cell:nth-last-child(-n+5){border-bottom:0}
+  .low{background:rgba(22,163,74,.18)}
+  .mod{background:rgba(217,119,6,.18)}
+  .high{background:rgba(234,88,12,.18)}
+  .crit{background:rgba(220,38,38,.18)}
+
+  /* table */
+  table{width:100%;border-collapse:separate;border-spacing:0}
+  thead th{position:sticky;top:0;background:var(--panel);border-bottom:1px solid var(--line);text-align:left;color:var(--muted);font-size:12px;padding:8px}
+  tbody td{border-bottom:1px solid var(--line);padding:8px;vertical-align:top}
+  tbody tr:nth-child(even){background:rgba(255,255,255,.02)}
+  .badge{padding:2px 8px;border-radius:999px;border:1px solid var(--line);background:var(--chip);font-size:12px}
+  .risk{font-weight:800;padding:2px 6px;border-radius:8px;border:1px solid var(--line)}
+  .r-low{color:var(--low);}
+  .r-mod{color:var(--mod);}
+  .r-high{color:var(--high);}
+  .r-crit{color:var(--crit);}
+
+  /* inputs */
+  .inp{width:100%;background:rgba(255,255,255,.05);color:var(--text);border:1px solid var(--line);border-radius:10px;padding:8px}
+  .inp:focus{outline:none;border-color:var(--accent);background:rgba(255,255,255,.08)}
+  .row{display:grid;grid-template-columns:1fr 1fr;gap:8px}
+
+  /* dialog */
+  dialog{border:1px solid var(--line);border-radius:12px;background:var(--panel);color:var(--text);max-width:560px;width:calc(100% - 24px)}
+  dialog::backdrop{background:rgba(0,0,0,.5)}
+  .actions{display:flex;gap:8px;justify-content:flex-end}
+
+  footer{border-top:1px solid var(--line)}
+  .foot{max-width:1000px;margin:0 auto;padding:12px 14px;color:var(--muted);display:flex;gap:10px;flex-wrap:wrap}
+  /* helper layout (optional) */
+.help-wrap { display:grid; gap:.75rem; }
+.help-grid { display:grid; gap:.5rem; grid-template-columns:1fr 1fr; }
+.help-card { background:#111827; border:1px solid #374151; border-radius:8px; padding:.75rem; }
+.help-small { color:#9ca3af; font-size:.9rem; }
+
+</style>
+</head>
+<!-- Help dialog -->
+<dialog id="helpDlg">
+  <div class="help-wrap">
+    <h2 style="margin:0 0 .25rem 0;">👋 Quick Start — Simple Threat Model</h2>
+    <p class="help-small">
+      A <em>threat model</em> lists possible bad events, estimates how likely they are and how bad they’d be,
+      then sorts by risk so you fix the biggest problems first.
+    </p>
+
+    <div class="help-grid">
+      <div class="help-card">
+        <h3 style="margin:.25rem 0;">Fields (what they mean)</h3>
+        <ul class="help-small" style="margin:.25rem 0 .5rem 1rem;">
+          <li><strong>Asset</strong> — what you’re protecting (e.g., “User Database”, “Azure AD”).</li>
+          <li><strong>Threat</strong> — the bad thing (e.g., “SQL injection dumps PII”).</li>
+          <li><strong>Likelihood (1–5)</strong> — how probable: 1 Rare • 2 Unlikely • 3 Possible • 4 Likely • 5 Almost certain.</li>
+          <li><strong>Impact (1–5)</strong> — how bad: 1 Negligible • 2 Minor • 3 Moderate • 4 Major • 5 Severe.</li>
+          <li><strong>Risk</strong> — auto computed as <code>L × I</code> (1–25). Higher = bigger risk.</li>
+        </ul>
+      </div>
+
+      <div class="help-card">
+        <h3 style="margin:.25rem 0;">How to use</h3>
+        <ol class="help-small" style="margin:.25rem 0 .5rem 1rem;">
+          <li>Click <strong>Add</strong> and fill in <em>Asset</em> and <em>Threat</em>.</li>
+          <li>Pick <em>Likelihood</em> and <em>Impact</em> with the 1–5 scales.</li>
+          <li>Press <strong>Save</strong> — the table updates and shows color-coded risk.</li>
+          <li>Use <strong>Export</strong> to download your list as JSON.</li>
+        </ol>
+      </div>
+
+      <div class="help-card">
+        <h3 style="margin:.25rem 0;">Scoring tips</h3>
+        <ul class="help-small" style="margin:.25rem 0 .5rem 1rem;">
+          <li><strong>Likelihood</strong>: consider exposure (internet-facing?), exploit maturity (known tools?), history (seen before?).</li>
+          <li><strong>Impact</strong>: consider data sensitivity (PII/PCI), downtime, legal/reporting, blast radius.</li>
+          <li>If unsure, start at <strong>3×3 = 9</strong> (Moderate) and adjust with evidence.</li>
+        </ul>
+      </div>
+
+      <div class="help-card">
+        <h3 style="margin:.25rem 0;">Color bands</h3>
+        <ul class="help-small" style="margin:.25rem 0 .5rem 1rem;">
+          <li><span class="risk low">1–4 Low</span> — monitor</li>
+          <li><span class="risk mod">5–9 Mod</span> — plan fixes</li>
+          <li><span class="risk high">10–16 High</span> — prioritize</li>
+          <li><span class="risk crit">17–25 Critical</span> — act now</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+
+  <div style="text-align:right; margin-top:.75rem;">
+    <button class="secondary" id="closeHelp">Close</button>
+  </div>
+</dialog>
+
+<body>
+  
+<header>
+  <div class="bar">
+    <div class="title">🛡️ Simple Threat Model</div>
+    <div class="sp"></div>
+    <button class="btn" id="themeBtn">Theme</button>
+    <button class="btn" id="helpBtn">Help</button>
+    <button class="btn" id="heatToggle">Heatmap</button>
+    <button class="btn primary" id="newBtn">Add</button>
+    <button class="btn" id="exportBtn">Export</button>
+    <button class="btn" id="importBtn">Import</button>
+    <input type="file" id="file" hidden accept=".json" />
+  </div>
+</header>
+
+<main>
+  <section class="card pad" id="heatSec" style="display:none">
+    <h3>Likelihood × Impact</h3>
+    <div class="heat" id="heat"></div>
+  </section>
+
+  <section class="card pad">
+    <h3>Threats</h3>
+    <table id="tbl">
+      <thead>
+        <tr>
+          <th style="width:18%">Asset</th>
+          <th style="width:28%">Threat</th>
+          <th style="width:12%">Actor</th>
+          <th style="width:8%">L</th>
+          <th style="width:8%">I</th>
+          <th style="width:10%">Risk</th>
+          <th style="width:10%">Status</th>
+          <th style="width:6%"></th>
+        </tr>
+      </thead>
+      <tbody id="tbody"></tbody>
+    </table>
+  </section>
+</main>
+
+<footer>
+  <div class="foot" id="summary">0 threats • Avg risk: 0</div>
+</footer>
+
+<dialog id="dlg">
+  <form method="dialog" id="form" class="pad" style="display:grid;gap:8px">
+    <h3 id="dlgTitle" style="margin-top:0">Add Threat</h3>
+    <input id="id" type="hidden" />
+    <label>Asset<input id="asset" class="inp" placeholder="e.g., User DB" /></label>
+    <label>Threat<input id="threat" class="inp" placeholder="e.g., SQL injection dumps PII" /></label>
+    <div class="row">
+      <label>Actor<select id="actor" class="inp"><option>External</option><option>Insider</option><option>Partner</option><option>Bot</option><option>Nation-State</option></select></label>
+      <label>Status<select id="status" class="inp"><option>Open</option><option>Mitigating</option><option>Accepted</option><option>Closed</option></select></label>
+    </div>
+    <div class="row">
+      <label>Likelihood (1–5)<input id="l" type="number" min="1" max="5" value="3" class="inp" /></label>
+      <label>Impact (1–5)<input id="i" type="number" min="1" max="5" value="3" class="inp" /></label>
+    </div>
+    <div>Risk = <span id="riskView" class="risk">9</span></div>
+    <div class="actions">
+      <button class="btn" value="cancel">Cancel</button>
+      <button class="btn primary" id="saveBtn" value="default">Save</button>
+    </div>
+  </form>
+</dialog>
+
+<script>
+(() => {
+  const $ = s => document.querySelector(s);
+  const $$ = s => Array.from(document.querySelectorAll(s));
+  const key = 'simple_tm_v1';
+  let rows = load();
+  let editing = null;
+
+  // Theme toggle
+  $('#themeBtn').addEventListener('click', () => {
+    const cur = document.documentElement.getAttribute('data-theme');
+    if(cur==='light') document.documentElement.removeAttribute('data-theme');
+    else document.documentElement.setAttribute('data-theme', 'light');
+  });
+
+  // Heatmap toggle
+  $('#heatToggle').addEventListener('click', ()=>{
+    const s = $('#heatSec'); s.style.display = s.style.display==='none' ? 'block' : 'none';
+    renderHeat();
+  });
+
+  // New
+  $('#newBtn').addEventListener('click', () => openDlg());
+
+  // Import/Export
+  $('#exportBtn').addEventListener('click', () => {
+    const blob = new Blob([JSON.stringify(rows, null, 2)], {type:'application/json'});
+    const url = URL.createObjectURL(blob); const a=document.createElement('a');
+    a.href=url; a.download='threats.json'; a.click(); setTimeout(()=>URL.revokeObjectURL(url), 500);
+  });
+  $('#importBtn').addEventListener('click', ()=> $('#file').click());
+  $('#file').addEventListener('change', async (e)=>{
+    const f = e.target.files?.[0]; if(!f) return; const txt = await f.text();
+    try{ rows = JSON.parse(txt)||[]; save(); render(); alert('Imported'); }catch{ alert('Bad JSON'); }
+    e.target.value='';
+  });
+
+  // Dialog logic
+  const dlg = $('#dlg');
+  const riskView = $('#riskView');
+  function openDlg(r){
+    editing = r?.id || null;
+    $('#dlgTitle').textContent = editing ? 'Edit Threat' : 'Add Threat';
+    $('#id').value = r?.id || '';
+    $('#asset').value = r?.asset || '';
+    $('#threat').value = r?.threat || '';
+    $('#actor').value = r?.actor || 'External';
+    $('#status').value = r?.status || 'Open';
+    $('#l').value = r?.l ?? 3;
+    $('#i').value = r?.i ?? 3;
+    updateRisk();
+    dlg.showModal();
+  }
+  function updateRisk(){
+    const l = clamp(Number($('#l').value||0),1,5); const i = clamp(Number($('#i').value||0),1,5);
+    const r = l*i; riskView.textContent = r; riskView.className = 'risk '+riskClass(r);
+  }
+  $('#l').addEventListener('input', updateRisk);
+  $('#i').addEventListener('input', updateRisk);
+  $('#saveBtn').addEventListener('click', (ev)=>{
+    ev.preventDefault();
+    const rec = {
+      id: editing || crypto.randomUUID(),
+      asset: $('#asset').value.trim(), threat: $('#threat').value.trim(),
+      actor: $('#actor').value, status: $('#status').value,
+      l: clamp(Number($('#l').value),1,5), i: clamp(Number($('#i').value),1,5)
+    };
+    if(!rec.asset || !rec.threat){ alert('Asset and Threat are required.'); return; }
+    const idx = rows.findIndex(x=>x.id===rec.id);
+    if(idx>=0) rows[idx]=rec; else rows.unshift(rec);
+    save(); render(); dlg.close();
+  });
+
+  // Table render
+  function render(){
+    const tbody = $('#tbody');
+    const sorted = rows.slice().sort((a,b)=> risk(b)-risk(a));
+    tbody.innerHTML = sorted.map(r => `<tr>
+      <td>${esc(r.asset)}</td>
+      <td>${esc(r.threat)}</td>
+      <td><span class="badge">${esc(r.actor)}</span></td>
+      <td>${r.l}</td>
+      <td>${r.i}</td>
+      <td><span class="${riskClass(risk(r))}"><strong>${risk(r)}</strong></span></td>
+      <td>${esc(r.status)}</td>
+      <td style="text-align:right">
+        <button class="btn" data-edit="${r.id}">Edit</button>
+        <button class="btn" data-del="${r.id}">Del</button>
+      </td>
+    </tr>`).join('');
+
+    $$('#tbody [data-edit]').forEach(b=> b.addEventListener('click',()=> openDlg(rows.find(x=>x.id===b.dataset.edit))));
+    $$('#tbody [data-del]').forEach(b=> b.addEventListener('click',()=> del(b.dataset.del)));
+
+    const avg = rows.length? (rows.reduce((a,x)=>a+risk(x),0)/rows.length).toFixed(2) : 0;
+    $('#summary').textContent = `${rows.length} threats • Avg risk: ${avg}`;
+    renderHeat();
+  }
+
+  // Heatmap (compact)
+  function renderHeat(){
+    const sec = $('#heatSec'); if(sec.style.display==='none') return;
+    const el = $('#heat'); el.innerHTML='';
+    for(let L=1;L<=5;L++) for(let I=1;I<=5;I++){
+      const count = rows.filter(r=> r.l===L && r.i===I).length;
+      const cell = document.createElement('div');
+      const r = L*I; cell.className = 'cell ' + heatClass(r);
+      cell.textContent = count; cell.title = `L${L}×I${I} (risk ${r})`;
+      el.appendChild(cell);
+    }
+  }
+
+  // Helpers
+  const clamp=(n,min,max)=>Math.max(min,Math.min(max,n));
+  const risk = r => Number(r.l)*Number(r.i);
+  const riskClass = r => r<=4 ? 'r-low' : r<=9 ? 'r-mod' : r<=16 ? 'r-high' : 'r-crit';
+  const heatClass = r => r<=4 ? 'low' : r<=9 ? 'mod' : r<=16 ? 'high' : 'crit';
+  const esc = s => (s??'').toString().replace(/[&<>"']/g, m=>({"&":"&amp;","<":"&lt;",">":"&gt;","\"":"&quot;","'":"&#39;"}[m]));
+  function save(){ localStorage.setItem(key, JSON.stringify(rows)); }
+  function load(){ try{return JSON.parse(localStorage.getItem(key)||'[]')}catch{return []} }
+  function del(id){ const i=rows.findIndex(x=>x.id===id); if(i>=0 && confirm('Delete this threat?')){ rows.splice(i,1); save(); render(); } }
+
+  // seed example
+  if(rows.length===0){ rows = [
+    {id:crypto.randomUUID(), asset:'Student Portal DB', threat:'SQL injection dumps PII', actor:'External', status:'Open', l:4, i:5},
+    {id:crypto.randomUUID(), asset:'Azure AD', threat:'Password spraying', actor:'External', status:'Mitigating', l:4, i:3}
+  ]; save(); }
+
+  render();
+})();
+// Help dialog wiring
+const helpDlg = document.getElementById('helpDlg');
+const helpBtn = document.getElementById('helpBtn');
+const closeHelp = document.getElementById('closeHelp');
+
+helpBtn?.addEventListener('click', ()=> helpDlg.showModal());
+closeHelp?.addEventListener('click', ()=> helpDlg.close());
+helpDlg?.addEventListener('click', (e)=> { if (e.target === helpDlg) helpDlg.close(); });
+
+</script>
+</body>
+</html>
