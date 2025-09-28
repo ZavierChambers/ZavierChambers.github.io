@@ -1,0 +1,339 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>CIA Triad — Hacker Terminal Demo</title>
+  <style>
+    :root{
+      --bg: #0a0f0a;
+      --panel: #0d1410;
+      --accent: #00ff88;
+      --accent-dim: #39ffb3;
+      --accent-subtle:#2be08e;
+      --danger:#ff3b3b;
+      --warn:#ffd23f;
+      --muted:#7bdca3;
+      --grid:#0f1f17;
+      --text:#c9ffe1;
+    }
+    @keyframes scan { 0%{background-position:0 -100%} 100%{background-position:0 200%} }
+    @keyframes flicker { 0%,19%,21%,23%,25%,54%,56%,100%{opacity:1} 20%,24%,55%{opacity:.85} }
+    @keyframes glow { from{ text-shadow:0 0 6px var(--accent),0 0 20px var(--accent-subtle)} to{ text-shadow:0 0 10px var(--accent),0 0 30px var(--accent-subtle)} }
+    @keyframes caret { 0%,49%{opacity:1} 50%,100%{opacity:0} }
+    *{box-sizing:border-box}
+    body{
+      margin:0;min-height:100svh;background:radial-gradient(1000px 600px at 20% -20%, #0f1a14, #060a07 60%, #030504 100%), var(--bg);
+      color:var(--text);font:16px/1.45 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;
+    }
+    .noise{position:fixed;inset:0;pointer-events:none;opacity:.04;filter:contrast(150%);
+      background-image:url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="160" height="160"><filter id="n"><feTurbulence type="fractalNoise" baseFrequency="0.9" numOctaves="2" stitchTiles="stitch"/></filter><rect width="100%" height="100%" filter="url(%23n)"/></svg>');}
+    .scan{position:fixed;inset:0;pointer-events:none;opacity:.15;mix-blend-mode:screen;
+      background:linear-gradient(180deg,transparent 0%,rgba(0,255,120,.04) 20%,transparent 40%);
+      background-size:100% 200%;animation:scan 6s linear infinite;}
+    header{
+      padding:18px 20px;border-bottom:1px solid #123826;background:linear-gradient(180deg, rgba(0,255,136,.06), transparent);
+      display:flex;align-items:center;gap:14px;position:sticky;top:0;z-index:2;
+    }
+    .brand{font-size:18px;letter-spacing:.12em;color:var(--accent);text-transform:uppercase;animation:glow 2.8s ease-in-out infinite alternate;white-space:nowrap;}
+    .brand .dot{color:#9cffcb}
+    .header-meta{opacity:.8;font-size:12px}
+    main{max-width:1100px;margin:0 auto;padding:24px;display:grid;gap:18px}
+
+    .terminal{
+      background:linear-gradient(180deg, rgba(0,255,136,.03), transparent), var(--panel);
+      border:1px solid #183e2c;border-radius:14px;padding:16px;box-shadow:0 0 0 1px #0a2417 inset,0 8px 30px rgba(0,0,0,.35);
+    }
+    .row{display:flex;flex-wrap:wrap;gap:14px;align-items:center}
+    .spacer{flex:1}
+    .pill{border:1px solid #1a5a3a;background:#0b1913;padding:6px 10px;border-radius:999px;color:#9cffcb;font-size:12px}
+
+    /* Toggle switch */
+    .toggle{--w:56px;--h:28px;position:relative;width:var(--w);height:var(--h);background:#08341f;border:1px solid #145a39;border-radius:999px;cursor:pointer;transition:.2s;box-shadow:inset 0 0 0 2px #062616}
+    .toggle input{display:none}
+    .knob{position:absolute;top:2px;left:2px;width:calc(var(--h) - 4px);height:calc(var(--h) - 4px);background:#0f3;border-radius:50%;transition:.2s;box-shadow:0 0 10px rgba(0,255,120,.6)}
+    .toggle.off{background:#160808;border-color:#552020}
+    .toggle.off .knob{left:calc(var(--w) - var(--h) + 2px);background:#ff4545;box-shadow:0 0 10px rgba(255,80,80,.6)}
+
+    .block{display:grid;gap:10px}
+    .label{font-size:13px;color:#9cffcb;opacity:.9}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit, minmax(240px, 1fr));gap:16px}
+
+    textarea, input[type="text"], .data-box{
+      width:100%;padding:12px;resize:vertical;min-height:120px;border-radius:12px;border:1px solid #154f33;background:#06140f;color:var(--text);
+      outline:none;box-shadow:inset 0 0 0 2px #0a2417;caret-color:var(--accent);
+    }
+    textarea[readonly]{opacity:.7}
+
+    .hash-wrap{display:flex;gap:10px;align-items:center;flex-wrap:wrap}
+    .hash-chip{border:1px dashed #1a5a3a;padding:8px 10px;border-radius:10px;font-size:12px;color:#b6ffd9;background:#0b1913}
+    /* NEW: red highlight when integrity fails */
+    .hash-chip.alert{border-color:var(--danger);color:var(--danger);}
+
+    .legend{font-size:13px;color:#9cffcb;opacity:.95}
+    .legend strong{color:var(--accent)}
+    .legend .caret{display:inline-block;width:8px;height:16px;background:var(--accent);margin-left:4px;animation:caret 1.25s steps(1) infinite}
+
+    .status{display:flex;gap:10px;flex-wrap:wrap}
+    .status .ok{color:#9cffcb}
+    .status .bad{color:var(--danger)}
+    .status .warn{color:var(--warn)}
+
+    .footer{opacity:.8;font-size:12px;text-align:center;padding:10px}
+    .kbd{border:1px solid #1a5a3a;padding:0 6px;border-radius:6px;background:#0b1913;color:#b6ffd9}
+    code.inline{border:1px solid #1a5a3a;padding:2px 6px;border-radius:6px;background:#0b1913;color:#cfffef}
+    .card{border:1px solid #153a28;background:#09150f;border-radius:12px;padding:12px}
+    .h{margin:0 0 8px 0;font-weight:700;color:var(--accent)}
+  </style>
+</head>
+<body>
+  <div class="noise"></div>
+  <div class="scan"></div>
+  <header>
+    <div class="brand">C I A <span class="dot">·</span> Terminal</div>
+    <div class="pill">Confidentiality · Integrity · Availability</div>
+    <span class="spacer"></span>
+    <div class="header-meta">Demo • static webapp</div>
+  </header>
+
+  <main>
+    <section class="terminal">
+      <div class="row" style="margin-bottom:12px">
+        <div class="block">
+          <div class="label">C — Confidentiality</div>
+          <div class="row">
+            <div class="toggle" id="toggleC" title="Toggle Confidentiality (encryption on/off)">
+              <input type="checkbox" checked>
+              <div class="knob"></div>
+            </div>
+            <div class="legend">On = encrypted display. Off = plaintext (confidentiality lost)<span class="caret"></span></div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="label">I — Integrity</div>
+          <div class="row">
+            <div class="toggle" id="toggleI" title="Toggle Integrity (editing locked/unlocked)">
+              <input type="checkbox" checked>
+              <div class="knob"></div>
+            </div>
+            <div class="legend">On = edits locked. Off = free edits (hash will change)</div>
+          </div>
+        </div>
+        <div class="block">
+          <div class="label">A — Availability</div>
+          <div class="row">
+            <div class="toggle" id="toggleA" title="Toggle Availability (data present/empty)">
+              <input type="checkbox" checked>
+              <div class="knob"></div>
+            </div>
+            <div class="legend">On = data exists. Off = data wiped (empty)</div>
+          </div>
+        </div>
+      </div>
+
+      <div class="grid">
+        <div class="card">
+          <p class="h">Data Field</p>
+          <textarea id="dataField" readonly></textarea>
+          <div class="status" style="margin-top:8px">
+            <span class="ok" id="cStatus">C: ON (encrypted)</span>
+            <span class="ok" id="iStatus">I: ON (locked)</span>
+            <span class="ok" id="aStatus">A: ON (available)</span>
+          </div>
+        </div>
+        <div class="card">
+          <p class="h">Live Hashes</p>
+          <div class="hash-wrap">
+            <span>Current MD5:</span><code class="inline hash-chip" id="md5Hash">—</code>
+          </div>
+          <!-- NEW: Original/baseline hash + tiny integrity note -->
+          <div class="hash-wrap" style="margin-top:8px">
+            <span>Original MD5:</span><code class="inline hash-chip" id="origHash">—</code>
+            <small id="integrityMsg"></small>
+          </div>
+          <div class="legend" style="margin-top:8px">Hash updates on every keystroke / toggle. If Availability is OFF, hashes are for an empty string.</div>
+        </div>
+      </div>
+    </section>
+
+    <section class="terminal">
+      <div class="row" style="gap:16px; align-items:flex-start">
+        <div class="card" style="flex:1">
+          <p class="h">What the Toggles Demonstrate</p>
+          <ul>
+            <li><strong>Confidentiality</strong>: protects secrecy by rendering the data unreadable (encrypted). Turning it OFF reveals plaintext, simulating a confidentiality breach.</li>
+            <li><strong>Integrity</strong>: protects accuracy/wholeness of data. When ON, editing is locked. Turning it OFF allows tampering; note how the <em>MD5</em> (a one-way hash function) changes immediately as you type.</li>
+            <li><strong>Availability</strong>: ensures data/services are accessible. Turning it OFF wipes the data field to simulate an outage/denial-of-service.</li>
+          </ul>
+          <p class="legend">Terms: <strong>Encryption</strong> = reversible scrambling with a key. <strong>Ciphertext</strong> = encrypted text. <strong>Plaintext</strong> = readable text. <strong>Hash</strong> = fixed-length fingerprint of data; <strong>MD5</strong> is older/weak for security (collisions possible) and used here for visualization.</p>
+        </div>
+        <div class="card" style="flex:1">
+          <p class="h">Try This</p>
+          <ol>
+            <li>Flip <strong>C</strong> OFF → plaintext appears (confidentiality lost).</li>
+            <li>Flip <strong>I</strong> OFF → type anything; notice the hash changing.</li>
+            <li>Flip <strong>A</strong> OFF → the field clears (unavailable).</li>
+          </ol>
+        </div>
+      </div>
+    </section>
+
+    <div class="footer">Built for security education · No network calls · Single-file static app</div>
+  </main>
+
+  <script>
+    // ---------------------------------------------
+    // Simple demo XOR+Base64 "encryption" (NOT secure)
+    // ---------------------------------------------
+    const KEY = "it-guy-demo-key";
+    const enc = (str)=>{
+      const out = [];
+      for(let i=0;i<str.length;i++){
+        out.push(str.charCodeAt(i) ^ KEY.charCodeAt(i % KEY.length));
+      }
+      return btoa(String.fromCharCode(...out));
+    };
+    const dec = (b64)=>{
+      try{
+        const bytes = atob(b64);
+        const out = [];
+        for(let i=0;i<bytes.length;i++){
+          out.push(bytes.charCodeAt(i) ^ KEY.charCodeAt(i % KEY.length));
+        }
+        return String.fromCharCode(...out);
+      }catch(e){ return "[corrupted]" }
+    };
+
+    // ---------------------------------------------
+    // Lightweight MD5 (compact for demo)
+    // ---------------------------------------------
+    function md5(s){
+      function L(k,d){return(k<<d)|(k>>>32-d)}
+      function K(G,k){var I,J,H,F;H=(G&2147483648);F=(k&2147483648);I=(G&1073741824);J=(k&1073741824);var d=(G&1073741823)+(k&1073741823);if(I&J){return(d^2147483648^H^F)}if(I|J){if(d&1073741824){return(d^3221225472^H^F)}else{return(d^1073741824^H^F)}}else{return(d^H^F)}}
+      function r(d,F,k){return(d&F)|((~d)&k)}
+      function q(d,F,k){return(d&k)|(F&(~k))}
+      function p(d,F,k){return(d^F^k)}
+      function n(d,F,k){return(F^(d|(~k)))}
+      function u(G,F,aa,Z,k,H,I){G=K(G,K(K(r(F,aa,Z),k),I));return K(L(G,H),F)}
+      function f(G,F,aa,Z,k,H,I){G=K(G,K(K(q(F,aa,Z),k),I));return K(L(G,H),F)}
+      function e(G,F,aa,Z,k,H,I){G=K(G,K(K(p(F,aa,Z),k),I));return K(L(G,H),F)}
+      function t(G,F,aa,Z,k,H,I){G=K(G,K(K(n(F,aa,Z),k),I));return K(L(G,H),F)}
+      function D(G){var Z;var F=G.length;var x=F+8;var k=(x-(x%64))/64;var I=(k+1)*16;var aa=Array(I-1);var d=0;var H=0;while(H<F){Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=(aa[Z]|(G.charCodeAt(H)<<d));H++}Z=(H-(H%4))/4;d=(H%4)*8;aa[Z]=aa[Z]|(128<<d);aa[I-2]=F<<3;aa[I-1]=F>>>29;return aa}
+      function C(x){var k="",F="",G,d;for(d=0;d<=3;d++){G=(x>>>d*8)&255;F="0"+G.toString(16);k+=F.substr(F.length-2,2)}return k}
+      function B(k){k=k.replace(/\r\n/g,"\n");var d="";for(var F=0;F<k.length;F++){var x=k.charCodeAt(F);if(x<128){d+=String.fromCharCode(x)}else if((x>127)&&(x<2048)){d+=String.fromCharCode((x>>6)|192);d+=String.fromCharCode((x&63)|128)}else{d+=String.fromCharCode((x>>12)|224);d+=String.fromCharCode(((x>>6)&63)|128);d+=String.fromCharCode((x&63)|128)}}return d}
+      var y=Array();var v,h,S,T,g,a,Y,X,W;var A=7,m=12,l=17,j=22;var U=5,o=9,i=14,hb=20;var gb=4,fb=11,eb=16,db=23;var cb=6,bb=10,ab=15,_b=21;s=B(s);y=D(s);g=1732584193;a=4023233417;Y=2562383102;X=271733878;for(v=0;v<y.length;v+=16){W=g;S=a;T=Y;w=271733878;g=u(g,a,Y,w,y[v+0],A,3614090360);w=u(w,g,a,Y,y[v+1],m,3905402710);Y=u(Y,w,g,a,y[v+2],l,606105819);a=u(a,Y,w,g,y[v+3],j,3250441966);g=u(g,a,Y,w,y[v+4],A,4118548399);w=u(w,g,a,Y,y[v+5],m,1200080426);Y=u(Y,w,g,a,y[v+6],l,2821735955);a=u(a,Y,w,g,y[v+7],j,4249261313);g=u(g,a,Y,w,y[v+8],A,1770035416);w=u(w,g,a,Y,y[v+9],m,2336552879);Y=u(Y,w,g,a,y[v+10],l,4294925233);a=u(a,Y,w,g,y[v+11],j,2304563134);g=u(g,a,Y,w,y[v+12],A,1804603682);w=u(w,g,a,Y,y[v+13],m,4254626195);Y=u(Y,w,g,a,y[v+14],l,2792965006);a=u(a,Y,w,g,y[v+15],j,1236535329);g=f(g,a,Y,w,y[v+1],U,4129170786);w=f(w,g,a,Y,y[v+6],o,3225465664);Y=f(Y,w,g,a,y[v+11],i,643717713);a=f(a,Y,w,g,y[v+0],hb,3921069994);g=f(g,a,Y,w,y[v+5],U,3593408605);w=f(w,g,a,Y,y[v+10],o,38016083);Y=f(Y,w,g,a,y[v+15],i,3634488961);a=f(a,Y,w,g,y[v+4],hb,3889429448);g=f(g,a,Y,w,y[v+9],U,568446438);w=f(w,g,a,Y,y[v+14],o,3275163606);Y=f(Y,w,g,a,y[v+3],i,4107603335);a=f(a,Y,w,g,y[v+8],hb,1163531501);g=f(g,a,Y,w,y[v+13],U,2850285829);w=f(w,g,a,Y,y[v+2],o,4243563512);Y=f(Y,w,g,a,y[v+7],i,1735328473);a=f(a,Y,w,g,y[v+12],hb,2368359562);g=e(g,a,Y,w,y[v+5],gb,4294588738);w=e(w,g,a,Y,y[v+8],fb,2272392833);Y=e(Y,w,g,a,y[v+11],eb,1839030562);a=e(a,Y,w,g,y[v+14],db,425965774);g=e(g,a,Y,w,y[v+1],gb,2763975236);w=e(w,g,a,Y,y[v+4],fb,1272893353);Y=e(Y,w,g,a,y[v+7],eb,4139469664);a=e(a,Y,w,g,y[v+10],db,3200236656);g=e(g,a,Y,w,y[v+13],gb,681279174);w=e(w,g,a,Y,y[v+0],fb,3936430074);Y=e(Y,w,g,a,y[v+3],eb,3572445317);a=e(a,Y,w,g,y[v+6],db,76029189);g=t(g,a,Y,w,y[v+0],cb,3654602809);w=t(w,g,a,Y,y[v+7],bb,3873151461);Y=t(Y,w,g,a,y[v+14],ab,530742520);a=t(a,Y,w,g,y[v+5],_b,3299628645);g=t(g,a,Y,w,y[v+12],cb,4096336452);w=t(w,g,a,Y,y[v+3],bb,1126891415);Y=t(Y,w,g,a,y[v+10],ab,2878612391);a=t(a,Y,w,g,y[v+1],_b,4237533241);g=K(g,W);a=K(a,S);Y=K(Y,T);return (C(g)+C(a)+C(Y)+C(w)).toLowerCase()}
+    }// ---------------------------------------------
+    // App State & Wiring
+    // ---------------------------------------------
+    const toggleC = document.getElementById('toggleC');
+    const toggleI = document.getElementById('toggleI');
+    const toggleA = document.getElementById('toggleA');
+    const dataField = document.getElementById('dataField');
+    const md5Hash = document.getElementById('md5Hash');
+    const cStatus = document.getElementById('cStatus');
+    const iStatus = document.getElementById('iStatus');
+    const aStatus = document.getElementById('aStatus');
+    // NEW: baseline elements
+    const origHashEl = document.getElementById('origHash');
+    const integrityMsg = document.getElementById('integrityMsg');
+
+    // Default demo message
+    const demoPlain = "Customer SSN: ***-**-**** | Card: **** **** **** 4242 | Notes: Annual review 2026";
+
+    let plain = demoPlain;
+    let cipher = enc(plain);
+    let originalHash; // baseline set after initial render
+
+    function setToggle(el, on){
+      el.classList.toggle('off', !on);
+      el.querySelector('input').checked = on;
+    }
+
+    function refreshView(){
+      const C = toggleC.querySelector('input').checked;
+      const I = toggleI.querySelector('input').checked;
+      const A = toggleA.querySelector('input').checked;
+
+      // Availability
+      if(!A){
+        dataField.value = "";
+        dataField.setAttribute('readonly', 'readonly');
+        aStatus.textContent = 'A: OFF (unavailable)';
+        aStatus.className = 'bad';
+      } else {
+        const viewText = C ? `[ENCRYPTED]\n${cipher}` : plain;
+        dataField.value = viewText;
+        aStatus.textContent = 'A: ON (available)';
+        aStatus.className = 'ok';
+        if(I){
+          dataField.setAttribute('readonly', 'readonly');
+          iStatus.textContent = 'I: ON (locked)';
+          iStatus.className = 'ok';
+        } else {
+          dataField.removeAttribute('readonly');
+          iStatus.textContent = 'I: OFF (tamper allowed)';
+          iStatus.className = 'warn';
+        }
+      }
+
+      // Confidentiality label
+      if(C){ cStatus.textContent = 'C: ON (encrypted)'; cStatus.className = 'ok'; }
+      else { cStatus.textContent = 'C: OFF (plaintext exposed)'; cStatus.className = 'bad'; }
+
+      // Current hash of whatever is visible
+      const curHash = md5(dataField.value);
+      md5Hash.textContent = curHash;
+
+      // Compare to baseline (originalHash is set after first render)
+      if (originalHash !== undefined) {
+        if (curHash !== originalHash) {
+          origHashEl.classList.add('alert');
+          integrityMsg.textContent = 'Integrity violated!';
+        } else {
+          origHashEl.classList.remove('alert');
+          integrityMsg.textContent = '';
+        }
+      }
+    }
+
+    // Edits when Integrity OFF
+    dataField.addEventListener('input', () => {
+      const C = toggleC.querySelector('input').checked;
+      const I = toggleI.querySelector('input').checked;
+      const A = toggleA.querySelector('input').checked;
+      if(!A) return;
+      if(!I){
+        if(C){
+          const content = dataField.value.replace(/^\[ENCRYPTED\]\n?/, '');
+          cipher = content.trim();
+        } else {
+          plain = dataField.value;
+          cipher = enc(plain);
+        }
+      }
+      refreshView();
+    });
+
+    // Toggle handlers
+    [toggleC, toggleI, toggleA].forEach(tg => {
+      tg.addEventListener('click', () => {
+        const input = tg.querySelector('input');
+        input.checked = !input.checked;
+        setToggle(tg, input.checked);
+        refreshView();
+      });
+    });
+
+    // Initialize
+    setToggle(toggleC, true); setToggle(toggleI, true); setToggle(toggleA, true);
+    refreshView();
+
+    // NEW: capture baseline AFTER first render so it's the exact initial view
+    originalHash = md5(dataField.value);
+    origHashEl.textContent = originalHash;
+    // Evaluate once more so comparison logic runs with baseline present
+    refreshView();
+
+  </script>
+</body>
+</html>
