@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Asymmetric vs Symmetric Crypto — Live Demo</title>
+  <style>
+    :root{
+      --bg:#08110b; --panel:#0d1612; --accent:#00ff88; --accent2:#38f5ff; --text:#d6ffe9;
+      --muted:#9feac6; --danger:#ff4d4d; --warn:#ffd23f; --edge:#1b3d2d;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:radial-gradient(1000px 600px at 20% -20%, #0e1c16, #060a07 60%, #030504 100%), var(--bg);
+      color:var(--text);font:15px/1.5 ui-monospace, SFMono-Regular, Menlo, Consolas, "Liberation Mono", monospace;}
+    header{position:sticky;top:0;z-index:2;background:linear-gradient(180deg, rgba(0,255,136,.06), transparent);
+      border-bottom:1px solid #13452f;padding:16px 20px;display:flex;align-items:center;gap:12px}
+    .brand{letter-spacing:.12em;color:var(--accent);text-transform:uppercase;font-weight:700}
+    .pill{border:1px solid var(--edge);background:#0b1913;color:var(--muted);padding:6px 10px;border-radius:999px;font-size:12px}
+    main{max-width:1200px;margin:0 auto;padding:20px;display:grid;gap:18px}
+    .term{background:linear-gradient(180deg, rgba(0,255,136,.03), transparent), var(--panel);border:1px solid var(--edge);
+      border-radius:14px;padding:16px;box-shadow:0 0 0 1px #0a2417 inset, 0 8px 28px rgba(0,0,0,.35)}
+    .grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(300px,1fr));gap:16px}
+    textarea, input[type="text"]{width:100%;min-height:110px;border-radius:12px;border:1px solid #184a32;background:#07130f;color:var(--text);
+      padding:10px;resize:vertical;outline:none;box-shadow:inset 0 0 0 2px #0a2417}
+    .row{display:flex;flex-wrap:wrap;gap:10px;align-items:center}
+    .btn{border:1px solid #1a5a3a;background:#0b1913;color:var(--text);padding:8px 10px;border-radius:10px;cursor:pointer}
+    .btn:hover{box-shadow:0 0 0 1px #1a5a3a, 0 0 12px rgba(0,255,136,.18) inset}
+    .btn.alt{border-color:#16435b}
+    .btn.danger{border-color:#5a1a1a;color:#ffc9c9}
+    .code{font-size:12px;border:1px dashed #1a5a3a;background:#0b1913;color:#bdfede;border-radius:10px;padding:8px;word-break:break-all}
+    .mini{font-size:12px;color:var(--muted)}
+    .h{color:var(--accent);margin:0 0 10px 0;font-weight:700}
+    .h2{color:var(--accent2);margin:0 0 8px 0;font-weight:700}
+    .label{font-size:12px;color:var(--muted)}
+    .chip{display:inline-block;border:1px solid var(--edge);background:#0b1913;color:#b6ffd9;border-radius:999px;padding:4px 8px;font-size:12px}
+    .ok{color:#9cffcb}
+    .red{color:var(--danger)}
+    details{border:1px solid #123826;background:#0a1511;border-radius:12px;padding:10px}
+    summary{cursor:pointer}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">Crypto Lab · Hacker Terminal</div>
+    <span class="pill">Asymmetric (RSA-OAEP & RSA-PSS) · Symmetric (AES-GCM)</span>
+  </header>
+  <main>
+    <!-- ASYMMETRIC SECTION -->
+    <section class="term">
+      <p class="h">Asymmetric Encryption — RSA-OAEP (Public/Private Keys)</p>
+      <div class="grid">
+        <div>
+          <p class="h2">1) Keys</p>
+          <div class="row">
+            <button class="btn" id="genRsa">Generate RSA Key Pair</button>
+            <span class="chip" id="rsaStatus">no keys</span>
+          </div>
+          <p class="mini">Public key (shareable) encrypts; Private key (secret) decrypts.</p>
+          <p class="label">Public Key (PEM)</p>
+          <pre class="code" id="pubPem">—</pre>
+          <p class="label">Private Key (PEM)</p>
+          <pre class="code" id="privPem">—</pre>
+        </div>
+        <div>
+          <p class="h2">2) Encrypt → Decrypt</p>
+          <p class="label">Plaintext</p>
+          <textarea id="rsaPlain">Meet at 0900. Bring coffee.</textarea>
+          <div class="row">
+            <button class="btn" id="rsaEncrypt">Encrypt with Public Key</button>
+            <button class="btn" id="rsaDecrypt">Decrypt with Private Key</button>
+          </div>
+          <p class="label">Ciphertext (Base64)</p>
+          <pre class="code" id="rsaCipher">—</pre>
+          <p class="label">Decrypted Output</p>
+          <pre class="code" id="rsaOut">—</pre>
+        </div>
+      </div>
+
+      <details style="margin-top:10px"><summary>Terms (encryption)</summary>
+        <ul class="mini">
+          <li><strong>Asymmetric</strong>: two keys — a <em>public</em> key (shareable) and a <em>private</em> key (secret). Data encrypted with one can only be decrypted with the other.</li>
+          <li><strong>RSA-OAEP</strong>: RSA with OAEP padding for semantic security; no IV required.</li>
+          <li><strong>PEM</strong>: a text wrapper for binary key formats.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- NEW: SIGN / VERIFY SECTION -->
+    <section class="term">
+      <p class="h">Digital Signatures — RSA-PSS (Private Sign · Public Verify)</p>
+      <div class="grid">
+        <div>
+          <p class="h2">1) Signing Keys</p>
+          <div class="row">
+            <button class="btn" id="genSign">Generate RSA-PSS Key Pair</button>
+            <span class="chip" id="signStatus">no signing keys</span>
+          </div>
+          <p class="mini">Private key creates signatures; Public key verifies them.</p>
+          <p class="label">Signing Public Key (PEM)</p>
+          <pre class="code" id="signPubPem">—</pre>
+          <p class="label">Signing Private Key (PEM)</p>
+          <pre class="code" id="signPrivPem">—</pre>
+        </div>
+        <div>
+          <p class="h2">2) Sign → Verify</p>
+          <p class="label">Message to Sign</p>
+          <textarea id="signMsg">“Only the holder of the private key could have produced this signature.”</textarea>
+          <div class="row">
+            <button class="btn" id="btnSign">Sign with Private Key</button>
+            <button class="btn" id="btnVerify">Verify with Public Key</button>
+          </div>
+          <p class="label">Signature (Base64)</p>
+          <pre class="code" id="sigOut">—</pre>
+          <p class="label">Verification Result</p>
+          <pre class="code" id="verifyOut">—</pre>
+        </div>
+      </div>
+
+      <details style="margin-top:10px"><summary>Terms (signing)</summary>
+        <ul class="mini">
+          <li><strong>Digital Signature</strong>: a cryptographic stamp proving who signed and that the message wasn’t altered.</li>
+          <li><strong>RSA-PSS</strong>: a modern, randomized padding scheme for RSA signatures (uses salt); verify fails if the message or signature changes.</li>
+          <li><strong>Salt Length</strong>: extra randomness per signature; we use 32 bytes here.</li>
+        </ul>
+      </details>
+    </section>
+
+    <!-- SYMMETRIC SECTION -->
+    <section class="term">
+      <p class="h">Symmetric Encryption — AES-GCM (One Shared Key)</p>
+      <div class="grid">
+        <div>
+          <p class="h2">1) Key</p>
+          <div class="row">
+            <button class="btn alt" id="genAes">Generate AES-256 Key</button>
+            <span class="chip" id="aesStatus">no key</span>
+          </div>
+          <p class="label">Key (JWK)</p>
+          <pre class="code" id="aesJwk">—</pre>
+        </div>
+        <div>
+          <p class="h2">2) Encrypt → Decrypt</p>
+          <p class="label">Plaintext</p>
+          <textarea id="aesPlain">Server token: abc-123, rotate weekly.</textarea>
+          <div class="row">
+            <button class="btn alt" id="aesEncrypt">Encrypt (same key)</button>
+            <button class="btn alt" id="aesDecrypt">Decrypt (same key)</button>
+            <button class="btn danger" id="aesTamper">Tamper ciphertext</button>
+          </div>
+          <p class="label">IV (nonce, Base64)</p>
+          <pre class="code" id="aesIv">—</pre>
+          <p class="label">Ciphertext (Base64)</p>
+          <pre class="code" id="aesCipher">—</pre>
+          <p class="label">Decrypted Output</p>
+          <pre class="code" id="aesOut">—</pre>
+        </div>
+      </div>
+      <details style="margin-top:10px"><summary>Terms (symmetric)</summary>
+        <ul class="mini">
+          <li><strong>Symmetric</strong>: the same secret key is used to encrypt and decrypt.</li>
+          <li><strong>AES-GCM</strong>: provides confidentiality + integrity (auth tag). Uses a random <strong>IV</strong> per message. Tampering makes verify fail.</li>
+          <li><strong>JWK</strong>: JSON Web Key — a JSON representation of a key.</li>
+        </ul>
+      </details>
+    </section>
+
+    <section class="term">
+      <p class="h">What this demonstrates</p>
+      <ul class="mini">
+        <li><strong>RSA-OAEP</strong> for confidentiality: encrypt with public key, decrypt with private key.</li>
+        <li><strong>RSA-PSS</strong> for authenticity/integrity: sign with private key, verify with public key.</li>
+        <li><strong>AES-GCM</strong> for fast shared-key crypto with built-in integrity (auth tag).</li>
+      </ul>
+    </section>
+  </main>
+
+  <script>
+    // ------- helpers -------
+    const enc = new TextEncoder();
+    const dec = new TextDecoder();
+    const b64 = buf => btoa(String.fromCharCode(...new Uint8Array(buf)));
+    const ab = b64str => Uint8Array.from(atob(b64str), c => c.charCodeAt(0)).buffer;
+
+    async function exportPem(key, type){
+      const fmt = type === 'public' ? 'spki' : 'pkcs8';
+      const buf = await crypto.subtle.exportKey(fmt, key);
+      const body = b64(buf).match(/.{1,64}/g).join('\n');
+      return `-----BEGIN ${type.toUpperCase()} KEY-----\n${body}\n-----END ${type.toUpperCase()} KEY-----`;
+    }
+
+    // ------- ASYMMETRIC (RSA-OAEP) for ENC/DEC -------
+    let rsaKeys = { publicKey:null, privateKey:null };
+    const rsaStatus = document.getElementById('rsaStatus');
+    const pubPem = document.getElementById('pubPem');
+    const privPem = document.getElementById('privPem');
+    const rsaPlain = document.getElementById('rsaPlain');
+    const rsaCipher = document.getElementById('rsaCipher');
+    const rsaOut = document.getElementById('rsaOut');
+
+    document.getElementById('genRsa').addEventListener('click', async () => {
+      rsaStatus.textContent = 'generating…';
+      rsaKeys = await crypto.subtle.generateKey({
+        name:'RSA-OAEP', modulusLength:2048, publicExponent:new Uint8Array([1,0,1]), hash:'SHA-256'
+      }, true, ['encrypt','decrypt']);
+      rsaStatus.textContent = 'keys ready';
+      pubPem.textContent = await exportPem(rsaKeys.publicKey, 'public');
+      privPem.textContent = await exportPem(rsaKeys.privateKey, 'private');
+      rsaCipher.textContent = '—'; rsaOut.textContent = '—';
+    });
+
+    document.getElementById('rsaEncrypt').addEventListener('click', async () => {
+      if(!rsaKeys.publicKey){ alert('Generate RSA keys first'); return; }
+      const data = enc.encode(rsaPlain.value);
+      const ct = await crypto.subtle.encrypt({name:'RSA-OAEP'}, rsaKeys.publicKey, data);
+      rsaCipher.textContent = b64(ct);
+    });
+
+    document.getElementById('rsaDecrypt').addEventListener('click', async () => {
+      if(!rsaKeys.privateKey){ alert('Generate RSA keys first'); return; }
+      try{
+        const ct = ab(rsaCipher.textContent.trim());
+        const pt = await crypto.subtle.decrypt({name:'RSA-OAEP'}, rsaKeys.privateKey, ct);
+        rsaOut.textContent = dec.decode(pt);
+      }catch(e){ rsaOut.textContent = `\u26A0\uFE0F Decrypt error: ${e.message}`; }
+    });
+
+    // ------- NEW: SIGN / VERIFY (RSA-PSS) -------
+    let signKeys = { publicKey:null, privateKey:null };
+    const signStatus = document.getElementById('signStatus');
+    const signPubPem = document.getElementById('signPubPem');
+    const signPrivPem = document.getElementById('signPrivPem');
+    const signMsg = document.getElementById('signMsg');
+    const sigOut = document.getElementById('sigOut');
+    const verifyOut = document.getElementById('verifyOut');
+
+    document.getElementById('genSign').addEventListener('click', async () => {
+      signStatus.textContent = 'generating…';
+      signKeys = await crypto.subtle.generateKey({
+        name:'RSA-PSS', modulusLength:2048, publicExponent:new Uint8Array([1,0,1]), hash:'SHA-256'
+      }, true, ['sign','verify']);
+      signStatus.textContent = 'signing keys ready';
+      signPubPem.textContent = await exportPem(signKeys.publicKey, 'public');
+      signPrivPem.textContent = await exportPem(signKeys.privateKey, 'private');
+      sigOut.textContent = '—'; verifyOut.textContent = '—';
+    });
+
+    document.getElementById('btnSign').addEventListener('click', async () => {
+      if(!signKeys.privateKey){ alert('Generate RSA-PSS keys first'); return; }
+      const data = enc.encode(signMsg.value);
+      const sig = await crypto.subtle.sign({name:'RSA-PSS', saltLength:32}, signKeys.privateKey, data);
+      sigOut.textContent = b64(sig);
+      verifyOut.textContent = '—';
+    });
+
+    document.getElementById('btnVerify').addEventListener('click', async () => {
+      if(!signKeys.publicKey){ alert('Generate RSA-PSS keys first'); return; }
+      try{
+        const ok = await crypto.subtle.verify(
+          {name:'RSA-PSS', saltLength:32},
+          signKeys.publicKey,
+          ab(sigOut.textContent.trim()),
+          enc.encode(signMsg.value)
+        );
+        verifyOut.textContent = ok ? '✅ Signature VALID (message + signer verified)' :
+                                     '❌ Signature INVALID (changed message or wrong key)';
+      }catch(e){
+        verifyOut.textContent = `⚠️ Verify error: ${e.message}`;
+      }
+    });
+
+    // ------- SYMMETRIC (AES-GCM) -------
+    let aesKey = null, aesIv = null, aesCt = null;
+    const aesStatus = document.getElementById('aesStatus');
+    const aesJwk = document.getElementById('aesJwk');
+    const aesPlain = document.getElementById('aesPlain');
+    const aesIvEl = document.getElementById('aesIv');
+    const aesCipher = document.getElementById('aesCipher');
+    const aesOut = document.getElementById('aesOut');
+
+    document.getElementById('genAes').addEventListener('click', async () => {
+      aesKey = await crypto.subtle.generateKey({ name:'AES-GCM', length:256 }, true, ['encrypt','decrypt']);
+      aesStatus.textContent = 'key ready';
+      const jwk = await crypto.subtle.exportKey('jwk', aesKey);
+      aesJwk.textContent = JSON.stringify(jwk, null, 2);
+      aesIvEl.textContent = '—'; aesCipher.textContent = '—'; aesOut.textContent = '—';
+    });
+
+    document.getElementById('aesEncrypt').addEventListener('click', async () => {
+      if(!aesKey){ alert('Generate AES key first'); return; }
+      aesIv = crypto.getRandomValues(new Uint8Array(12)); // 96-bit IV recommended
+      const ct = await crypto.subtle.encrypt({ name:'AES-GCM', iv:aesIv }, aesKey, enc.encode(aesPlain.value));
+      aesCt = new Uint8Array(ct);
+      aesIvEl.textContent = b64(aesIv);
+      aesCipher.textContent = b64(aesCt);
+    });
+
+    document.getElementById('aesDecrypt').addEventListener('click', async () => {
+      if(!aesKey){ alert('Generate AES key first'); return; }
+      try{
+        const iv = ab(aesIvEl.textContent.trim());
+        const ct = ab(aesCipher.textContent.trim());
+        const pt = await crypto.subtle.decrypt({ name:'AES-GCM', iv:iv }, aesKey, ct);
+        aesOut.textContent = dec.decode(pt);
+      }catch(e){ aesOut.textContent = `\u26A0\uFE0F Decrypt/verify error: ${e.message}`; }
+    });
+
+    document.getElementById('aesTamper').addEventListener('click', () => {
+      if(!aesCipher.textContent || aesCipher.textContent==='—'){ alert('Encrypt something first'); return; }
+      const b = atob(aesCipher.textContent.trim());
+      const arr = b.split('');
+      const idx = Math.max(0, Math.floor(arr.length/2));
+      arr[idx] = String.fromCharCode(arr[idx].charCodeAt(0) ^ 0x01);
+      aesCipher.textContent = btoa(arr.join(''));
+      aesOut.textContent = 'tampered — try decrypt to see auth fail';
+    });
+  </script>
+</body>
+</html>
