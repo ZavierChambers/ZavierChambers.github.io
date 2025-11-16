@@ -1,0 +1,137 @@
+
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Consumer ATT&CK‑Lite — MITRE-style (with IDs)</title>
+  <style>
+:root{--bg:#f4f6f8; --panel:#ffffff; --accent:#005ea8; --muted:#6b7280; --card-shadow:0 1px 0 rgba(16,24,40,.03); --maxw:1200px;}
+html,body{height:100%;margin:0;font-family:Inter,system-ui,-apple-system,Segoe UI,Roboto,"Helvetica Neue",Arial;color:#0f1724;background:var(--bg);}
+.topbar{background:linear-gradient(90deg,var(--accent),#073a5b);color:white;padding:18px 20px;display:flex;align-items:center;gap:16px;box-shadow:0 2px 6px rgba(2,6,23,.08);}
+.logo{display:flex;align-items:center;gap:10px;font-weight:700}
+.logo .mark{background:#ffffff22;padding:6px 10px;border-radius:6px;font-weight:800;letter-spacing:0.4px}
+.topbar .title{font-size:18px}
+.container{max-width:var(--maxw);margin:18px auto;display:flex;gap:18px;padding:0 18px;box-sizing:border-box;}
+.sidebar{width:260px;min-width:200px;background:var(--panel);border-radius:8px;padding:12px;box-shadow:var(--card-shadow);height:calc(100vh - 120px);position:sticky;top:20px;overflow:auto;}
+.main{flex:1;display:flex;flex-direction:column;gap:12px;}
+.searchbox{display:flex;gap:8px;align-items:center;background:var(--panel);padding:12px;border-radius:8px;box-shadow:var(--card-shadow)}
+.searchbox input{flex:1;padding:10px;border-radius:6px;border:1px solid #e6eef7;font-size:14px}
+.filters{display:flex;gap:8px;flex-wrap:wrap}
+.filter select, .filter button{padding:8px 10px;border-radius:6px;border:1px solid #e6eef7;background:white;font-size:13px}
+.card{background:var(--panel);padding:12px;border-radius:8px;box-shadow:var(--card-shadow)}
+.grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(340px,1fr));gap:12px}
+.tech{border-left:4px solid rgba(1,86,179,.12);padding:10px;background:linear-gradient(180deg,#fff,#fbfdff);border-radius:6px}
+.tech h3{margin:0;font-size:15px;color:#062b4a}
+.muted{color:var(--muted);font-size:13px;margin-top:6px}
+.meta{display:flex;gap:8px;align-items:center;margin-top:8px}
+.pill{background:#eef6ff;color:var(--accent);padding:4px 8px;border-radius:999px;font-weight:600;font-size:12px;border:1px solid rgba(1,86,179,.06)}
+.difficulty{margin-left:auto;font-weight:700}
+.details{margin-top:10px;font-size:13px;color:#24303a}
+footer{max-width:var(--maxw);margin:18px auto 40px;padding:0 18px;color:var(--muted);font-size:13px;text-align:center}
+@media (max-width:900px){.container{flex-direction:column}.sidebar{position:relative;height:auto}}
+</style>
+</head>
+<body>
+  <div class="topbar">
+    <div class="logo"><div class="mark">ATT&CK‑LITE</div><div class="title">Consumer ATT&CK‑Lite — MITRE-style</div></div>
+    <div style="margin-left:auto;color:#dbeefc;font-size:13px">ATT&CK IDs embedded • Printable • Offline • Searchable</div>
+  </div>
+
+  <div class="container">
+    <aside class="sidebar card" aria-label="Navigation and filters">
+      <h4 style="margin:0 0 8px 0">Quick Actions</h4>
+      <div style="display:flex;gap:8px;margin-bottom:10px">
+        <button onclick="focusSearch()">Search</button>
+        <button onclick="window.print()">Print</button>
+      </div>
+      <div style="margin-top:8px">
+        <label style="font-size:13px;color:var(--muted)">Filter by difficulty</label>
+        <div style="margin-top:6px" class="filters">
+          <select id="sideFilter" onchange="applyFilters()">
+            <option value="">All difficulties</option>
+            <option>Low</option>
+            <option>Medium</option>
+            <option>Medium–High</option>
+            <option>High</option>
+          </select>
+        </div>
+      </div>
+
+      <hr style="margin:12px 0;border:none;border-top:1px solid #eef6fb">
+      <div>
+        <h4 style="margin:0 0 8px 0">Top Mitigations</h4>
+        <ul style="padding-left:18px;margin:0;color:var(--muted);font-size:14px;line-height:1.45">
+          <li><strong>MFA (auth app)</strong> — Stop most account takeovers.</li>
+          <li><strong>Unique passwords</strong> — Use a password manager.</li>
+          <li><strong>Backups</strong> — Keep offline copies for ransomware.</li>
+          <li><strong>Updates</strong> — Patch OS and apps promptly.</li>
+          <li><strong>Verify callers</strong> — Stop social engineering.</li>
+        </ul>
+      </div>
+      <hr style="margin:12px 0;border:none;border-top:1px solid #eef6fb">
+      <div>
+        <h4 style="margin:0 0 8px 0">Detection Checklist</h4>
+        <ul style="padding-left:18px;margin:0;color:var(--muted);font-size:14px;line-height:1.45">
+          <li>Unexpected login alerts</li>
+          <li>Performance degradation</li>
+          <li>Unexpected popups or redirects</li>
+          <li>Messages asking for urgent action</li>
+        </ul>
+      </div>
+    </aside>
+
+    <main class="main">
+      <div class="searchbox card">
+        <input id="q" class="search" placeholder="Search methods, mitigations, detection signs, or ATT&CK IDs (e.g., T1566)..." oninput="applyFilters()" />
+        <div class="filter"><select id="difficulty" onchange="applyFilters()"><option value="">All difficulties</option><option value="Low">Low</option><option value="Medium">Medium</option><option value="Medium–High">Medium–High</option><option value="High">High</option></select></div>
+        <div class="filter"><button id="reset" onclick="resetFilters()">Reset</button></div>
+      </div>
+
+      <div id="grid" class="grid"></div>
+
+    </main>
+  </div>
+
+  <footer>Consumer ATT&CK‑Lite — with mapped ATT&CK Technique IDs. Some consumer items map to the closest equivalent.</footer>
+
+<script>
+const cards = [{"title": "Phishing (email/links) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566.001, T1566.002, T1566.003</span>", "what": "Fraudulent emails or messages that trick users into revealing credentials or clicking malware links", "risk": "Account takeover, credential theft, malware, scams", "mitigations": "MFA (auth app), treat links cautiously, verify sender, use spam filters", "detection": "Unexpected requests for credentials, urgent language, mismatched sender/URL", "difficulty": "Low"}, {"title": "Spear-phishing <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566.001, T1566.002, T1566.003</span>", "what": "Targeted phishing using personal details", "risk": "Higher success rate; compromises high-value accounts", "mitigations": "Verify via other channel, limit public personal info, phishing training", "detection": "Personalized messages referencing known contacts", "difficulty": "Medium"}, {"title": "Credential stuffing / reused passwords <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1110.004</span>", "what": "Using leaked credentials across services", "risk": "Multiple account takeovers from one breach", "mitigations": "Password manager, unique passwords, monitor breaches (Have I Been Pwned)", "detection": "Unexpected login alerts, new device sign-ins", "difficulty": "Low"}, {"title": "Brute force / password spraying <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1110.001, T1110.003</span>", "what": "Automated guessing of passwords or common passwords across accounts", "risk": "Account lockouts or takeover", "mitigations": "Rate limiting, MFA, strong passwords, account lockout policies", "detection": "Repeated failed login attempts, lockouts", "difficulty": "Low–Medium"}, {"title": "Malware (trojans, spyware) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1204</span>", "what": "Software installed to steal data, log keystrokes, or open backdoors", "risk": "Data theft, spying, ransomware", "mitigations": "Keep OS/apps updated, AV/EPP, avoid unknown downloads, least privilege", "detection": "Slow/laggy device, unknown processes, strange network traffic", "difficulty": "Medium"}, {"title": "Ransomware <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1486</span>", "what": "Malware that encrypts files and demands payment", "risk": "Data loss, extortion, business interruption", "mitigations": "Backups (offline), patching, don't enable macros, limit access", "detection": "Encrypted files, ransom notes, renamed file extensions", "difficulty": "Medium–High"}, {"title": "Drive-by download / exploit kits <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1189</span>", "what": "Infection from visiting compromised websites or malicious ads", "risk": "Silent infection without explicit download", "mitigations": "Browser updates, block ads, use script blockers, keep plugins patched", "detection": "New unknown software, AV alerts after a site visit", "difficulty": "Medium"}, {"title": "Malicious browser extensions <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1176</span>", "what": "Extensions that exfiltrate data or inject ads", "risk": "Credential theft, tracking, unwanted behavior", "mitigations": "Only install from trusted stores, review permissions, remove unused", "detection": "New toolbar, unexpected redirects, increased popups", "difficulty": "Low"}, {"title": "Fake updates / fake installers <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1204.002, T1036</span>", "what": "Prompts to install “update” that are malware", "risk": "Malware installation, remote access", "mitigations": "Update only from vendor/site, enable automatic official updates", "detection": "Fake update popups, installers from strange domains", "difficulty": "Low–Medium"}, {"title": "Malicious mobile apps / sideloading <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1475 (Mobile)</span>", "what": "Harmful apps installed from unofficial stores", "risk": "Data theft, SMS interception, unauthorized charges", "mitigations": "Use official app stores, check reviews/permissions, sandboxing", "detection": "Unexpected battery drain, odd permissions requested", "difficulty": "Medium"}, {"title": "SMS phishing (smishing) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566.003</span>", "what": "Phishing via SMS or messaging apps", "risk": "Account compromise, credential or OTP theft", "mitigations": "Avoid clicking SMS links, use app-based MFA, carrier PIN", "detection": "Messages with short links or urgent recovery prompts", "difficulty": "Low"}, {"title": "SIM swapping / port-out fraud <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1636 (Mobile)</span>", "what": "Attacker convinces carrier to move your number", "risk": "Bypass SMS MFA, account takeover", "mitigations": "Use authenticator apps, set carrier PIN/port freeze", "detection": "Unexpected loss of service, OTPs failing to arrive", "difficulty": "Medium"}, {"title": "Public Wi-Fi eavesdropping / MitM <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1557</span>", "what": "Interception of traffic on insecure networks", "risk": "Session hijack, credential capture, data sniffing", "mitigations": "Avoid sensitive tasks, use VPN, use HTTPS/TLS", "detection": "Browser warnings, certificate errors, sudden auth prompts", "difficulty": "Medium"}, {"title": "Evil-twin Wi-Fi <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1557</span>", "what": "Fake hotspot impersonating real network", "risk": "Intercepted traffic, credential capture", "mitigations": "Verify exact SSID, use VPN, forget open networks", "detection": "Multiple identical SSIDs, captive page oddities", "difficulty": "Medium"}, {"title": "DNS hijacking / poisoned DNS <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1112, T1557</span>", "what": "Redirecting domain lookups to malicious servers", "risk": "Redirect to fake sites, credential theft", "mitigations": "Use trusted DNS (DoH/DoT), verify site certs, router security", "detection": "Known good domain resolving to wrong IP, cert warnings", "difficulty": "High"}, {"title": "Man-in-the-middle (SSL stripping) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1557</span>", "what": "Intercepting encrypted traffic by downgrading or faking certs", "risk": "Credential/session theft", "mitigations": "Always check TLS certs, use HSTS, VPN on untrusted nets", "detection": "TLS errors, mixed content warnings", "difficulty": "High"}, {"title": "Session hijacking / stolen cookies <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1550.004</span>", "what": "Using session tokens to impersonate user", "risk": "Unnoticed account access without credentials", "mitigations": "Log out when done, limit persistent sessions, use MFA", "detection": "Unexplained activity, messages sent from your accounts", "difficulty": "Medium"}, {"title": "OAuth / token abuse <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1550.001, T1528</span>", "what": "Malicious apps gain OAuth permission to user accounts", "risk": "Long-term access, data exfiltration", "mitigations": "Review app permissions, revoke unused apps, least privileges", "detection": "Unknown apps with permissions, strange API activity", "difficulty": "Medium"}, {"title": "Social engineering (calls, in-person) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1598</span>", "what": "Manipulating people to obtain trust, data, access", "risk": "Handing over credentials or remote access", "mitigations": "Verify identity, never give access to unsolicited callers", "detection": "Pressure, urgent tone, requests for remote access", "difficulty": "Low"}, {"title": "Tech support scams <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1598</span>", "what": "Fake tech support convincing users to give access", "risk": "Remote compromise, payment scams", "mitigations": "Never grant remote access to unsolicited callers; verify support channels", "detection": "Claims of infections, prompts to install remote tools", "difficulty": "Low"}, {"title": "Business Email Compromise / CEO fraud <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566, T1199</span>", "what": "Fake emails requesting money or transfers", "risk": "Financial loss", "mitigations": "Verify via voice/video call, multi-step approvals", "detection": "Urgent payment requests, unusual invoice details", "difficulty": "Medium–High"}, {"title": "Malicious attachments / macros <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566.001, T1204.002</span>", "what": "Office docs with embedded macros that run malware", "risk": "Malware/ransomware from opening attachments", "mitigations": "Disable macros by default, verify sender, use viewers", "detection": "Macro popups, unexpected document prompts", "difficulty": "Low–Medium"}, {"title": "Fileless malware / living off the land <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1059, T1218, T1055</span>", "what": "Using legitimate tools (PowerShell, macros) for attack", "risk": "Harder to detect; persistent stealthy access", "mitigations": "Endpoint protection, script blocking, EDR, limit admin rights", "detection": "Abnormal scripts, scheduled tasks, odd command history", "difficulty": "High"}, {"title": "Supply-chain attacks (apps, libs) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1195</span>", "what": "Compromise of vendor software or libraries", "risk": "Widespread compromise via trusted apps", "mitigations": "Use trusted vendors, pin dependencies, scan packages", "detection": "Unexpected updates with new behavior, unusual telemetry", "difficulty": "High"}, {"title": "Typosquatting / domain squatting <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1583.001</span>", "what": "Fake domains that mimic well-known sites", "risk": "Credential theft, malware", "mitigations": "Check URLs, use bookmarks, browser defenses", "detection": "Slightly misspelled domain, unexpected content", "difficulty": "Low"}, {"title": "Malicious QR codes <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566.002</span>", "what": "QR that directs to evil URL or payload", "risk": "Phishing or malware on mobile", "mitigations": "Preview URL before opening, avoid unknown QR codes", "detection": "QR leads to unexpected pages, short links", "difficulty": "Low"}, {"title": "Malvertising <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1189</span>", "what": "Ads that serve malicious code or redirect", "risk": "Drive-by infection or ransomware", "mitigations": "Ad blockers, script blockers, keep browser updated", "detection": "Redirects after clicking ad, popup downloads", "difficulty": "Medium"}, {"title": "Watering-hole attacks <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1189</span>", "what": "Compromise of sites frequented by victims", "risk": "Targeted malware distribution", "mitigations": "Keep browsers/plug-ins updated, block risky sites", "detection": "Known site behaving strangely; sudden infections", "difficulty": "High"}, {"title": "IoT / smart home compromise <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1078, T1133</span>", "what": "Weakly secured devices exploited", "risk": "Privacy invasion, lateral network pivot", "mitigations": "Change defaults, isolate IoT on separate network, patch", "detection": "Strange device activity, unexpected behavior", "difficulty": "Low–Medium"}, {"title": "Firmware/BIOS attacks <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1542</span>", "what": "Malware in low-level firmware", "risk": "Very persistent, device compromise", "mitigations": "Firmware updates from vendor, secure boot, disk encryption", "detection": "Unexplained firmware warnings, boot anomalies", "difficulty": "High"}, {"title": "Physical theft / lost device <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: —</span>", "what": "Device stolen or lost", "risk": "Local data access, account compromise", "mitigations": "Full-disk encryption, strong lock screen, remote wipe", "detection": "Loss of device, unknown logins", "difficulty": "Low"}, {"title": "USB / removable media attack (USB drop) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1091, T1204</span>", "what": "Malware on USB or autorun payloads", "risk": "Malware, credential capture", "mitigations": "Disable autorun, scan removable media, don't plug unknown USBs", "detection": "New devices auto-run, unknown files appear", "difficulty": "Low"}, {"title": "Dumpster diving / paper info leakage <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1589</span>", "what": "Sensitive paper documents recovered", "risk": "Credential/recovery info leakage", "mitigations": "Shred sensitive docs, minimize printed secrets", "detection": "Sensitive info found in trash, mail theft", "difficulty": "Low"}, {"title": "Insider threat (friends/family) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1078</span>", "what": "Trusted person misuses access or info", "risk": "Data breach, account misuse", "mitigations": "Least privilege, audit logs, physical security", "detection": "Suspicious access during odd hours, missing items", "difficulty": "Medium"}, {"title": "Account recovery abuse <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1098</span>", "what": "Exploiting account recovery to regain access", "risk": "Account takeover without needing password", "mitigations": "Secure recovery options, add recovery contact, MFA", "detection": "Recovery attempts, email about recovery", "difficulty": "Medium"}, {"title": "Deepfake / impersonation <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1656</span>", "what": "Audio/video used to impersonate user", "risk": "Fraud, social engineering", "mitigations": "Verify with out-of-band checks, cautious credential disclosure", "detection": "Unusual voice message or video claiming identity", "difficulty": "High"}, {"title": "Romance / investment / advance-fee scams <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1566, T1598</span>", "what": "Emotional/financial social scams", "risk": "Significant financial loss", "mitigations": "Don't send money to strangers; verify, consult others", "detection": "Fast-moving relationship requests for money", "difficulty": "Low"}, {"title": "Scareware / fake antivirus <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1204.002, T1036</span>", "what": "Fake alerts telling you to pay to clean PC", "risk": "Payment, remote access", "mitigations": "Ignore/scan with reputable AV, reinstall if needed", "detection": "Popups demanding payment, fake system scans", "difficulty": "Low"}, {"title": "Clickjacking / UI redress <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: —</span>", "what": "Trick UI to make user click something else", "risk": "Unintended actions or permission grants", "mitigations": "Keep browser updated, limit browser extensions", "detection": "Unexpected actions after clicks", "difficulty": "Medium"}, {"title": "XSS / malicious web content (consumer impact) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1059.007, T1189</span>", "what": "Malicious scripts on websites that affect users", "risk": "Session theft, UI manipulation", "mitigations": "Use browsers with script protections, keep cookies scoped", "detection": "Strange forms, unexpected page behavior", "difficulty": "High"}, {"title": "CSRF (cross-site request) <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: —</span>", "what": "Forcing actions on logged-in sites via crafted requests", "risk": "Unintended transactions/changes", "mitigations": "Log out when done, use strong CSRF protections (site side)", "detection": "Unexpected account changes", "difficulty": "High"}, {"title": "Steganography / covert exfiltration <span style=\"color:#6b7280;font-weight:600\"> • ATT&CK: T1027</span>", "what": "Hiding data in images/files", "risk": "Data leakage that avoids detection", "mitigations": "Limit sensitive data exposure, monitor outbound traffic", "detection": "Unusual outbound content patterns", "difficulty": "High"}];
+
+function renderGrid(list){
+  const grid = document.getElementById('grid');
+  grid.innerHTML='';
+  if(!list.length){ grid.innerHTML='<div class="card">No results</div>'; return; }
+  list.forEach((m)=>{
+    const el = document.createElement('div');
+    el.className='tech card';
+    el.innerHTML = `<h3>${m.title}</h3><div class="muted">${escapeHtml(m.what)}</div>
+      <div class="meta"><div class="pill">Risk: ${escapeHtml(m.risk)}</div><div class="difficulty">${escapeHtml(m.difficulty)}</div></div>
+      <div class="details"><strong>Mitigations:</strong> ${escapeHtml(m.mitigations)}<br><strong style="margin-top:6px;display:block">Detection signs:</strong> ${escapeHtml(m.detection)}</div>`;
+    grid.appendChild(el);
+  });
+}
+
+function escapeHtml(s){ if(!s) return ''; return String(s).replaceAll('&','&amp;').replaceAll('<','&lt;').replaceAll('>','&gt;'); }
+
+// filters
+function applyFilters(){
+  const q = document.getElementById('q').value.trim().toLowerCase();
+  const diff = document.getElementById('difficulty').value || document.getElementById('sideFilter').value || '';
+  const filtered = cards.filter(m=>{
+    if(diff && m.difficulty !== diff) return false;
+    if(!q) return true;
+    return [m.title,m.what,m.risk,m.mitigations,m.detection].join(' ').toLowerCase().includes(q);
+  });
+  renderGrid(filtered);
+}
+
+function resetFilters(){ document.getElementById('q').value=''; document.getElementById('difficulty').value=''; document.getElementById('sideFilter').value=''; applyFilters(); }
+function focusSearch(){ document.getElementById('q').focus(); }
+document.getElementById('q').addEventListener('keydown',(e)=>{ if(e.key==='/' ){ e.preventDefault(); document.getElementById('q').focus(); } });
+
+// initial render
+renderGrid(cards);
+</script>
+</body>
+</html>
