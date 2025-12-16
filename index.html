@@ -3,124 +3,170 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zavier Chambers — Security Teaching • Homelab • Projects</title>
-  <meta name="description" content="Cybersecurity teaching hub, homelab documentation, and personal projects by Zavier Chambers." />
-  <meta name="theme-color" content="#0a1320" />
+
+  <title>Zavier Chambers — Workbenches • Artifacts • Projects</title>
+  <meta name="description" content="Security workbenches, guides, cheatsheets, notes, and projects by Zavier Chambers." />
+  <meta name="theme-color" content="#0b0f14" />
+
   <style>
     /* =========================
-       Minimal Modern Reset
+       Reset
     ========================= */
     *,*::before,*::after{box-sizing:border-box}
-    :root{color-scheme:light dark}
     html,body{height:100%}
     body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
     img{max-width:100%;display:block}
     a{color:inherit;text-decoration:none}
-    :focus-visible{outline:2px solid var(--ring);outline-offset:4px;border-radius:10px}
+    :focus-visible{outline:2px solid var(--ring);outline-offset:4px;border-radius:12px}
+    :root{color-scheme:dark}
 
-    
     /* =========================
-       Theme — "Freelance Pro"
-       Calm, airy, trustworthy
+       Theme — Dark by default
     ========================= */
     :root{
-      /* Base */
-      --bg:#f7f8fb;           /* paper */
-      --bg-elev:#ffffff;      /* cards/nav */
-      --bg-soft:#eef1f7;      /* subtle fills */
-      --text:#0e1222;         /* ink */
-      --muted:#5e6789;        /* secondary text */
-      --ring:#3a6fff;         /* focus ring */
+      --bg:#0b0f14;
+      --bg-elev:#0f1623;
+      --bg-soft:#111b2a;
+      --text:#e6edf3;
+      --muted:#a9b4c0;
+      --ring:#7dd3fc;
 
-      /* Brand */
-      --brand:#335cff;        /* cobalt */
-      --brand-2:#0bbf7d;      /* mint */
-      --brand-3:#f6c66f;      /* warm accent */
-
-      /* Surfaces */
-      --card:rgba(0,0,0,.04);
-      --card-stroke:rgba(0,0,0,.08);
-      --shadow:0 8px 30px rgba(16,24,40,.08);
-
-      /* Code */
-      --code-bg:#f3f5fb;
-      --code-border:#dfe5fb;
-
-      /* Decorative */
-      --accent-grad:radial-gradient(1200px 700px at 10% -20%, rgba(51,92,255,.10), transparent 60%),
-                    radial-gradient(1200px 700px at 90% 0%, rgba(11,191,125,.08), transparent 60%);
-    }
-    body.dark{
-      --bg:#4a5a70;          
-      --bg-elev:#0f1b2e;     
-      --bg-soft:#0c1628;     
-      --text:#e9eef8;        
-      --muted:#a7b1c7;       
-      --ring:#aac1ff;        
-
-      --brand:#7794ff;       
-      --brand-2:#27d19a;     
-      --brand-3:#ffd892;     
+      --brand:#7aa2ff;
+      --brand-2:#27d19a;
+      --brand-3:#ffd892;
 
       --card:rgba(255,255,255,.06);
       --card-stroke:rgba(255,255,255,.10);
-      --shadow:0 10px 36px rgba(0,0,0,.45);
+      --shadow:0 12px 44px rgba(0,0,0,.55);
 
       --code-bg:#0d1a30;
       --code-border:#203a70;
 
-      --accent-grad:radial-gradient(1200px 700px at 10% -20%, rgba(119,148,255,.15), transparent 60%),
-                     radial-gradient(1200px 700px at 90% 0%, rgba(39,209,154,.10), transparent 60%);
+      --accent-grad:
+        radial-gradient(1100px 700px at 10% -20%, rgba(122,162,255,.18), transparent 60%),
+        radial-gradient(1100px 700px at 95% 0%, rgba(39,209,154,.12), transparent 60%),
+        radial-gradient(900px 600px at 55% 110%, rgba(255,216,146,.10), transparent 55%);
     }
 
-    body{background:var(--bg);color:var(--text);background-image:var(--accent-grad)}
+    body{
+      background:var(--bg);
+      color:var(--text);
+      background-image:var(--accent-grad);
+    }
 
     /* =========================
-       Layout & Rhythm
+       Layout
     ========================= */
-    .container{width:min(1100px,92%);margin-inline:auto}
-    .section{padding:72px 0 24px}
+    .container{width:min(1120px,92%);margin-inline:auto}
+    .section{padding:74px 0 28px}
     .section--tight{padding:40px 0}
 
-    header.nav{position:sticky;top:0;z-index:40;backdrop-filter:saturate(140%) blur(10px);
-      background:color-mix(in oklch,var(--bg) 88%,transparent);border-bottom:1px solid var(--card-stroke)}
-    .nav-inner{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:18px 0}
-    .brand{display:flex;align-items:center;gap:12px;font-weight:800;letter-spacing:.2px}
-    .brand small{color:var(--muted);font-weight:600}
+    header.nav{
+      position:sticky;top:0;z-index:40;
+      backdrop-filter:saturate(140%) blur(10px);
+      background:color-mix(in oklch,var(--bg) 86%,transparent);
+      border-bottom:1px solid var(--card-stroke);
+    }
+    .nav-inner{
+      display:flex;align-items:center;justify-content:space-between;
+      gap:16px;padding:18px 0;
+    }
+    .brand{
+      display:flex;align-items:center;gap:12px;
+      font-weight:900;letter-spacing:.2px;
+    }
+    .brand small{color:var(--muted);font-weight:650}
 
-    .nav-actions{display:flex;align-items:center;gap:10px}
-    .btn{border-radius:14px;padding:12px 16px;border:1px solid var(--card-stroke);background:var(--bg-elev);color:var(--text);box-shadow:var(--shadow);cursor:pointer;transition:transform .08s ease, box-shadow .2s ease}
-    .btn:hover{transform:translateY(-1px)}
+    .nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
+
+    .btn{
+      border-radius:14px;padding:12px 16px;border:1px solid var(--card-stroke);
+      background:var(--bg-elev);color:var(--text);
+      box-shadow:var(--shadow);
+      cursor:pointer;
+      transition:transform .08s ease, background .2s ease, border-color .2s ease;
+      user-select:none;
+    }
+    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.16)}
     .btn.ghost{background:var(--card);box-shadow:none}
-    .btn.primary{background:linear-gradient(135deg,var(--brand),var(--brand-2));border:none;color:#fff}
+    .btn.primary{
+      background:linear-gradient(135deg,var(--brand),var(--brand-2));
+      border:none;color:#08121e;
+      box-shadow:0 18px 52px rgba(0,0,0,.55);
+    }
+    .btn.primary:hover{transform:translateY(-1px)}
 
     /* =========================
-       Hero — bigger, calmer
+       Hero
     ========================= */
-    .hero{padding:84px 0 12px}
-    .hero h1{font-size:clamp(34px,5.6vw,54px);line-height:1.08;margin:0 0 16px;letter-spacing:-.9px}
-    .hero p{color:var(--muted);margin:0;font-size:clamp(16px,2.2vw,19px)}
-    .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:28px}
+    .hero{padding:92px 0 10px}
+    .hero h1{
+      font-size:clamp(36px,5.6vw,56px);
+      line-height:1.06;margin:0 0 16px;
+      letter-spacing:-.9px;
+    }
+    .hero p{
+      color:var(--muted);
+      margin:0;
+      font-size:clamp(16px,2.2vw,19px);
+      max-width:76ch;
+    }
+    .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
+
+    .pill{
+      display:inline-flex;align-items:center;gap:8px;
+      padding:8px 10px;border:1px solid var(--card-stroke);
+      border-radius:999px;background:rgba(0,0,0,.18);
+      color:var(--muted);font-size:12px;
+    }
 
     /* =========================
-       Toolbar — search & tabs
+       Toolbar
     ========================= */
-    .toolbar{display:grid;grid-template-columns:1fr auto;gap:14px;padding:24px 0}
-    .search{display:flex;align-items:center;gap:10px;padding:12px 14px;background:var(--bg-elev);border:1px solid var(--card-stroke);border-radius:14px;box-shadow:var(--shadow)}
-    .search input{border:0;outline:0;flex:1;background:transparent;color:var(--text);font-size:16px}
+    .toolbar{
+      display:grid;grid-template-columns:1fr auto;
+      gap:14px;padding:22px 0;
+    }
+    @media (max-width: 860px){.toolbar{grid-template-columns:1fr}}
+    .search{
+      display:flex;align-items:center;gap:10px;
+      padding:12px 14px;background:var(--bg-elev);
+      border:1px solid var(--card-stroke);border-radius:14px;
+      box-shadow:var(--shadow);
+    }
+    .search input{
+      border:0;outline:0;flex:1;background:transparent;
+      color:var(--text);font-size:16px;
+    }
     .tabs{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .tab{padding:10px 14px;border-radius:999px;border:1px solid var(--card-stroke);background:var(--bg-elev);color:var(--muted);cursor:pointer}
-    .tab.active{background:linear-gradient(135deg,color-mix(in oklch,var(--brand) 72%,transparent),color-mix(in oklch,var(--brand-2) 55%,transparent));color:#fff;border-color:transparent}
+    .tab{
+      padding:10px 14px;border-radius:999px;
+      border:1px solid var(--card-stroke);
+      background:var(--bg-elev);
+      color:var(--muted);cursor:pointer;
+      transition:background .2s ease, border-color .2s ease, transform .08s ease;
+      user-select:none;
+    }
+    .tab:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.16)}
+    .tab.active{
+      background:linear-gradient(135deg,
+        color-mix(in oklch,var(--brand) 65%,transparent),
+        color-mix(in oklch,var(--brand-2) 55%,transparent));
+      color:var(--text);border-color:transparent;
+    }
 
     /* =========================
        Section headers
     ========================= */
-    .section-title{display:flex;align-items:baseline;justify-content:space-between;gap:8px;margin-bottom:20px}
-    .section-title h2{margin:0;font-size:26px;letter-spacing:-.4px}
+    .section-title{
+      display:flex;align-items:baseline;justify-content:space-between;
+      gap:10px;margin-bottom:18px;flex-wrap:wrap;
+    }
+    .section-title h2{margin:0;font-size:26px;letter-spacing:-.35px}
     .section-title .more{color:var(--muted);font-size:14px}
 
     /* =========================
-       Grid & Cards — roomier
+       Grid & Cards
     ========================= */
     .grid{display:grid;gap:22px;grid-template-columns:repeat(12,1fr)}
     .col-4{grid-column:span 4}
@@ -128,34 +174,48 @@
     .col-12{grid-column:span 12}
     @media (max-width:920px){.col-4,.col-6{grid-column:span 12}}
 
-    .card{position:relative;border:1px solid var(--card-stroke);background:linear-gradient(180deg,color-mix(in oklch,var(--bg-elev) 80%,transparent),color-mix(in oklch,var(--bg-soft) 100%,transparent));padding:22px;border-radius:18px;box-shadow:var(--shadow);overflow:hidden;transition:transform .12s ease, box-shadow .2s ease}
-    .card:hover{transform:translateY(-3px)}
+    .card{
+      position:relative;
+      border:1px solid var(--card-stroke);
+      background:linear-gradient(180deg,
+        rgba(255,255,255,.05),
+        rgba(255,255,255,.02));
+      padding:22px;border-radius:18px;
+      box-shadow:var(--shadow);
+      overflow:hidden;
+      transition:transform .12s ease, border-color .2s ease;
+    }
+    .card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.16)}
     .card .eyebrow{color:var(--muted);font-size:12px;letter-spacing:.32px;text-transform:uppercase}
     .card h3{margin:10px 0 10px;font-size:20px;letter-spacing:-.2px}
     .card p{margin:0;color:var(--muted)}
     .card .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .tag{font-size:12px;padding:6px 10px;border-radius:999px;background:var(--card);border:1px solid var(--card-stroke);color:var(--muted)}
-    .chip{font-size:12px;padding:6px 10px;border-radius:999px;background:linear-gradient(135deg,var(--brand) 20%,var(--brand-2));color:#fff}
-
-    /* =========================
-       Code blocks
-    ========================= */
-    pre{background:var(--code-bg);border:1px solid var(--code-border);border-radius:14px;padding:14px;overflow:auto}
-    code{font-family:ui-monospace,SFMono-Regular,Menlo,Monaco,Consolas,"Liberation Mono",monospace;font-size:13.5px}
-    .copy-btn{position:absolute;right:14px;top:14px;font-size:12px;padding:6px 8px;border-radius:8px;background:var(--card);border:1px solid var(--card-stroke);color:var(--muted);cursor:pointer}
-
-    /* =========================
-       Utilities
-    ========================= */
+    .tag{
+      font-size:12px;padding:6px 10px;border-radius:999px;
+      background:var(--card);
+      border:1px solid var(--card-stroke);
+      color:var(--muted);
+    }
+    .chip{
+      font-size:12px;padding:6px 10px;border-radius:999px;
+      background:linear-gradient(135deg,var(--brand) 20%,var(--brand-2));
+      color:#06111f;
+      border:0;
+    }
     .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
     .hidden{display:none!important}
 
     /* =========================
-       Footer — tidy & light
+       Footer
     ========================= */
-    footer{border-top:1px dashed var(--card-stroke);padding:40px 0 56px;color:var(--muted)}
+    footer{
+      border-top:1px dashed var(--card-stroke);
+      padding:44px 0 58px;color:var(--muted);
+    }
+    .fine{font-size:14px;color:var(--muted)}
   </style>
 </head>
+
 <body>
   <!-- ============== NAV ============== -->
   <header class="nav">
@@ -170,12 +230,14 @@
           <path d="M12 2L3 7v10l9 5 9-5V7l-9-5Zm0 2.3L19 8l-7 3.9L5 8l7-3.7Zm0 17.4L5 17V9.9l7 3.9 7-3.9V17l-7 4.7Z" fill="url(#g)"/>
         </svg>
         <span>Zavier Chambers</span>
-        <small>Security • Docs • Projects</small>
+        <small>Workbenches • Artifacts • Projects</small>
       </a>
+
       <div class="nav-actions">
-        <button id="themeToggle" class="btn ghost" aria-label="Toggle color theme">Theme</button>
-        <a class="btn" href="#about">About</a>
-        <a class="btn primary" href="#projects">View Work</a>
+        <a class="btn ghost" href="#work">Browse</a>
+        <a class="btn ghost" href="#projects">Projects</a>
+        <a class="btn ghost" href="#about">About</a>
+        <a class="btn primary" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/">Linkedin</a>
       </div>
     </div>
   </header>
@@ -183,88 +245,137 @@
   <!-- ============== HERO ============== -->
   <main class="container">
     <section class="hero">
-      <h1  class="typewriter" style="--n: 42;"> Let's Dig Deep into Cybersecurity Together</h1>
-      <p>I teach applied cybersecurity, I provide clear homelab docs & build small useful tools all with a friendly tone.</p>
+      <h1>Security work, structured.</h1>
+      <p>
+        I ship small tools, workbenches, cheatsheets, and open notes that reduce ambiguity and make real security work easier to reason about.
+        Not “content”. Not “courses”. Just artifacts I actually use.
+      </p>
+
       <div class="hero-ctas">
-        <a class="btn primary" href="https://discord.gg/W3DKh3cd">Join my Discord</a>
-        <a class="btn ghost" href="#projects">Browse projects</a>
+        <a class="btn primary" href="#projects">View projects</a>
+        <a class="btn ghost" href="#work">Browse artifacts</a>
+        <a class="btn ghost" href="mailto:chambersz@duq.edu">Email</a>
+        <a class="btn ghost" href="https://www.youtube.com/@ZavierChambers">YouTube</a>
       </div>
     </section>
 
     <!-- ============== TOOLBAR ============== -->
-    <section class="section section--tight" aria-label="Search and filters">
+    <section class="section section--tight" aria-label="Search and filters" id="work">
       <div class="toolbar">
         <label class="search" aria-label="Search all content">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true"><path d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5Zm-6 0A4.5 4.5 0 1 1 10 5a4.5 4.5 0 0 1-.5 9Z" fill="currentColor"/></svg>
-          <input id="searchInput" type="search" placeholder="Search lessons, docs, or projects…" />
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
+            <path d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5Zm-6 0A4.5 4.5 0 1 1 10 5a4.5 4.5 0 0 1-.5 9Z" fill="currentColor"/>
+          </svg>
+          <input id="searchInput" type="search" placeholder="Search workbenches, guides, cheatsheets, notes, projects…" />
         </label>
+
         <div class="tabs" role="tablist" aria-label="Filter content by type">
           <button class="tab active" data-filter="all" role="tab" aria-selected="true">All</button>
-          <button class="tab" data-filter="teaching" role="tab">Teaching</button>
-          <button class="tab" data-filter="docs" role="tab">Homelab Docs</button>
+          <button class="tab" data-filter="workbenches" role="tab">Workbenches</button>
+          <button class="tab" data-filter="guides" role="tab">Guides</button>
+          <button class="tab" data-filter="cheatsheets" role="tab">Cheatsheets</button>
+          <button class="tab" data-filter="notes" role="tab">Notes</button>
           <button class="tab" data-filter="projects" role="tab">Projects</button>
         </div>
       </div>
     </section>
 
-    <!-- ============== TEACHING ============== -->
-    <section id="teaching" class="section">
+    <!-- ============== WORKBENCHES ============== -->
+    <section id="workbenches" class="section">
       <div class="section-title">
-        <h2>Teaching</h2>
-        <a class="more" href="#teaching">Browse all lessons</a>
+        <h2>Workbenches & Frameworks</h2>
+        <span class="more">Interactive workflows & structured thinking tools</span>
       </div>
-      <div id="teachingGrid" class="grid"></div>
+      <div id="workbenchesGrid" class="grid"></div>
     </section>
 
-    <!-- ============== DOCS ============== -->
-    <section id="docs" class="section">
-      <div class="section-title">
-        <h2>Homelab Documentation</h2>
-        <a class="more" href="#docs">Browse all docs</a>
-      </div>
-      <div id="docsGrid" class="grid"></div>
-    </section>
-
-    <!-- ============== PROJECTS ============== -->
+        <!-- ============== PROJECTS ============== -->
     <section id="projects" class="section">
       <div class="section-title">
         <h2>Projects</h2>
-        <a class="more" href="#projects">Browse all projects</a>
+        <span class="more">Shipped artifacts & experiments</span>
       </div>
       <div id="projectsGrid" class="grid"></div>
     </section>
 
-    <!-- ============== ABOUT (optional stub) ============== -->
+    <!-- ============== GUIDES ============== -->
+    <section id="guides" class="section">
+      <div class="section-title">
+        <h2>Guides & How To's</h2>
+        <span class="more">Opinionated walkthroughs for real tasks</span>
+      </div>
+      <div id="guidesGrid" class="grid"></div>
+    </section>
+
+    <!-- ============== CHEATSHEETS ============== -->
+    <section id="cheatsheets" class="section">
+      <div class="section-title">
+        <h2>Cheatsheets</h2>
+        <span class="more">Fast reference material</span>
+      </div>
+      <div id="cheatsheetsGrid" class="grid"></div>
+    </section>
+
+    <!-- ============== NOTES ============== -->
+    <section id="notes" class="section">
+      <div class="section-title">
+        <h2>Notes</h2>
+        <span class="more">Open, evolving observations</span>
+      </div>
+      <div id="notesGrid" class="grid"></div>
+    </section>
+
+
+
+    <!-- ============== ABOUT ============== -->
     <section id="about" class="section">
       <div class="section-title">
         <h2>About</h2>
+        <span class="more">How I think & what I build</span>
       </div>
       <div class="grid">
         <article class="card col-6">
           <div class="eyebrow">Profile</div>
-          <h3>Cyber Security Student</h3>
-          <p>I help teams and students reduce risk with practical security habits, clear documentation, and tiny tools that make the right thing easy.</p>
-          <div class="meta"><span class="chip">Available for short engagements</span></div>
+          <h3>Security & IAM • Practical tooling</h3>
+          <p>
+            I build small tools and structured artifacts that make security work less fuzzy: clearer requirements,
+            better evidence, tighter scope, and fewer “we’ll figure it out later” surprises.
+          </p>
+          <div class="meta">
+            <span class="chip">Artifacts-first</span>
+            <span class="tag">Clear scope</span>
+            <span class="tag">Traceable decisions</span>
+          </div>
         </article>
+
         <article class="card col-6">
-          <div class="eyebrow">Educational background</div>
-          <p>Bachelors of Arts in Cybersecurity & Computer Science • 8 Years homelabing • IAM for major organizations • Many Free Certifications • Azure Dev Ops Boards • Crowdstrike Falcon • Honeypots for learning and MUCH MORE!</p>
+          <div class="eyebrow">Background</div>
+          <h3>What I’m into</h3>
+          <p>
+            Cybersecurity & Computer Science • IAM and security platforms • Azure DevOps boards • small web tools •
+            documentation that’s actually usable under pressure.
+          </p>
+          <div class="meta">
+            <span class="tag">IAM</span>
+            <span class="tag">Security tooling</span>
+            <span class="tag">BA workflows</span>
+          </div>
         </article>
       </div>
     </section>
-
   </main>
 
   <!-- ============== FOOTER ============== -->
   <footer>
     <div class="container row" style="justify-content:space-between;align-items:flex-start">
       <div>
-        <strong>Zavier Chambers</strong> — Security teaching • Homelab docs • Projects
-        <div style="margin-top:6px;font-size:14px">Built with HTML, CSS, and sprinkles of JS.</div>
+        <strong>Zavier Chambers</strong> — Workbenches • Artifacts • Projects
+        <div class="fine" style="margin-top:6px">Built with HTML, CSS, and minimal JS. Dark mode forever. 🌙</div>
       </div>
       <div class="row">
         <a class="btn ghost" href="mailto:chambersz@duq.edu">Email</a>
         <a class="btn ghost" href="https://www.youtube.com/@ZavierChambers">YouTube</a>
+        <a class="btn ghost" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/">Linkedin</a>
       </div>
     </div>
   </footer>
@@ -272,26 +383,52 @@
   <!-- ============== DATA + JS ============== -->
   <script>
     // ===== Content =====
-    const lessons = [
-      { title: "Coming Soon", desc: "placeholder", tags: ["teaching","cybersecuirty","beginner"], link: "" },
+    // Replace / extend these over time. Keep them short, specific, and artifact-first.
+
+    const workbenches = [
+      {
+        title: "Structured Requirements Capture Workbench",
+        desc: "A daily-driver for gathering requirements with stakeholder prompts, export to Markdown, and clean scope control.",
+        tags: ["workbenches","requirements","BA","web app"],
+        link: "Projects/structured-requirements-capture/index.html"
+      },
+      {
+        title: "Simple Threat Model Maker",
+        desc: "Create a lightweight risk heatmap and risk register without spreadsheets or pain.",
+        tags: ["workbenches","threat model","risk","web app"],
+        link: "/Projects/Simple_Threat_Model_Maker/index.html"
+      },
+      { title: "Consumer ATT&CK-Lite Framework",
+       desc: "A simplified attack framework for individuals with online presence.",
+        tags: ["projects","framework","security"],
+         link: "Projects/Consumer ATT&CK-Lite/Consumer ATT&CK-Lite.html" },
     ];
 
-    const docs = [
-      { title: "Coming Soon", desc: "placeholder", tags: ["docs","proxmox","virtual box"], link: "" },
+    const guides = [
+      { title: "Coming soon: ", desc: "", tags: ["guides","How to","process"], link: "" },
+      { title: "Coming soon: ", desc: "", tags: ["guides","How to","process"], link: "" },
+      
     ];
 
+    const cheatsheets = [
+      { title: "Coming soon:", desc: "", tags: ["cheatsheets","explained","overview"], link: "" },
+      { title: "Coming soon: ", desc: "", tags: ["cheatsheets","explained","overview"], link: "" },
+    ];
+
+    const notes = [
+      { title: "Notes: ", desc: "", tags: ["notes","breakdown","thoughts"], link: "" },
+      { title: "Notes: ", desc: "", tags: ["notes","breakdown","thoughts"], link: "" },
+    ];
+
+    // Keep your existing project list (cleaned tags a bit)
     const projects = [
-      { title: "General Business Analyst Requirements Capture Tool ", desc: "A powerful tool to aid in capturing general business requirements at an overview scope ", tags: ["projects","Useful","web app"], link: "Projects/structured-requirements-capture/index.html" },
-      { title: "Daily Bible Verse Web App", desc: "A tiny passage refelection application that allows users to reflect on random passages and save them in there device. ", tags: ["projects","security","web app"], link: "/Projects/Daily_Bible_Verse/index.html" },
-      { title: "Password Vault client side", desc: "A fully client side password manager with exporting file functionality.", tags: ["projects","password vault","web app"], link: "/Projects/Password_Vault/index.html" },
-      { title: "Password Strength Checker (Bruteforce)", desc: "Test your passwords on a basic password cracker and see how long it takes to get to yours!", tags: ["projects","password cracker","web app"], link: "/Projects/Password_Strength_Checker/index.html" },
-      { title: "CIA Triad Non Technical Breakdown", desc: "Check out the CIA Triad in real time, which are the three most important aspects to information security", tags: ["projects","Educational","web app"], link: "/Projects/CIA Triad/index.html" },
-      { title: "Asymmetric vs Symmetric Crypto — Live Demo", desc: "", tags: ["projects","Educational","web app"], link: "/Projects/Encryption/index.html" },
-      { title: "PDF URL Extractor", desc: "Extract Links from PDF books so you can easily click and travel with the links along with the book!", tags: ["projects","Useful","web app"], link: "/Projects/Link_Extracter_For_Books/index.html" },
-      { title: "Maze Chase", desc: "Broswer Game where you get chased by a little red cube until you make it to the goal!", tags: ["projects","Fun","web app"], link: "/Projects/Maze_Game/index.html" },
-      { title: "Simple Threat Model", desc: "Make a Heatmap & Risk Register with this little webapp!", tags: ["projects","Useful","web app"], link: "/Projects/Simple_Threat_Model_Maker/index.html" },
-      { title: "Consumer Attack Framework", desc: "Learn the domains to worry about as an individual with any online presence", tags: ["projects","Useful","web app"], link: "Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html" },
-    
+      { title: "Daily Bible Verse Web App", desc: "A tiny passage reflection app that saves locally on-device.", tags: ["projects","web app","utility"], link: "/Projects/Daily_Bible_Verse/index.html" },
+      { title: "Password Vault (Client-side)", desc: "Fully client-side password manager with export functionality.", tags: ["projects","crypto","web app"], link: "/Projects/Password_Vault/index.html" },
+      { title: "Password Strength Checker (Bruteforce)", desc: "Estimate how long it takes a brute force search to reach a password length/charset space.", tags: ["projects","security","web app"], link: "/Projects/Password_Strength_Checker/index.html" },
+      { title: "CIA Triad (Non-technical breakdown)", desc: "A simple explainer/demo for the CIA triad with interactive framing.", tags: ["projects","framework","web app"], link: "/Projects/CIA Triad/index.html" },
+      { title: "Asymmetric vs Symmetric Crypto — Live Demo", desc: "Interactive crypto demo for conceptual understanding.", tags: ["projects","crypto","web app"], link: "/Projects/Encryption/index.html" },
+      { title: "PDF URL Extractor", desc: "Extract links from PDFs so you can click through references easily.", tags: ["projects","utility","web app"], link: "/Projects/Link_Extracter_For_Books/index.html" },
+      { title: "Maze Chase", desc: "Browser game: get chased by a red cube until you reach the goal.", tags: ["projects","game","web app"], link: "/Projects/Maze_Game/index.html" },
     ];
 
     // ===== Helpers =====
@@ -299,94 +436,84 @@
 
     function card(item){
       const c = el('article','card col-4');
+      const category = (item.tags && item.tags.length) ? item.tags[0] : "item";
+      const openLink = item.link && item.link.trim().length ? item.link : "#";
+      const linkLabel = (openLink === "#") ? "Soon" : "Open";
+
       c.innerHTML = `
-        <div class="eyebrow">${item.tags[0]}</div>
+        <div class="eyebrow">${category}</div>
         <h3>${item.title}</h3>
-        <p>${item.desc}</p>
-        <div class="meta">${item.tags.slice(1).map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
+        <p>${item.desc || ""}</p>
+        <div class="meta">${(item.tags||[]).slice(1).map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
         <div class="row" style="margin-top:16px;justify-content:space-between">
-          <a class="btn ghost" href="${item.link}">Open</a>
-          <span class="tag" aria-label="Date">${new Date().toLocaleDateString()}</span>
+          <a class="btn ghost" href="${openLink}" ${openLink==="#" ? "aria-disabled='true'" : ""}>${linkLabel}</a>
+          <span class="tag" aria-label="Type">${category}</span>
         </div>`;
       return c;
     }
 
-    function populate(){
-      const tg=document.getElementById('teachingGrid');
-      const dg=document.getElementById('docsGrid');
-      const pg=document.getElementById('projectsGrid');
-      [tg,dg,pg].forEach(g=>g.innerHTML='');
-      lessons.forEach(i=>tg.appendChild(card(i)));
-      docs.forEach(i=>dg.appendChild(card(i)));
-      projects.forEach(i=>pg.appendChild(card(i)));
+    function mount(gridId, data){
+      const grid = document.getElementById(gridId);
+      if(!grid) return;
+      grid.innerHTML = "";
+      data.forEach(i => grid.appendChild(card(i)));
+    }
+
+    function populateAll(){
+      mount("workbenchesGrid", workbenches);
+      mount("guidesGrid", guides);
+      mount("cheatsheetsGrid", cheatsheets);
+      mount("notesGrid", notes);
+      mount("projectsGrid", projects);
     }
 
     // ===== Filter & Search =====
     const tabs=[...document.querySelectorAll('.tab')];
     const searchInput=document.getElementById('searchInput');
 
-    function filterAndSearch(){
-      const q=searchInput.value.trim().toLowerCase();
-      const active=document.querySelector('.tab.active')?.dataset.filter||'all';
-      const sections=[
-        {key:'teaching',grid:document.getElementById('teachingGrid'),data:lessons},
-        {key:'docs',grid:document.getElementById('docsGrid'),data:docs},
-        {key:'projects',grid:document.getElementById('projectsGrid'),data:projects},
-      ];
-      sections.forEach(({key,grid,data})=>{
-        const matchesType = active==='all'||active===key;
+    const sections = [
+      { key:'workbenches', sectionEl: document.getElementById('workbenches'), gridEl: document.getElementById('workbenchesGrid'), data: workbenches },
+      { key:'guides', sectionEl: document.getElementById('guides'), gridEl: document.getElementById('guidesGrid'), data: guides },
+      { key:'cheatsheets', sectionEl: document.getElementById('cheatsheets'), gridEl: document.getElementById('cheatsheetsGrid'), data: cheatsheets },
+      { key:'notes', sectionEl: document.getElementById('notes'), gridEl: document.getElementById('notesGrid'), data: notes },
+      { key:'projects', sectionEl: document.getElementById('projects'), gridEl: document.getElementById('projectsGrid'), data: projects },
+    ];
+
+    function renderFiltered(){
+      const q = (searchInput.value || "").trim().toLowerCase();
+      const active = document.querySelector('.tab.active')?.dataset.filter || 'all';
+
+      sections.forEach(({key, sectionEl, gridEl, data})=>{
+        if(!sectionEl || !gridEl) return;
+
+        const matchesType = (active === 'all' || active === key);
         const filtered = data.filter(it=>{
-          const text=(it.title+' '+it.desc+' '+it.tags.join(' ')).toLowerCase();
+          const text = ((it.title||"") + " " + (it.desc||"") + " " + (it.tags||[]).join(" ")).toLowerCase();
           return text.includes(q);
         });
-        grid.parentElement.classList.toggle('hidden',!(matchesType && filtered.length));
-        grid.innerHTML='';
-        if(matchesType) filtered.forEach(i=>grid.appendChild(card(i)));
+
+        // show section only if it matches tab AND has results (or tab is "all" but still allow empty hiding)
+        const show = matchesType && filtered.length > 0;
+
+        sectionEl.classList.toggle('hidden', !show);
+
+        // If tab matches but empty results, hide section; if show, render cards
+        gridEl.innerHTML = "";
+        if(show) filtered.forEach(i => gridEl.appendChild(card(i)));
       });
     }
 
     tabs.forEach(t=>t.addEventListener('click',()=>{
       tabs.forEach(x=>x.classList.remove('active'));
       t.classList.add('active');
-      filterAndSearch();
+      renderFiltered();
     }));
-    searchInput.addEventListener('input',filterAndSearch);
 
-    // ===== Theme Toggle (light by default) =====
-    const themeToggle=document.getElementById('themeToggle');
-    const prefersDark=window.matchMedia('(prefers-color-scheme: dark)');
-    function applyTheme(mode){
-      document.body.classList.toggle('dark', mode==='dark');
-      localStorage.setItem('theme',mode);
-    }
-    function initTheme(){
-      const saved=localStorage.getItem('theme');
-      if(saved){applyTheme(saved);return}
-      applyTheme(prefersDark.matches? 'dark':'light');
-    }
-    themeToggle.addEventListener('click',()=>{
-      const next = document.body.classList.contains('dark')? 'light':'dark';
-      applyTheme(next);
-    });
-    prefersDark.addEventListener('change',e=>applyTheme(e.matches?'dark':'light'));
-
-    // ===== Copy Buttons (if used) =====
-    document.addEventListener('click',(e)=>{
-      const btn=e.target.closest('.copy-btn');
-      if(!btn) return;
-      const sel=btn.getAttribute('data-copy');
-      const node=document.querySelector(sel);
-      if(!node) return;
-      const text=node.innerText;
-      navigator.clipboard.writeText(text).then(()=>{
-        const prev=btn.textContent;btn.textContent='Copied!';setTimeout(()=>btn.textContent=prev,1200);
-      });
-    });
+    searchInput.addEventListener('input',renderFiltered);
 
     // ===== INIT =====
-    initTheme();
-    populate();
-    filterAndSearch();
+    populateAll();
+    renderFiltered();
   </script>
 </body>
 </html>
