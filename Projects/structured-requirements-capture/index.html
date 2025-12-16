@@ -1,0 +1,400 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Requirements Capture</title>
+
+  <style>
+    :root {
+      --bg: #0b0f14;
+      --panel: #111826;
+      --text: #e6edf3;
+      --muted: #a9b4c0;
+      --line: rgba(255,255,255,.10);
+      --accent: #7dd3fc;
+      --bad: #fb7185;
+      --shadow: 0 18px 45px rgba(0,0,0,.45);
+      --radius: 16px;
+      --mono: ui-monospace, SFMono-Regular, Consolas, monospace;
+      --sans: system-ui, -apple-system, Segoe UI, Roboto, Helvetica, Arial;
+    }
+
+    * { box-sizing: border-box; }
+
+    body {
+      margin: 0;
+      font-family: var(--sans);
+      background: var(--bg);
+      color: var(--text);
+    }
+
+    header {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 28px 20px 16px;
+    }
+
+    h1 {
+      margin: 0;
+      font-size: 22px;
+    }
+
+    .sub {
+      margin-top: 8px;
+      color: var(--muted);
+      max-width: 80ch;
+      line-height: 1.45;
+    }
+
+    main {
+      max-width: 900px;
+      margin: 0 auto;
+      padding: 0 20px 40px;
+    }
+
+    .card {
+      background: rgba(17,24,38,.75);
+      border: 1px solid var(--line);
+      border-radius: var(--radius);
+      box-shadow: var(--shadow);
+      overflow: hidden;
+    }
+
+    .cardHead {
+      padding: 16px;
+      border-bottom: 1px solid var(--line);
+      display: flex;
+      flex-wrap: wrap;
+      gap: 12px;
+      justify-content: space-between;
+    }
+
+    .metaRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    label.small {
+      font-size: 12px;
+      color: var(--muted);
+    }
+
+    input[type="text"] {
+      background: rgba(11,15,20,.6);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      min-width: 220px;
+    }
+
+    .btnRow {
+      display: flex;
+      gap: 10px;
+      flex-wrap: wrap;
+    }
+
+    button {
+      cursor: pointer;
+      border: 1px solid var(--line);
+      background: rgba(17,24,38,.8);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-weight: 600;
+    }
+
+    button:hover {
+      background: rgba(17,24,38,1);
+    }
+
+    .primary {
+      border-color: rgba(125,211,252,.35);
+      background: rgba(125,211,252,.18);
+    }
+
+    .danger {
+      border-color: rgba(251,113,133,.35);
+      background: rgba(251,113,133,.18);
+    }
+
+    .content {
+      padding: 16px;
+    }
+
+    .q {
+      padding: 14px;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: rgba(11,15,20,.55);
+      margin-bottom: 12px;
+    }
+
+    .qTop {
+      display: flex;
+      gap: 10px;
+      align-items: baseline;
+      margin-bottom: 8px;
+    }
+
+    .qNum {
+      font-family: var(--mono);
+      font-size: 12px;
+      color: var(--accent);
+    }
+
+    .qText {
+      font-weight: 700;
+      line-height: 1.35;
+    }
+
+    textarea {
+      width: 100%;
+      min-height: 80px;
+      resize: vertical;
+      background: rgba(11,15,20,.6);
+      border: 1px solid var(--line);
+      color: var(--text);
+      padding: 10px 12px;
+      border-radius: 12px;
+      font-family: var(--sans);
+    }
+
+    .hint {
+      font-size: 12px;
+      color: var(--muted);
+      margin-top: 6px;
+    }
+
+    .toast {
+      position: fixed;
+      bottom: 14px;
+      left: 50%;
+      transform: translateX(-50%);
+      background: rgba(17,24,38,.95);
+      border: 1px solid rgba(255,255,255,.18);
+      border-radius: 999px;
+      padding: 10px 14px;
+      font-weight: 700;
+      opacity: 0;
+      pointer-events: none;
+      transition: opacity .15s ease;
+    }
+
+    .toast.show { opacity: 1; }
+  </style>
+</head>
+
+<body>
+<header>
+  <h1>Requirements Capturing</h1>
+  <div class="sub">
+    Let's make sure we capture everything we need to succeed
+  </div>
+</header>
+
+<main>
+  <section class="card">
+    <div class="cardHead">
+      <div class="metaRow">
+        <div>
+          <label class="small">Title</label><br />
+          <input id="title" type="text" placeholder="Enter Title Here..." />
+        </div>
+
+      </div>
+
+      <div class="btnRow">
+        <button id="copy">Copy Markdown</button>
+        <button id="download" class="primary">Download .md</button>
+        <button id="clear" class="danger">Clear</button>
+      </div>
+    </div>
+
+    <div class="content" id="questions"></div>
+  </section>
+</main>
+
+<div class="toast" id="toast">Copied ✅</div>
+
+<script>
+const QUESTION_SET = [
+  {
+    id:"idea",
+    title:"Project idea (An overview without the solution)",
+    hint:" What problem are we trying to solve, in plain language? If I explained this to a non-technical person, what would I say? What would we still want even if no solution came today?"
+  },
+  {
+    id:"business_outcome",
+    title:"Business outcome",
+    hint:" What changes for the business if this succeeds? What pain goes away? What risk is reduced? What metric, audit finding, or complaint would look better?"
+  },
+  {
+    id:"problem",
+    title:"Current pain / risk",
+    hint:" What is happening today that we don’t like? How often does it occur? Who feels it the most?"
+  },
+  {
+    id:"stakeholders",
+    title:"Stakeholders & decision maker",
+    hint:" Who uses this? Who supports it? Who gets yelled at when it breaks? Who can say no? Who has final authority if there is a disagreement?"
+  },
+  {
+    id:"in_scope",
+    title:"In scope",
+    hint:" Which systems, users, and actions are included? Are we talking all users or a subset? What specifically are we committing to deliver?"
+  },
+  {
+    id:"out_scope",
+    title:"Out of scope",
+    hint:" What are we explicitly NOT doing? What requests are likely to come later that we are not solving now? What assumptions should we shut down early?"
+  },
+  {
+    id:"business_requirement",
+    title:"Business Requirement (BR)",
+    hint:" From a business or risk perspective, what must be true when this is done? If auditors or leadership asked ‘what did this change,’ how would we answer without naming tools or tech breakdown?"
+  },
+  {
+    id:"functional_requirement",
+    title:"Functional Requirement (FR)",
+    hint:" What must the system or process do itself to make the business requirement true? What behavior must exist every time? What actions must be allowed or prevente directly that makes the BR true?"
+  },
+  {
+    id:"acceptance_criteria",
+    title:"Acceptance Criteria",
+    hint:" How do we prove this works? What would a test to do to validate it? What evidence would show security, audit, or operations staff that this is complete?"
+  },
+  {
+    id:"data",
+    title:"Data & evidence",
+    hint:" What data is created, changed, or logged? Who needs access to that data? How long must it be retained? What reports or evidence will be required later?"
+  },
+  {
+    id:"assumptions",
+    title:"Assumptions",
+    hint:" What are we assuming is already true? What are we trusting other teams or systems to handle? What would break this if the assumption is wrong?"
+  },
+  {
+    id:"dependencies",
+    title:"Dependencies & constraints",
+    hint:" What needs to exist before we can start or finish this? What teams, approvals, vendors, or windows are we constrained by? What policies or standards apply?"
+  },
+  {
+    id:"risks",
+    title:"Risks & failure behavior",
+    hint:" What could go wrong? What happens if a dependency fails? What is the safe failure mode — deny, allow, alert? Who gets notified when things break?"
+  },
+  {
+    id:"non_functional",
+    title:"Non-functional requirements",
+    hint:" What are the expectations for performance, availability, usability, and security? What would make users hate this even if it technically works?"
+  },
+  {
+    id:"definition_of_done",
+    title:"Definition of Done",
+    hint:" What must be delivered for this to be considered complete? What documentation, testing, evidence, and sign-off are required? Who formally accepts it?"
+  }
+];
+
+const qWrap = document.getElementById("questions");
+const titleEl = document.getElementById("title");
+const toast = document.getElementById("toast");
+
+const LS_KEY = "req_capture_simple_v1";
+
+const state = {
+  answers: Object.fromEntries(QUESTION_SET.map(q => [q.id, ""]))
+};
+
+function showToast(msg) {
+  toast.textContent = msg;
+  toast.classList.add("show");
+  setTimeout(() => toast.classList.remove("show"), 900);
+}
+
+function persist() {
+  localStorage.setItem(LS_KEY, JSON.stringify({
+    title: titleEl.value,
+    answers: state.answers
+  }));
+}
+
+function restore() {
+  const raw = localStorage.getItem(LS_KEY);
+  if (!raw) return;
+  const data = JSON.parse(raw);
+  titleEl.value = data.title || "";
+  state.answers = { ...state.answers, ...(data.answers || {}) };
+}
+
+function buildMarkdown() {
+  const lines = [];
+  lines.push(`# ${titleEl.value || "Untitled Requirement"}`);
+  QUESTION_SET.forEach((q,i)=>{
+    lines.push(`## ${i+1}. ${q.title}`);
+    lines.push(state.answers[q.id]?.trim() || "_(not answered)_");
+    lines.push("");
+  });
+  return lines.join("\n");
+}
+
+function renderQuestions() {
+  qWrap.innerHTML = "";
+  QUESTION_SET.forEach((q, i) => {
+    const box = document.createElement("div");
+    box.className = "q";
+
+    box.innerHTML = `
+      <div class="qTop">
+        <div class="qNum">${String(i+1).padStart(2,"0")}</div>
+        <div class="qText">${q.title}</div>
+      </div>
+    `;
+
+    const ta = document.createElement("textarea");
+    ta.value = state.answers[q.id] || "";
+    ta.addEventListener("input", e => {
+      state.answers[q.id] = e.target.value;
+      persist();
+    });
+
+    const hint = document.createElement("div");
+    hint.className = "hint";
+    hint.textContent = q.hint;
+
+    box.appendChild(ta);
+    box.appendChild(hint);
+    qWrap.appendChild(box);
+  });
+}
+
+document.getElementById("copy").onclick = async () => {
+  await navigator.clipboard.writeText(buildMarkdown());
+  showToast("Copied ✅");
+};
+
+document.getElementById("download").onclick = () => {
+  const blob = new Blob([buildMarkdown()], { type:"text/markdown" });
+  const a = document.createElement("a");
+  a.href = URL.createObjectURL(blob);
+  a.download = "requirements.md";
+  a.click();
+  URL.revokeObjectURL(a.href);
+  showToast("Downloaded ✅");
+};
+
+document.getElementById("clear").onclick = () => {
+  if (!confirm("Clear everything?")) return;
+  localStorage.removeItem(LS_KEY);
+  titleEl.value = "";
+  QUESTION_SET.forEach(q => state.answers[q.id] = "");
+  renderQuestions();
+};
+
+restore();
+renderQuestions();
+</script>
+</body>
+</html>
