@@ -3,517 +3,201 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <title>Zavier Chambers — Workbenches • Artifacts • Projects</title>
-  <meta name="description" content="Security workbenches, guides, cheatsheets, notes, and projects by Zavier Chambers." />
+  <title>Zavier Chambers | TheeComputerGuy</title>
+  <meta name="description" content="Projects, guides, and tools by Zavier Chambers (TheeComputerGuy). Plain-English security and tech." />
   <meta name="theme-color" content="#0b0f14" />
 
   <style>
-    /* =========================
-       Reset
-    ========================= */
+    /* ================= Reset ================= */
     *,*::before,*::after{box-sizing:border-box}
-    html,body{height:100%}
-    body{margin:0;font-family:ui-sans-serif,system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,Cantarell,Noto Sans,sans-serif;line-height:1.7;-webkit-font-smoothing:antialiased}
-    img{max-width:100%;display:block}
-    a{color:inherit;text-decoration:none}
-    :focus-visible{outline:2px solid var(--ring);outline-offset:4px;border-radius:12px}
-    :root{color-scheme:dark}
-
-    /* =========================
-       Theme — Dark by default
-    ========================= */
-    :root{
-      --bg:#0b0f14;
-      --bg-elev:#0f1623;
-      --bg-soft:#111b2a;
-      --text:#e6edf3;
-      --muted:#a9b4c0;
-      --ring:#7dd3fc;
-
-      --brand:#7aa2ff;
-      --brand-2:#27d19a;
-      --brand-3:#ffd892;
-
-      --card:rgba(255,255,255,.06);
-      --card-stroke:rgba(255,255,255,.10);
-      --shadow:0 12px 44px rgba(0,0,0,.55);
-
-      --code-bg:#0d1a30;
-      --code-border:#203a70;
-
-      --accent-grad:
-        radial-gradient(1100px 700px at 10% -20%, rgba(122,162,255,.18), transparent 60%),
-        radial-gradient(1100px 700px at 95% 0%, rgba(39,209,154,.12), transparent 60%),
-        radial-gradient(900px 600px at 55% 110%, rgba(255,216,146,.10), transparent 55%);
-    }
-
+    html,body{margin:0;padding:0}
     body{
-      background:var(--bg);
-      color:var(--text);
-      background-image:var(--accent-grad);
+      font-family:system-ui,-apple-system,Segoe UI,Roboto,Ubuntu,sans-serif;
+      background:#0b0f14;
+      color:#e6edf3;
+      line-height:1.6;
     }
+    a{color:inherit;text-decoration:none}
 
-    /* =========================
-       Layout
-    ========================= */
-    .container{width:min(1120px,92%);margin-inline:auto}
-    .section{padding:74px 0 28px}
-    .section--tight{padding:40px 0}
-
-    header.nav{
-      position:sticky;top:0;z-index:40;
-      backdrop-filter:saturate(140%) blur(10px);
-      background:color-mix(in oklch,var(--bg) 86%,transparent);
-      border-bottom:1px solid var(--card-stroke);
-    }
-    .nav-inner{
-      display:flex;align-items:center;justify-content:space-between;
-      gap:16px;padding:18px 0;
-    }
-    .brand{
-      display:flex;align-items:center;gap:12px;
-      font-weight:900;letter-spacing:.2px;
-    }
-    .brand small{color:var(--muted);font-weight:650}
-
-    .nav-actions{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-
+    /* ================= Shared ================= */
+    .wrap{max-width:960px;margin:auto;padding:0 4%}
     .btn{
-      border-radius:14px;padding:12px 16px;border:1px solid var(--card-stroke);
-      background:var(--bg-elev);color:var(--text);
-      box-shadow:var(--shadow);
-      cursor:pointer;
-      transition:transform .08s ease, background .2s ease, border-color .2s ease;
-      user-select:none;
+      display:inline-block;
+      padding:14px 18px;
+      border-radius:14px;
+      background:rgba(255,255,255,.10);
+      border:1px solid rgba(255,255,255,.18);
+      backdrop-filter:blur(6px);
+      font-size:16px;
+      transition:transform .1s ease, background .2s ease;
     }
-    .btn:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.16)}
-    .btn.ghost{background:var(--card);box-shadow:none}
+    .btn:hover{transform:translateY(-1px);background:rgba(255,255,255,.18)}
     .btn.primary{
-      background:linear-gradient(135deg,var(--brand),var(--brand-2));
-      border:none;color:#08121e;
-      box-shadow:0 18px 52px rgba(0,0,0,.55);
-    }
-    .btn.primary:hover{transform:translateY(-1px)}
-
-    /* =========================
-       Hero
-    ========================= */
-    .hero{padding:92px 0 10px}
-    .hero h1{
-      font-size:clamp(36px,5.6vw,56px);
-      line-height:1.06;margin:0 0 16px;
-      letter-spacing:-.9px;
-    }
-    .hero p{
-      color:var(--muted);
-      margin:0;
-      font-size:clamp(16px,2.2vw,19px);
-      max-width:76ch;
-    }
-    .hero-ctas{display:flex;flex-wrap:wrap;gap:12px;margin-top:26px}
-
-    .pill{
-      display:inline-flex;align-items:center;gap:8px;
-      padding:8px 10px;border:1px solid var(--card-stroke);
-      border-radius:999px;background:rgba(0,0,0,.18);
-      color:var(--muted);font-size:12px;
+      background:linear-gradient(135deg,#7aa2ff,#27d19a);
+      color:#08121e;
+      border:none;
+      font-weight:700;
     }
 
-    /* =========================
-       Toolbar
-    ========================= */
-    .toolbar{
-      display:grid;grid-template-columns:1fr auto;
-      gap:14px;padding:22px 0;
+    /* ================= Hero ================= */
+    .hero{
+      position:relative;
+      min-height:100vh;
+      display:flex;
+      align-items:center;
+      justify-content:center;
+      overflow:hidden;
+      background:#000;
     }
-    @media (max-width: 860px){.toolbar{grid-template-columns:1fr}}
-    .search{
-      display:flex;align-items:center;gap:10px;
-      padding:12px 14px;background:var(--bg-elev);
-      border:1px solid var(--card-stroke);border-radius:14px;
-      box-shadow:var(--shadow);
+    .hero video,
+    .hero .poster{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      object-fit:cover;
     }
-    .search input{
-      border:0;outline:0;flex:1;background:transparent;
-      color:var(--text);font-size:16px;
+    .hero video{opacity:.75}
+    .hero::after{
+      content:"";
+      position:absolute;
+      inset:0;
+      background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.8));
+      z-index:1;
     }
-    .tabs{display:flex;align-items:center;gap:10px;flex-wrap:wrap}
-    .tab{
-      padding:10px 14px;border-radius:999px;
-      border:1px solid var(--card-stroke);
-      background:var(--bg-elev);
-      color:var(--muted);cursor:pointer;
-      transition:background .2s ease, border-color .2s ease, transform .08s ease;
-      user-select:none;
+    .hero-content{
+      position:relative;
+      z-index:2;
+      max-width:720px;
+      padding:32px;
+      text-align:center;
     }
-    .tab:hover{transform:translateY(-1px);border-color:rgba(255,255,255,.16)}
-    .tab.active{
-      background:linear-gradient(135deg,
-        color-mix(in oklch,var(--brand) 65%,transparent),
-        color-mix(in oklch,var(--brand-2) 55%,transparent));
-      color:var(--text);border-color:transparent;
+    .hero-content h1{
+      font-size:clamp(36px,6vw,56px);
+      line-height:1.05;
+      margin:0 0 10px;
+      letter-spacing:-.6px;
+    }
+    .alias{color:#a9b4c0;font-size:18px;margin-bottom:18px}
+    .hero-content p{
+      font-size:18px;
+      color:#cbd5e1;
+      margin:0 0 28px;
+    }
+    .actions{
+      display:flex;
+      flex-wrap:wrap;
+      gap:14px;
+      justify-content:center;
+    }
+    .trust{
+      position:absolute;
+      bottom:28px;
+      z-index:2;
+      color:#a9b4c0;
+      font-size:14px;
+      text-align:center;
+      padding:0 20px;
     }
 
-    /* =========================
-       Section headers
-    ========================= */
-    .section-title{
-      display:flex;align-items:baseline;justify-content:space-between;
-      gap:10px;margin-bottom:18px;flex-wrap:wrap;
-    }
-    .section-title h2{margin:0;font-size:26px;letter-spacing:-.35px}
-    .section-title .more{color:var(--muted);font-size:14px}
+    /* ================= Sections ================= */
+    section{padding:72px 0}
+    section.dark{background:#0f1623;border-top:1px dashed rgba(255,255,255,.12)}
+    h2{font-size:32px;margin:0 0 14px}
+    .muted{color:#a9b4c0;max-width:70ch}
 
-    /* =========================
-       Grid & Cards
-    ========================= */
-    .grid{display:grid;gap:22px;grid-template-columns:repeat(12,1fr)}
-    .col-4{grid-column:span 4}
-    .col-6{grid-column:span 6}
-    .col-12{grid-column:span 12}
-    @media (max-width:920px){.col-4,.col-6{grid-column:span 12}}
+    /* ================= Grid (FIXED) ================= */
+    .grid{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:22px;
+      margin-top:32px;
+    }
+    @media (max-width: 900px){
+      .grid{grid-template-columns:repeat(2,1fr)}
+    }
+    @media (max-width: 560px){
+      .grid{grid-template-columns:1fr}
+    }
 
     .card{
-      position:relative;
-      border:1px solid var(--card-stroke);
-      background:linear-gradient(180deg,
-        rgba(255,255,255,.05),
-        rgba(255,255,255,.02));
-      padding:22px;border-radius:18px;
-      box-shadow:var(--shadow);
-      overflow:hidden;
-      transition:transform .12s ease, border-color .2s ease;
+      padding:22px;
+      border-radius:18px;
+      background:rgba(255,255,255,.05);
+      border:1px solid rgba(255,255,255,.12);
     }
-    .card:hover{transform:translateY(-3px);border-color:rgba(255,255,255,.16)}
-    .card .eyebrow{color:var(--muted);font-size:12px;letter-spacing:.32px;text-transform:uppercase}
-    .card h3{margin:10px 0 10px;font-size:20px;letter-spacing:-.2px}
-    .card p{margin:0;color:var(--muted)}
-    .card .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .tag{
-      font-size:12px;padding:6px 10px;border-radius:999px;
-      background:var(--card);
-      border:1px solid var(--card-stroke);
-      color:var(--muted);
-    }
-    .chip{
-      font-size:12px;padding:6px 10px;border-radius:999px;
-      background:linear-gradient(135deg,var(--brand) 20%,var(--brand-2));
-      color:#06111f;
-      border:0;
-    }
-    .row{display:flex;gap:12px;align-items:center;flex-wrap:wrap}
-    .hidden{display:none!important}
+    .card p{color:#a9b4c0}
+    .card a{display:inline-block;margin-top:14px;color:#7aa2ff}
 
-    /* =========================
-       Footer
-    ========================= */
-    footer{
-      border-top:1px dashed var(--card-stroke);
-      padding:44px 0 58px;color:var(--muted);
+    /* ================= Mobile ================= */
+    @media (max-width:640px){
+      .hero-content{padding:20px}
+      .hero-content h1{font-size:34px}
+      .hero-content p{font-size:16px}
+      .actions{flex-direction:column}
+      .btn{width:100%;text-align:center}
+      .trust{position:static;margin-top:28px}
     }
-    .fine{font-size:14px;color:var(--muted)}
+    @media (prefers-reduced-motion: reduce){video{display:none}}
   </style>
 </head>
-
 <body>
-  <!-- ============== NAV ============== -->
-  <header class="nav">
-    <div class="container nav-inner">
-      <a href="#" class="brand" aria-label="Home">
-        <svg width="26" height="26" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-          <defs>
-            <linearGradient id="g" x1="0" y1="0" x2="1" y2="1">
-              <stop offset="0%" stop-color="var(--brand)"/><stop offset="100%" stop-color="var(--brand-2)"/>
-            </linearGradient>
-          </defs>
-          <path d="M12 2L3 7v10l9 5 9-5V7l-9-5Zm0 2.3L19 8l-7 3.9L5 8l7-3.7Zm0 17.4L5 17V9.9l7 3.9 7-3.9V17l-7 4.7Z" fill="url(#g)"/>
-        </svg>
-        <span>Zavier Chambers</span>
-        <small>Workbenches • Artifacts • Projects</small>
-      </a>
 
-      <div class="nav-actions">
-        <a class="btn ghost" href="#work">Browse</a>
-        <a class="btn ghost" href="#projects">Projects</a>
-        <a class="btn ghost" href="#about">About</a>
-        <a class="btn primary" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/">Linkedin</a>
-      </div>
+<!-- ================= HERO ================= -->
+<section class="hero">
+  <video autoplay muted loop playsinline preload="metadata">
+    <source src="/assets/hero.mp4" type="video/mp4">
+  </video>
+
+  <div class="hero-content">
+    <h1>Zavier Chambers</h1>
+    <div class="alias">aka <strong>TheeComputerGuy</strong></div>
+    <p>Projects, guides, and tools focused on clarity over hype.</p>
+    <div class="actions">
+      <a class="btn primary" href="#projects">🛠 Projects</a>
+      <a class="btn" href="#guides">📘 Guides</a>
+      <a class="btn" href="https://www.tiktok.com/@theecomputerguy">TikTok</a>
+      <a class="btn" href="https://www.youtube.com/@ZavierChambers">YouTube</a>
     </div>
-  </header>
+  </div>
+  <div class="trust">Real name. Real work. No hype.</div>
+</section>
 
-  <!-- ============== HERO ============== -->
-  <main class="container">
-    <section class="hero">
-      <h1>Security work, structured.</h1>
-      <p>
-        I ship small tools, workbenches, cheatsheets, and open notes that reduce ambiguity and make real security work easier to reason about.
-        Not “content”. Not “courses”. Just artifacts I actually use.
-      </p>
+<!-- ================= PROJECTS ================= -->
+<section id="projects">
+  <div class="wrap">
+    <h2>Projects & Tools</h2>
+    <p class="muted">Hands-on things I’ve built—small, practical, and meant to be explored.</p>
 
-      <div class="hero-ctas">
-        <a class="btn primary" href="#projects">View projects</a>
-        <a class="btn ghost" href="#work">Browse artifacts</a>
-        <a class="btn ghost" href="mailto:chambersz@duq.edu">Email</a>
-        <a class="btn ghost" href="https://www.youtube.com/@ZavierChambers">YouTube</a>
-      </div>
-    </section>
-
-    <!-- ============== TOOLBAR ============== -->
-    <section class="section section--tight" aria-label="Search and filters" id="work">
-      <div class="toolbar">
-        <label class="search" aria-label="Search all content">
-          <svg width="18" height="18" viewBox="0 0 24 24" fill="none" aria-hidden="true">
-            <path d="M15.5 14h-.8l-.3-.3a6.5 6.5 0 1 0-.7.7l.3.3v.8l5 5 1.5-1.5-5-5Zm-6 0A4.5 4.5 0 1 1 10 5a4.5 4.5 0 0 1-.5 9Z" fill="currentColor"/>
-          </svg>
-          <input id="searchInput" type="search" placeholder="Search workbenches, guides, cheatsheets, notes, projects…" />
-        </label>
-
-        <div class="tabs" role="tablist" aria-label="Filter content by type">
-          <button class="tab active" data-filter="all" role="tab" aria-selected="true">All</button>
-          <button class="tab" data-filter="workbenches" role="tab">Workbenches</button>
-          <button class="tab" data-filter="guides" role="tab">Guides</button>
-          <button class="tab" data-filter="cheatsheets" role="tab">Cheatsheets</button>
-          <button class="tab" data-filter="notes" role="tab">Notes</button>
-          <button class="tab" data-filter="projects" role="tab">Projects</button>
-        </div>
-      </div>
-    </section>
-
-    <!-- ============== WORKBENCHES ============== -->
-    <section id="workbenches" class="section">
-      <div class="section-title">
-        <h2>Workbenches & Frameworks</h2>
-        <span class="more">Interactive workflows & structured thinking tools</span>
-      </div>
-      <div id="workbenchesGrid" class="grid"></div>
-    </section>
-
-        <!-- ============== PROJECTS ============== -->
-    <section id="projects" class="section">
-      <div class="section-title">
-        <h2>Projects</h2>
-        <span class="more">Shipped artifacts & experiments</span>
-      </div>
-      <div id="projectsGrid" class="grid"></div>
-    </section>
-
-    <!-- ============== GUIDES ============== -->
-    <section id="guides" class="section">
-      <div class="section-title">
-        <h2>Guides & How To's</h2>
-        <span class="more">Opinionated walkthroughs for real tasks</span>
-      </div>
-      <div id="guidesGrid" class="grid"></div>
-    </section>
-
-    <!-- ============== CHEATSHEETS ============== -->
-    <section id="cheatsheets" class="section">
-      <div class="section-title">
-        <h2>Cheatsheets</h2>
-        <span class="more">Fast reference material</span>
-      </div>
-      <div id="cheatsheetsGrid" class="grid"></div>
-    </section>
-
-    <!-- ============== NOTES ============== -->
-    <section id="notes" class="section">
-      <div class="section-title">
-        <h2>Notes</h2>
-        <span class="more">Open, evolving observations</span>
-      </div>
-      <div id="notesGrid" class="grid"></div>
-    </section>
-
-
-
-    <!-- ============== ABOUT ============== -->
-    <section id="about" class="section">
-      <div class="section-title">
-        <h2>About</h2>
-        <span class="more">How I think & what I build</span>
-      </div>
-      <div class="grid">
-        <article class="card col-6">
-          <div class="eyebrow">Profile</div>
-          <h3>Security & IAM • Practical tooling</h3>
-          <p>
-            I build small tools and structured artifacts that make security work less fuzzy: clearer requirements,
-            better evidence, tighter scope, and fewer “we’ll figure it out later” surprises.
-          </p>
-          <div class="meta">
-            <span class="chip">Artifacts-first</span>
-            <span class="tag">Clear scope</span>
-            <span class="tag">Traceable decisions</span>
-          </div>
-        </article>
-
-        <article class="card col-6">
-          <div class="eyebrow">Background</div>
-          <h3>What I’m into</h3>
-          <p>
-            Cybersecurity & Computer Science • IAM and security platforms • Azure DevOps boards • small web tools •
-            documentation that’s actually usable under pressure.
-          </p>
-          <div class="meta">
-            <span class="tag">IAM</span>
-            <span class="tag">Security tooling</span>
-            <span class="tag">BA workflows</span>
-          </div>
-        </article>
-      </div>
-    </section>
-  </main>
-
-  <!-- ============== FOOTER ============== -->
-  <footer>
-    <div class="container row" style="justify-content:space-between;align-items:flex-start">
-      <div>
-        <strong>Zavier Chambers</strong> — Workbenches • Artifacts • Projects
-        <div class="fine" style="margin-top:6px">Built with HTML, CSS, and minimal JS. Dark mode forever. 🌙</div>
-      </div>
-      <div class="row">
-        <a class="btn ghost" href="mailto:chambersz@duq.edu">Email</a>
-        <a class="btn ghost" href="https://www.youtube.com/@ZavierChambers">YouTube</a>
-        <a class="btn ghost" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/">Linkedin</a>
-      </div>
+    <div class="grid">
+      <div class="card"><h3>CIA Triad (Explained)</h3><p>Interactive, non-technical breakdown of a core security model.</p><a href="/Projects/CIA%20Triad/index.html">View project →</a></div>
+      <div class="card"><h3>Consumer ATT&CK-Lite</h3><p>Simplified attack framework for individuals with an online presence.</p><a href="/Projects/Consumer%20ATT&CK-Lite/Consumer%20ATT&CK-Lite.html">View project →</a></div>
+      <div class="card"><h3>Daily Bible Verse</h3><p>Small reflection app that saves locally on-device.</p><a href="/Projects/Daily_Bible_Verse/index.html">View project →</a></div>
+      <div class="card"><h3>Encryption Demo</h3><p>Live demonstration of symmetric vs asymmetric encryption.</p><a href="/Projects/Encryption/index.html">View project →</a></div>
+      <div class="card"><h3>PDF Link Extractor</h3><p>Extract and click references from PDF documents.</p><a href="/Projects/Link_Extracter_For_Books/index.html">View project →</a></div>
+      <div class="card"><h3>Maze Game</h3><p>Escape the maze while being chased.</p><a href="/Projects/Maze_Game/index.html">View project →</a></div>
+      <div class="card"><h3>Password Strength Checker</h3><p>Visualize brute-force timelines for passwords.</p><a href="/Projects/Password_Strength_Checker/index.html">View project →</a></div>
+      <div class="card"><h3>Password Vault (Client-side)</h3><p>Client-only password manager with export functionality.</p><a href="/Projects/Password_Vault/index.html">View project →</a></div>
+      <div class="card"><h3>Structured Requirements Capture</h3><p>Guided workflow for gathering and validating requirements.</p><a href="/Projects/structured-requirements-capture/index.html">View project →</a></div>
     </div>
-  </footer>
+  </div>
+</section>
 
-  <!-- ============== DATA + JS ============== -->
-  <script>
-    // ===== Content =====
-    // Replace / extend these over time. Keep them short, specific, and artifact-first.
+<!-- ================= GUIDES ================= -->
+<section id="guides" class="dark">
+  <div class="wrap">
+    <h2>Guides & Documentation</h2>
+    <p class="muted">Plain-English explanations, walkthroughs, and notes. Built slowly and intentionally.</p>
+  </div>
+</section>
 
-    const workbenches = [
-      {
-        title: "Structured Requirements Capture Workbench",
-        desc: "A daily-driver for gathering requirements with stakeholder prompts, export to Markdown, and clean scope control.",
-        tags: ["workbenches","requirements","BA","web app"],
-        link: "Projects/structured-requirements-capture/index.html"
-      },
-      {
-        title: "Simple Threat Model Maker",
-        desc: "Create a lightweight risk heatmap and risk register without spreadsheets or pain.",
-        tags: ["workbenches","threat model","risk","web app"],
-        link: "/Projects/Simple_Threat_Model_Maker/index.html"
-      },
-      { title: "Consumer ATT&CK-Lite Framework",
-       desc: "A simplified attack framework for individuals with online presence.",
-        tags: ["projects","framework","security"],
-         link: "/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html" },
-    ];
+<!-- ================= ABOUT ================= -->
+<section class="dark">
+  <div class="wrap">
+    <h2>About Me</h2>
+    <p class="muted">I’m Zavier Chambers (TheeComputerGuy). I work in cybersecurity and identity & access management, and I build things that make complex ideas easier to understand.</p>
+  </div>
+</section>
 
-    const guides = [
-      { title: "Coming soon: ", desc: "", tags: ["guides","How to","process"], link: "" },
-      { title: "Coming soon: ", desc: "", tags: ["guides","How to","process"], link: "" },
-      
-    ];
-
-    const cheatsheets = [
-      { title: "Coming soon:", desc: "", tags: ["cheatsheets","explained","overview"], link: "" },
-      { title: "Coming soon: ", desc: "", tags: ["cheatsheets","explained","overview"], link: "" },
-    ];
-
-    const notes = [
-      { title: "Notes: ", desc: "", tags: ["notes","breakdown","thoughts"], link: "" },
-      { title: "Notes: ", desc: "", tags: ["notes","breakdown","thoughts"], link: "" },
-    ];
-
-    // Keep your existing project list (cleaned tags a bit)
-    const projects = [
-      { title: "Daily Bible Verse Web App", desc: "A tiny passage reflection app that saves locally on-device.", tags: ["projects","web app","utility"], link: "/Projects/Daily_Bible_Verse/index.html" },
-      { title: "Password Vault (Client-side)", desc: "Fully client-side password manager with export functionality.", tags: ["projects","crypto","web app"], link: "/Projects/Password_Vault/index.html" },
-      { title: "Password Strength Checker (Bruteforce)", desc: "Estimate how long it takes a brute force search to reach a password length/charset space.", tags: ["projects","security","web app"], link: "/Projects/Password_Strength_Checker/index.html" },
-      { title: "CIA Triad (Non-technical breakdown)", desc: "A simple explainer/demo for the CIA triad with interactive framing.", tags: ["projects","framework","web app"], link: "/Projects/CIA Triad/index.html" },
-      { title: "Asymmetric vs Symmetric Crypto — Live Demo", desc: "Interactive crypto demo for conceptual understanding.", tags: ["projects","crypto","web app"], link: "/Projects/Encryption/index.html" },
-      { title: "PDF URL Extractor", desc: "Extract links from PDFs so you can click through references easily.", tags: ["projects","utility","web app"], link: "/Projects/Link_Extracter_For_Books/index.html" },
-      { title: "Maze Chase", desc: "Browser game: get chased by a red cube until you reach the goal.", tags: ["projects","game","web app"], link: "/Projects/Maze_Game/index.html" },
-    ];
-
-    // ===== Helpers =====
-    const el = (t,c,h)=>{const n=document.createElement(t); if(c) n.className=c; if(h) n.innerHTML=h; return n};
-
-    function card(item){
-      const c = el('article','card col-4');
-      const category = (item.tags && item.tags.length) ? item.tags[0] : "item";
-      const openLink = item.link && item.link.trim().length ? item.link : "#";
-      const linkLabel = (openLink === "#") ? "Soon" : "Open";
-
-      c.innerHTML = `
-        <div class="eyebrow">${category}</div>
-        <h3>${item.title}</h3>
-        <p>${item.desc || ""}</p>
-        <div class="meta">${(item.tags||[]).slice(1).map(t=>`<span class='tag'>${t}</span>`).join('')}</div>
-        <div class="row" style="margin-top:16px;justify-content:space-between">
-          <a class="btn ghost" href="${openLink}" ${openLink==="#" ? "aria-disabled='true'" : ""}>${linkLabel}</a>
-          <span class="tag" aria-label="Type">${category}</span>
-        </div>`;
-      return c;
-    }
-
-    function mount(gridId, data){
-      const grid = document.getElementById(gridId);
-      if(!grid) return;
-      grid.innerHTML = "";
-      data.forEach(i => grid.appendChild(card(i)));
-    }
-
-    function populateAll(){
-      mount("workbenchesGrid", workbenches);
-      mount("guidesGrid", guides);
-      mount("cheatsheetsGrid", cheatsheets);
-      mount("notesGrid", notes);
-      mount("projectsGrid", projects);
-    }
-
-    // ===== Filter & Search =====
-    const tabs=[...document.querySelectorAll('.tab')];
-    const searchInput=document.getElementById('searchInput');
-
-    const sections = [
-      { key:'workbenches', sectionEl: document.getElementById('workbenches'), gridEl: document.getElementById('workbenchesGrid'), data: workbenches },
-      { key:'guides', sectionEl: document.getElementById('guides'), gridEl: document.getElementById('guidesGrid'), data: guides },
-      { key:'cheatsheets', sectionEl: document.getElementById('cheatsheets'), gridEl: document.getElementById('cheatsheetsGrid'), data: cheatsheets },
-      { key:'notes', sectionEl: document.getElementById('notes'), gridEl: document.getElementById('notesGrid'), data: notes },
-      { key:'projects', sectionEl: document.getElementById('projects'), gridEl: document.getElementById('projectsGrid'), data: projects },
-    ];
-
-    function renderFiltered(){
-      const q = (searchInput.value || "").trim().toLowerCase();
-      const active = document.querySelector('.tab.active')?.dataset.filter || 'all';
-
-      sections.forEach(({key, sectionEl, gridEl, data})=>{
-        if(!sectionEl || !gridEl) return;
-
-        const matchesType = (active === 'all' || active === key);
-        const filtered = data.filter(it=>{
-          const text = ((it.title||"") + " " + (it.desc||"") + " " + (it.tags||[]).join(" ")).toLowerCase();
-          return text.includes(q);
-        });
-
-        // show section only if it matches tab AND has results (or tab is "all" but still allow empty hiding)
-        const show = matchesType && filtered.length > 0;
-
-        sectionEl.classList.toggle('hidden', !show);
-
-        // If tab matches but empty results, hide section; if show, render cards
-        gridEl.innerHTML = "";
-        if(show) filtered.forEach(i => gridEl.appendChild(card(i)));
-      });
-    }
-
-    tabs.forEach(t=>t.addEventListener('click',()=>{
-      tabs.forEach(x=>x.classList.remove('active'));
-      t.classList.add('active');
-      renderFiltered();
-    }));
-
-    searchInput.addEventListener('input',renderFiltered);
-
-    // ===== INIT =====
-    populateAll();
-    renderFiltered();
-  </script>
 </body>
 </html>
