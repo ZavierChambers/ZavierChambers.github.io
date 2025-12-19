@@ -245,6 +245,8 @@
       transition:transform .12s ease, background .2s ease, border-color .2s ease;
       box-shadow:0 0 0 rgba(0,0,0,0);
       min-height:168px;
+      cursor:pointer;
+      color:inherit;
     }
     .card:hover{
       transform:translateY(-2px);
@@ -258,7 +260,8 @@
 
     .card h3{margin:10px 0 6px;font-size:18px;letter-spacing:-.2px}
     .card p{color:var(--muted);font-size:15px;margin:0 0 14px}
-    .card a{
+
+    .card .open{
       margin-top:auto;
       color:var(--brand1);
       font-weight:700;
@@ -266,7 +269,7 @@
       align-items:center;
       gap:8px;
     }
-    .card a span{opacity:.9}
+    .card .open span{opacity:.9}
 
     .badge{
       align-self:flex-start;
@@ -396,68 +399,68 @@
 
       <div class="grid" id="grid" aria-label="Project cards">
 
-        <div class="card" data-tags="explainer security fundamentals cia triad">
+        <a class="card" href="/Projects/CIA%20Triad/index.html" data-tags="explainer security fundamentals cia triad">
           <span class="badge">Explainer</span>
           <h3>CIA Triad</h3>
           <p>Interactive, non-technical breakdown of a core security model.</p>
-          <a href="/Projects/CIA%20Triad/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="framework security consumer attack mitre">
+        <a class="card" href="/Projects/Consumer ATT&CK-Lite/Consumer ATT&CK-Lite.html" data-tags="framework security consumer attack mitre">
           <span class="badge">Framework</span>
           <h3>Consumer ATT&CK-Lite</h3>
           <p>Simplified attack framework for individuals with an online presence.</p>
-          <a href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="tool bible verse reflection faith">
+        <a class="card" href="/Projects/Daily_Bible_Verse/index.html" data-tags="tool bible verse reflection faith">
           <span class="badge">Tool</span>
           <h3>Daily Bible Verse</h3>
           <p>Small reflection app that saves locally on-device.</p>
-          <a href="/Projects/Daily_Bible_Verse/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="interactive encryption crypto symmetric asymmetric">
+        <a class="card" href="/Projects/Encryption/index.html" data-tags="interactive encryption crypto symmetric asymmetric">
           <span class="badge">Interactive</span>
           <h3>Encryption Demo</h3>
           <p>Live demonstration of symmetric vs asymmetric encryption.</p>
-          <a href="/Projects/Encryption/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="utility pdf links extractor references">
+        <a class="card" href="/Projects/Link_Extracter_For_Books/index.html" data-tags="utility pdf links extractor references">
           <span class="badge">Utility</span>
           <h3>PDF Link Extractor</h3>
           <p>Extract and click references from PDF documents.</p>
-          <a href="/Projects/Link_Extracter_For_Books/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="game maze chase">
+        <a class="card" href="/Projects/Maze_Game/index.html" data-tags="game maze chase">
           <span class="badge">Game</span>
           <h3>Maze Game</h3>
           <p>Escape the maze while being chased.</p>
-          <a href="/Projects/Maze_Game/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="security tool password strength brute force">
+        <a class="card" href="/Projects/Password_Strength_Checker/index.html" data-tags="security tool password strength brute force">
           <span class="badge">Security Tool</span>
           <h3>Password Strength Checker</h3>
           <p>Visualize brute-force timelines for passwords.</p>
-          <a href="/Projects/Password_Strength_Checker/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="security tool password vault manager client only">
+        <a class="card" href="/Projects/Password_Vault/index.html" data-tags="security tool password vault manager client only">
           <span class="badge">Security Tool</span>
           <h3>Password Vault</h3>
           <p>Client-only password manager with export functionality.</p>
-          <a href="/Projects/Password_Vault/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
-        <div class="card" data-tags="workflow business analysis requirements capture">
+        <a class="card" href="/Projects/structured-requirements-capture/index.html" data-tags="workflow business analysis requirements capture">
           <span class="badge">Workflow</span>
           <h3>Structured Requirements Capture</h3>
           <p>Guided workflow for gathering and validating requirements.</p>
-          <a href="/Projects/structured-requirements-capture/index.html"><span>Open</span> →</a>
-        </div>
+          <span class="open"><span>Open</span> →</span>
+        </a>
 
       </div>
     </div>
