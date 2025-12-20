@@ -313,6 +313,62 @@
       display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;
     }
     footer a{color:rgba(122,162,255,.9);font-weight:700}
+/* ===== HIGHLIGHTED PROJECTS ===== */
+.highlights{
+  display:grid;
+  grid-template-columns:repeat(2,1fr);
+  gap:26px;
+  margin-top:36px;
+}
+
+@media (max-width:800px){
+  .highlights{grid-template-columns:1fr}
+}
+
+.highlight-card{
+  position:relative;
+  padding:28px;
+  border-radius:var(--radius);
+  background:
+    linear-gradient(135deg, rgba(122,162,255,.18), rgba(39,209,154,.12)),
+    var(--card);
+  border:1px solid rgba(255,255,255,.22);
+  box-shadow:var(--shadow);
+  transition:transform .15s ease, border-color .2s ease;
+}
+
+.highlight-card:hover{
+  transform:translateY(-3px);
+  border-color:rgba(122,162,255,.6);
+}
+
+.highlight-eyebrow{
+  font-size:12px;
+  letter-spacing:.4px;
+  text-transform:uppercase;
+  color:var(--brand2);
+  font-weight:800;
+  margin-bottom:10px;
+}
+
+.highlight-card h3{
+  font-size:22px;
+  margin:0 0 8px;
+  letter-spacing:-.3px;
+}
+
+.highlight-card p{
+  color:var(--muted);
+  font-size:16px;
+  max-width:60ch;
+}
+
+.highlight-actions{
+  margin-top:18px;
+  display:flex;
+  gap:14px;
+  flex-wrap:wrap;
+}
 
   </style>
 </head>
@@ -377,6 +433,46 @@
 
   </section>
 
+<section aria-label="Highlighted projects">
+  <div class="wrap">
+    <h2>Highlighted Projects</h2>
+    <p class="muted">
+      These are deeper, more opinionated tools and workflows.
+      If you only look at a few things here, start with these.
+    </p>
+
+    <div class="highlights">
+
+      <a class="highlight-card" href="/Projects/structured-requirements-capture/index.html">
+        <div class="highlight-eyebrow">Flagship Workflow</div>
+        <h3>Business Analyst Requirements Capture</h3>
+        <p>
+          Beginner-safe, structured tool for capturing and classifying business
+          requirements. Designed to teach how to think, not just what to write.
+        </p>
+        <div class="highlight-actions">
+          <span class="open"><span>Open Tool</span> →</span>
+        </div>
+      </a>
+
+      <a class="highlight-card" href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html">
+        <div class="highlight-eyebrow">Framework</div>
+        <h3>Consumer ATT&CK-Lite</h3>
+        <p>
+          A simplified attack framework for individuals and creators who want
+          threat modeling without enterprise complexity.
+        </p>
+        <div class="highlight-actions">
+          <span class="open"><span>Explore Framework</span> →</span>
+        </div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+
+
   <section id="library" aria-label="Knowledge library">
     <div class="wrap">
       <div class="headrow">
@@ -406,7 +502,7 @@
           <span class="open"><span>Open</span> →</span>
         </a>
 
-        <a class="card" href="/Projects/Consumer ATT&CK-Lite/Consumer ATT&CK-Lite.html" data-tags="framework security consumer attack mitre">
+        <a class="card" href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html" data-tags="framework security consumer attack mitre">
           <span class="badge">Framework</span>
           <h3>Consumer ATT&CK-Lite</h3>
           <p>Simplified attack framework for individuals with an online presence.</p>
