@@ -1,0 +1,257 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<title>Requirement Builder</title>
+<meta name="viewport" content="width=device-width, initial-scale=1" />
+
+<style>
+:root {
+  --bg: #0b0f14;
+  --panel: #111827;
+  --border: #273043;
+  --text: #e6edf3;
+  --muted: #9aa4b2;
+  --accent: #3b82f6;
+  --card: #0f172a;
+}
+
+* { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  font-family: system-ui, -apple-system, Segoe UI, sans-serif;
+  background: var(--bg);
+  color: var(--text);
+  line-height: 1.6;
+}
+
+.container {
+  max-width: 960px;
+  margin: auto;
+  padding: 32px 20px 80px;
+}
+
+h1 {
+  margin: 0 0 6px;
+  font-size: 1.9rem;
+}
+
+.subtitle {
+  color: var(--muted);
+  margin-bottom: 32px;
+}
+
+/* Panels */
+.panel {
+  background: var(--panel);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 20px;
+  margin-bottom: 28px;
+}
+
+/* Labels & inputs */
+label {
+  display: block;
+  font-weight: 600;
+  margin: 16px 0 6px;
+}
+
+select, textarea {
+  width: 100%;
+  background: var(--card);
+  color: var(--text);
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  padding: 10px 12px;
+  font-size: 0.95rem;
+}
+
+textarea {
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Guidance box */
+.guidance {
+  margin-top: 12px;
+  padding: 12px 14px;
+  background: #0b1220;
+  border-left: 4px solid var(--accent);
+  border-radius: 6px;
+  color: var(--muted);
+  font-size: 0.9rem;
+}
+
+/* Buttons */
+.actions {
+  display: flex;
+  gap: 12px;
+  margin-top: 20px;
+}
+
+button {
+  background: var(--accent);
+  border: none;
+  color: white;
+  padding: 10px 16px;
+  border-radius: 8px;
+  font-weight: 600;
+  cursor: pointer;
+}
+
+button.secondary {
+  background: transparent;
+  border: 1px solid var(--border);
+  color: var(--text);
+}
+
+/* Requirement list */
+.req-list {
+  margin-top: 32px;
+}
+
+.req-card {
+  background: var(--card);
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 14px 16px;
+  margin-bottom: 12px;
+}
+
+.req-meta {
+  font-size: 0.8rem;
+  color: var(--muted);
+  margin-bottom: 6px;
+}
+
+footer {
+  margin-top: 64px;
+  text-align: center;
+  color: var(--muted);
+  font-size: 0.85rem;
+}
+</style>
+</head>
+
+<body>
+<div class="container">
+
+  <h1>Requirement Builder</h1>
+  <p class="subtitle">
+    Write one requirement at a time. Focus on clarity, not volume.
+  </p>
+
+  <!-- Builder Panel -->
+  <div class="panel">
+
+    <label>Requirement Type</label>
+    <select id="type" onchange="updateGuidance()">
+      <option>Business</option>
+      <option>Stakeholder</option>
+      <option>Functional</option>
+      <option>Non-Functional</option>
+      <option>Technical</option>
+      <option>Assumption</option>
+      <option>Constraint</option>
+    </select>
+
+    <div id="guidance" class="guidance"></div>
+
+    <label>Requirement Statement</label>
+    <textarea id="reqText"
+      placeholder="Write the requirement as a complete, clear statement."></textarea>
+
+    <label>Priority</label>
+    <select id="priority">
+      <option>Low</option>
+      <option>Medium</option>
+      <option>High</option>
+    </select>
+
+    <label>Notes (optional)</label>
+    <textarea id="notes"
+      placeholder="Context, rationale, or follow-ups."></textarea>
+
+    <div class="actions">
+      <button onclick="addRequirement()">Add Requirement</button>
+      <button class="secondary" onclick="exportCSV()">Export CSV</button>
+    </div>
+
+  </div>
+
+  <!-- Requirement List -->
+  <div class="req-list" id="list"></div>
+
+  <footer>
+    Simple tools beat bloated processes.
+  </footer>
+
+</div>
+
+<script>
+let reqs = [];
+let count = 1;
+
+const guidanceMap = {
+  "Business": "Explain why the organization cares. This should still make sense if no system existed.",
+  "Stakeholder": "Capture what a specific role or group expects from the solution.",
+  "Functional": "Describe observable system behavior. If QA can’t test it, rethink it.",
+  "Non-Functional": "Describe how well the system behaves (security, performance, auditability).",
+  "Technical": "Capture implementation constraints, platforms, or integrations.",
+  "Assumption": "Something believed to be true but not yet validated.",
+  "Constraint": "A hard limitation that restricts the solution."
+};
+
+function updateGuidance() {
+  document.getElementById("guidance").innerText =
+    guidanceMap[document.getElementById("type").value];
+}
+
+updateGuidance();
+
+function addRequirement() {
+  if (!reqText.value.trim()) return;
+
+  const req = {
+    id: `REQ-${String(count++).padStart(3,"0")}`,
+    type: type.value,
+    text: reqText.value.trim(),
+    priority: priority.value,
+    notes: notes.value.trim()
+  };
+
+  reqs.push(req);
+  render();
+
+  reqText.value = "";
+  notes.value = "";
+}
+
+function render() {
+  list.innerHTML = reqs.map(r => `
+    <div class="req-card">
+      <div class="req-meta">
+        ${r.id} • ${r.type} • Priority: ${r.priority}
+      </div>
+      <div>${r.text}</div>
+    </div>
+  `).join("");
+}
+
+function exportCSV() {
+  let csv = "ID,Type,Requirement,Priority,Notes\n";
+  reqs.forEach(r => {
+    csv += `"${r.id}","${r.type}","${r.text.replace(/"/g,'""')}","${r.priority}","${r.notes.replace(/"/g,'""')}"\n`;
+  });
+
+  const blob = new Blob([csv], { type: "text/csv" });
+  const link = document.createElement("a");
+  link.href = URL.createObjectURL(blob);
+  link.download = "requirements.csv";
+  link.click();
+}
+</script>
+</body>
+</html>
