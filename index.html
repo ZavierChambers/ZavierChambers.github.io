@@ -3,24 +3,22 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zavier Chambers | Trusted Tech Resource</title>
-  <meta name="description" content="Projects, guides, and tools by Zavier Chambers. Plain-English security, systems, and business analysis." />
+  <title>Zavier Chambers | Tech Tutoring & Resources</title>
+  <meta name="description" content="1-on-1 tutoring in AI, cybersecurity, computer science, homelabbing, and business analysis. Plain English. Real sessions." />
   <meta name="theme-color" content="#0b0f14" />
 
-    <!-- Open Graph / Facebook Preview -->
-    <meta property="og:title" content="Zavier Chambers | Trusted Tech Resource" />
-    <meta property="og:description" content="Security, systems, and business analysis — clarity over hype. Tools, frameworks, and explainers." />
-    <meta property="og:type" content="website" />
-    <meta property="og:url" content="https://zavierchambers.com/" />
-    <meta property="og:image" content="https://zavierchambers.com/graphimge.jpg" />
-    <meta property="og:image:width" content="1200" />
-    <meta property="og:image:height" content="630" />
+  <meta property="og:title" content="Zavier Chambers | Tech Tutoring & Resources" />
+  <meta property="og:description" content="1-on-1 tutoring in AI, cybersecurity, CS, homelabbing, and business analysis — clarity over hype." />
+  <meta property="og:type" content="website" />
+  <meta property="og:url" content="https://zavierchambers.com/" />
+  <meta property="og:image" content="https://zavierchambers.com/graphimge.jpg" />
+  <meta property="og:image:width" content="1200" />
+  <meta property="og:image:height" content="630" />
 
-    <!-- Twitter (optional but recommended) -->
-    <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Zavier Chambers | Trusted Tech Resource" />
-    <meta name="twitter:description" content="Security, systems, and business analysis — clarity over hype." />
-    <meta name="twitter:image" content="https://zavierchambers.com/graphimge.jpg" />
+  <meta name="twitter:card" content="summary_large_image" />
+  <meta name="twitter:title" content="Zavier Chambers | Tech Tutoring & Resources" />
+  <meta name="twitter:description" content="1-on-1 tutoring in AI, cybersecurity, CS, homelabbing, and business analysis." />
+  <meta name="twitter:image" content="https://zavierchambers.com/graphimge.jpg" />
 
   <style>
     :root{
@@ -55,64 +53,43 @@
       border-radius:12px;
     }
 
- /* ===== STACKED SPEAKING VIDEO CARDS ===== */
-.video-stack{
-  display:flex;
-  flex-direction:column;
-  gap:32px;
-  margin-top:36px;
-}
-
-.video-card{
-  padding:22px;
-  border-radius:var(--radius);
-  background:var(--card);
-  border:2px solid rgba(122,162,255,.55);
-  transition:transform .15s ease, box-shadow .25s ease, border-color .25s ease;
-}
-
-.video-card:hover{
-  transform:translateY(-2px);
-  border-color:rgba(39,209,154,.9);
-  box-shadow:0 0 40px rgba(39,209,154,.35);
-}
-
-/* 16:9 video container */
-.video-frame{
-  position:relative;
-  width:100%;
-  padding-bottom:56.25%; /* 16:9 */
-  background:#000;
-  border-radius:14px;
-  overflow:hidden;
-}
-
-.video-frame iframe{
-  position:absolute;
-  inset:0;
-  width:100%;
-  height:100%;
-  border:0;
-}
-
-.video-meta{
-  margin-top:16px;
-}
-
-.video-meta h3{
-  margin:0 0 6px;
-  font-size:20px;
-  letter-spacing:-.2px;
-}
-
-.video-meta p{
-  margin:0;
-  color:var(--muted);
-  font-size:15px;
-  max-width:70ch;
-}
-
-
+    /* ===== STACKED SPEAKING VIDEO CARDS ===== */
+    .video-stack{
+      display:flex;
+      flex-direction:column;
+      gap:32px;
+      margin-top:36px;
+    }
+    .video-card{
+      padding:22px;
+      border-radius:var(--radius);
+      background:var(--card);
+      border:2px solid rgba(122,162,255,.55);
+      transition:transform .15s ease, box-shadow .25s ease, border-color .25s ease;
+    }
+    .video-card:hover{
+      transform:translateY(-2px);
+      border-color:rgba(39,209,154,.9);
+      box-shadow:0 0 40px rgba(39,209,154,.35);
+    }
+    .video-frame{
+      position:relative;
+      width:100%;
+      padding-bottom:56.25%;
+      background:#000;
+      border-radius:14px;
+      overflow:hidden;
+    }
+    .video-frame iframe{
+      position:absolute;
+      inset:0;
+      width:100%;
+      height:100%;
+      border:0;
+    }
+    .video-meta{margin-top:16px}
+    .video-meta h3{margin:0 0 6px;font-size:20px;letter-spacing:-.2px}
+    .video-meta p{margin:0;color:var(--muted);font-size:15px;max-width:70ch}
 
     .wrap{max-width:1000px;margin:auto;padding:0 4%}
     section{padding:72px 0}
@@ -123,7 +100,6 @@
       position:absolute;width:1px;height:1px;padding:0;margin:-1px;overflow:hidden;clip:rect(0,0,0,0);white-space:nowrap;border:0
     }
 
-    /* Skip link (a11y) */
     .skip{
       position:absolute;left:-999px;top:12px;
       background:#111a26;color:var(--text);
@@ -132,7 +108,6 @@
     }
     .skip:focus{left:12px}
 
-    /* Buttons */
     .btn{
       display:inline-flex;align-items:center;justify-content:center;gap:10px;
       padding:14px 18px;border-radius:14px;
@@ -150,50 +125,53 @@
     }
 
     /* ===== SOCIAL BUTTONS ===== */
-.socials{
-  display:flex;
-  flex-wrap:wrap;
-  gap:12px;
-  justify-content:center;
-  margin-top:22px;
-}
+    .socials{
+      display:flex;
+      flex-wrap:wrap;
+      gap:12px;
+      justify-content:center;
+      margin-top:22px;
+    }
+    .btn.social{
+      display:inline-flex;
+      align-items:center;
+      gap:10px;
+      padding:12px 16px;
+      border-radius:14px;
+      font-weight:700;
+      color:#fff;
+      border:none;
+    }
+    .btn.social svg{width:18px;height:18px;fill:currentColor}
+    .btn.tiktok{background:#000000;border:1px solid rgba(255,255,255,.25)}
+    .btn.linkedin{background:#0A66C2}
+    .btn.youtube{background:#FF0000}
+    .btn.social:hover{transform:translateY(-1px);filter:brightness(1.1)}
 
-.btn.social{
-  display:inline-flex;
-  align-items:center;
-  gap:10px;
-  padding:12px 16px;
-  border-radius:14px;
-  font-weight:700;
-  color:#fff;
-  border:none;
-}
+    /* ===== SUBJECT PILLS in hero ===== */
+    .subject-pills{
+      display:flex;
+      flex-wrap:wrap;
+      gap:10px;
+      justify-content:center;
+      margin:0 auto 22px;
+    }
+    .subject-pill{
+      font-size:13px;
+      padding:6px 14px;
+      border-radius:999px;
+      background:rgba(122,162,255,.15);
+      color:var(--brand1);
+      border:1px solid rgba(122,162,255,.35);
+      font-weight:600;
+      letter-spacing:.1px;
+    }
+    .subject-pill.green{
+      background:rgba(39,209,154,.12);
+      color:var(--brand2);
+      border-color:rgba(39,209,154,.35);
+    }
 
-.btn.social svg{
-  width:18px;
-  height:18px;
-  fill:currentColor;
-}
-
-/* Brand colors */
-.btn.tiktok{
-  background:#000000;
-  border:1px solid rgba(255,255,255,.25);
-}
-.btn.linkedin{
-  background:#0A66C2;
-}
-.btn.youtube{
-  background:#FF0000;
-}
-
-
-/* Hover polish */
-.btn.social:hover{
-  transform:translateY(-1px);
-  filter:brightness(1.1);
-}
-    
     /* HERO */
     .hero{
       position:relative;
@@ -207,13 +185,12 @@
     .hero video{
       position:absolute;inset:0;width:100%;height:100%;
       object-fit:cover;opacity:.72;
-      transform:scale(1.02); /* hide edge artifacts */
+      transform:scale(1.02);
     }
     .hero::after{
       content:"";position:absolute;inset:0;z-index:1;
       background:linear-gradient(to bottom,rgba(0,0,0,.55),rgba(0,0,0,.86));
     }
-
     .hero-content{
       position:relative;z-index:2;
       max-width:820px;padding:32px;
@@ -224,11 +201,11 @@
       line-height:1.03;margin:0 0 10px;
       letter-spacing:-.8px;
     }
-    .alias{color:var(--muted);font-size:18px;margin:0 0 12px}
+    .alias{color:var(--muted);font-size:18px;margin:0 0 18px}
     .micro{
-      margin:0 auto 28px;
+      margin:0 auto 20px;
       color:rgba(233,241,255,.80);
-      font-size:14px;max-width:78ch;
+      font-size:15px;max-width:66ch;
     }
     .actions{
       display:flex;flex-wrap:wrap;gap:14px;justify-content:center;
@@ -245,6 +222,29 @@
       .hero video{display:none}
       .pill, .btn{transition:none}
     }
+
+    /* ===== WHAT I TEACH SECTION ===== */
+    .teach-grid{
+      display:grid;
+      grid-template-columns:repeat(auto-fit,minmax(170px,1fr));
+      gap:18px;
+      margin-top:30px;
+    }
+    .teach-card{
+      padding:24px 20px;
+      border-radius:var(--radius);
+      background:var(--card);
+      border:1px solid var(--line);
+      transition:transform .12s ease, background .2s ease, border-color .2s ease;
+    }
+    .teach-card:hover{
+      transform:translateY(-2px);
+      background:var(--card2);
+      border-color:rgba(122,162,255,.45);
+    }
+    .teach-icon{font-size:26px;margin-bottom:10px;display:block}
+    .teach-card h3{font-size:17px;margin:0 0 6px;letter-spacing:-.1px}
+    .teach-card p{color:var(--muted);font-size:14px;margin:0;line-height:1.5}
 
     /* Library header row */
     .headrow{
@@ -281,12 +281,8 @@
       gap:22px;
       margin-top:30px;
     }
-    @media (max-width:940px){
-      .grid{grid-template-columns:repeat(2,1fr)}
-    }
-    @media (max-width:560px){
-      .grid{grid-template-columns:1fr}
-    }
+    @media (max-width:940px){.grid{grid-template-columns:repeat(2,1fr)}}
+    @media (max-width:560px){.grid{grid-template-columns:1fr}}
 
     .card{
       padding:22px;
@@ -306,13 +302,9 @@
       border-color:rgba(255,255,255,.16);
       box-shadow:var(--shadow);
     }
-
-    /* FIX: No absolute positioning. Use display none. */
     .card.hidden{display:none}
-
     .card h3{margin:10px 0 6px;font-size:18px;letter-spacing:-.2px}
     .card p{color:var(--muted);font-size:15px;margin:0 0 14px}
-
     .card .open{
       margin-top:auto;
       color:var(--brand1);
@@ -335,17 +327,12 @@
     }
 
     /* ABOUT & RESUME */
-    .section-block h3{
-      font-size:20px;
-      margin:28px 0 6px;
-      letter-spacing:-.2px;
-    }
+    .section-block h3{font-size:20px;margin:28px 0 6px;letter-spacing:-.2px}
     .section-block p{margin:0 0 14px}
     .resume-list{margin:10px 0 22px;padding-left:18px}
     .resume-list li{margin-bottom:6px;color:var(--muted)}
     .resume-meta{font-size:14px;color:var(--muted2);margin-bottom:12px}
 
-    /* Mobile tuning */
     @media (max-width:640px){
       section{padding:56px 0}
       .hero-content{padding:18px}
@@ -361,250 +348,231 @@
       color:var(--muted2);
       font-size:13px;
     }
-    footer .cols{
-      display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap;
-    }
+    footer .cols{display:flex;gap:20px;justify-content:space-between;flex-wrap:wrap}
     footer a{color:rgba(122,162,255,.9);font-weight:700}
-/* ===== HIGHLIGHTED PROJECTS ===== */
-.highlights{
-  display:grid;
-  grid-template-columns:repeat(2,1fr);
-  gap:26px;
-  margin-top:36px;
-}
 
-@media (max-width:800px){
-  .highlights{grid-template-columns:1fr}
-}
-
-.highlight-card{
-  position:relative;
-  padding:28px;
-  border-radius:var(--radius);
-  background:
-    linear-gradient(135deg, rgba(122,162,255,.18), rgba(39,209,154,.12)),
-    var(--card);
-  border:1px solid rgba(255,255,255,.22);
-  box-shadow:var(--shadow);
-  transition:transform .15s ease, border-color .2s ease;
-}
-
-.highlight-card:hover{
-  transform:translateY(-3px);
-  border-color:rgba(122,162,255,.6);
-}
-
-.highlight-eyebrow{
-  font-size:12px;
-  letter-spacing:.4px;
-  text-transform:uppercase;
-  color:var(--brand2);
-  font-weight:800;
-  margin-bottom:10px;
-}
-
-.highlight-card h3{
-  font-size:22px;
-  margin:0 0 8px;
-  letter-spacing:-.3px;
-}
-
-.highlight-card p{
-  color:var(--muted);
-  font-size:16px;
-  max-width:60ch;
-}
-
-.highlight-actions{
-  margin-top:18px;
-  display:flex;
-  gap:14px;
-  flex-wrap:wrap;
-}
-
+    /* ===== HIGHLIGHTED PROJECTS ===== */
+    .highlights{
+      display:grid;
+      grid-template-columns:repeat(2,1fr);
+      gap:26px;
+      margin-top:36px;
+    }
+    @media (max-width:800px){.highlights{grid-template-columns:1fr}}
+    .highlight-card{
+      position:relative;
+      padding:28px;
+      border-radius:var(--radius);
+      background:linear-gradient(135deg, rgba(122,162,255,.18), rgba(39,209,154,.12)),var(--card);
+      border:1px solid rgba(255,255,255,.22);
+      box-shadow:var(--shadow);
+      transition:transform .15s ease, border-color .2s ease;
+    }
+    .highlight-card:hover{transform:translateY(-3px);border-color:rgba(122,162,255,.6)}
+    .highlight-eyebrow{
+      font-size:12px;letter-spacing:.4px;text-transform:uppercase;
+      color:var(--brand2);font-weight:800;margin-bottom:10px;
+    }
+    .highlight-card h3{font-size:22px;margin:0 0 8px;letter-spacing:-.3px}
+    .highlight-card p{color:var(--muted);font-size:16px;max-width:60ch}
+    .highlight-actions{margin-top:18px;display:flex;gap:14px;flex-wrap:wrap}
   </style>
 </head>
 
 <body>
   <a class="skip" href="#library">Skip to library</a>
 
+  <!-- ===== HERO ===== -->
   <section class="hero" aria-label="Hero section">
-    
     <video autoplay muted loop playsinline preload="metadata" poster="/assets/hero-poster.jpg">
       <source src="/assets/hero.mp4" type="video/mp4">
     </video>
 
     <div class="hero-content">
       <h1>Zavier Chambers</h1>
-      <div class="alias"><strong>a Trusted Tech Resource</strong></div>
-
-
+      <div class="alias"><strong>Tech Tutor & Trusted Resource</strong></div>
 
       <p class="micro">
-        This is a living library of speeches, workshops, small tools, explainers, and workflows.
-        If it’s here, it’s meant to be used by you!
+        1-on-1 sessions for students, career-changers, and professionals who want a real person
+        to explain things clearly — not a course, not a chatbot.
       </p>
 
-<div class="actions">
-  <a class="btn primary" href="mailto:zavierchambersfreelance@gmail.com">Request a Session</a>
-</div>
+      <div class="subject-pills">
+        <span class="subject-pill">AI & Prompt Engineering</span>
+        <span class="subject-pill">Cybersecurity</span>
+        <span class="subject-pill green">Computer Science</span>
+        <span class="subject-pill green">Homelabbing</span>
+        <span class="subject-pill">Business Analysis</span>
+      </div>
 
-    <div class="socials">
-    <a class="btn social tiktok" href="https://www.tiktok.com/@zavierchambersofficial" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M21 8.5a6.7 6.7 0 0 1-3.9-1.3v6.4a6.6 6.6 0 1 1-6.6-6.6c.4 0 .8 0 1.2.1v3.5a3.1 3.1 0 1 0 2.3 3v-11h3a6.6 6.6 0 0 0 3.9 4.3v2.6z"/>
-        </svg>
-        TikTok
-    </a>
+      <div class="actions">
+        <a class="btn primary" href="mailto:zavierchambersfreelance@gmail.com">Book a Session</a>
+      </div>
 
-    <a class="btn social linkedin" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4zM8 8h3.8v2.2h.1c.5-.9 1.8-1.8 3.7-1.8 4 0 4.7 2.6 4.7 6v9.6h-4v-8.5c0-2 0-4.5-2.7-4.5s-3.1 2.1-3.1 4.3v8.7h-4V8z"/>
-        </svg>
-        LinkedIn
-    </a>
-
-    <a class="btn social youtube" href="https://www.youtube.com/@zavierchambersofficial" target="_blank" rel="noopener">
-        <svg viewBox="0 0 24 24" aria-hidden="true">
-        <path d="M23.5 6.2s-.2-1.7-.9-2.4c-.9-.9-1.9-.9-2.4-1C16.8 2.5 12 2.5 12 2.5h0s-4.8 0-8.2.3c-.4.1-1.4.1-2.4 1C.7 4.5.5 6.2.5 6.2S0 8.2 0 10.1v1.8c0 2 .5 3.9.5 3.9s.2 1.7.9 2.4c.9.9 2.1.9 2.6 1 1.9.2 8 .3 8 .3s4.8 0 8.2-.3c.4-.1 1.4-.1 2.4-1 .7-.7.9-2.4.9-2.4s.5-2 .5-3.9v-1.8c0-2-.5-3.9-.5-3.9zM9.5 14.5V7.5l6.5 3.5-6.5 3.5z"/>
-        </svg>
-        YouTube
-    </a>
-
+      <div class="socials">
+        <a class="btn social tiktok" href="https://www.tiktok.com/@zavierchambersofficial" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M21 8.5a6.7 6.7 0 0 1-3.9-1.3v6.4a6.6 6.6 0 1 1-6.6-6.6c.4 0 .8 0 1.2.1v3.5a3.1 3.1 0 1 0 2.3 3v-11h3a6.6 6.6 0 0 0 3.9 4.3v2.6z"/>
+          </svg>
+          TikTok
+        </a>
+        <a class="btn social linkedin" href="https://www.linkedin.com/in/zavier-chambers-85981b1a1/" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M4.98 3.5C4.98 4.88 3.87 6 2.5 6S0 4.88 0 3.5 1.12 1 2.5 1s2.48 1.12 2.48 2.5zM.5 8h4V24h-4zM8 8h3.8v2.2h.1c.5-.9 1.8-1.8 3.7-1.8 4 0 4.7 2.6 4.7 6v9.6h-4v-8.5c0-2 0-4.5-2.7-4.5s-3.1 2.1-3.1 4.3v8.7h-4V8z"/>
+          </svg>
+          LinkedIn
+        </a>
+        <a class="btn social youtube" href="https://www.youtube.com/@zavierchambersofficial" target="_blank" rel="noopener">
+          <svg viewBox="0 0 24 24" aria-hidden="true">
+            <path d="M23.5 6.2s-.2-1.7-.9-2.4c-.9-.9-1.9-.9-2.4-1C16.8 2.5 12 2.5 12 2.5h0s-4.8 0-8.2.3c-.4.1-1.4.1-2.4 1C.7 4.5.5 6.2.5 6.2S0 8.2 0 10.1v1.8c0 2 .5 3.9.5 3.9s.2 1.7.9 2.4c.9.9 2.1.9 2.6 1 1.9.2 8 .3 8 .3s4.8 0 8.2-.3c.4-.1 1.4-.1 2.4-1 .7-.7.9-2.4.9-2.4s.5-2 .5-3.9v-1.8c0-2-.5-3.9-.5-3.9zM9.5 14.5V7.5l6.5 3.5-6.5 3.5z"/>
+          </svg>
+          YouTube
+        </a>
+      </div>
     </div>
-
-    </div>
-
   </section>
 
+  <!-- ===== WHAT I TEACH ===== -->
+  <section aria-label="What I teach">
+    <div class="wrap">
+      <h2>What I Teach</h2>
+      <p class="muted">
+        Sessions are tailored to your level and goals — whether you're a complete beginner,
+        prepping for a certification, or switching careers into tech.
+      </p>
+
+      <div class="teach-grid">
+        <div class="teach-card">
+          <span class="teach-icon">🤖</span>
+          <h3>AI & Prompt Engineering</h3>
+          <p>How models actually work, practical daily use, and writing prompts that get real results.</p>
+        </div>
+        <div class="teach-card">
+          <span class="teach-icon">🔐</span>
+          <h3>Cybersecurity</h3>
+          <p>Foundations, threat modeling, the CIA triad, and cert prep (CompTIA, etc.).</p>
+        </div>
+        <div class="teach-card">
+          <span class="teach-icon">💻</span>
+          <h3>Computer Science</h3>
+          <p>Programming fundamentals, Python, data structures, and how computers actually work.</p>
+        </div>
+        <div class="teach-card">
+          <span class="teach-icon">🖥️</span>
+          <h3>Homelabbing</h3>
+          <p>Setting up VMs, networking basics, Active Directory, and hands-on practice environments.</p>
+        </div>
+        <div class="teach-card">
+          <span class="teach-icon">📋</span>
+          <h3>Business Analysis</h3>
+          <p>Requirements capture, Agile vs Waterfall, stakeholder communication, and workflow tools.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ===== SPEECHES & WORKSHOPS ===== -->
   <section id="speaking" class="dark" aria-label="Speeches and workshops">
-  <div class="wrap">
-    <div class="headrow">
-      <div>
-        <h2>Speeches & Workshops</h2>
-        <p class="muted">
-          Short-form talk clips from live sessions and workshops.
-          These are excerpts from longer presentations delivered in libraries,
-          schools, and community spaces.
-        </p>
-      </div>
-    </div>
-
-    <div class="video-stack">
-
-      <!-- VIDEO CARD -->
-      <div class="video-card">
-        <div class="video-frame">
-          <iframe
-            src="https://www.youtube.com/embed/6c9Z-iF8cmc?si=N1F_VpBvIE9y3KKq"
-            title="What Is AI and How Can I Use It?"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-          </iframe>
-        </div>
-
-        <div class="video-meta">
-          <h3>Growth Mindset Versus Mixed Mindset</h3>
-          <p>
-            A plain-English explanation of what it takes to achieve a growth mindset and capture the best version of yourself.
-          </p>
-          <p>
-            Date Recorded: Dec 5, 2023
+    <div class="wrap">
+      <div class="headrow">
+        <div>
+          <h2>Speeches & Workshops</h2>
+          <p class="muted">
+            Short-form talk clips from live sessions and workshops.
+            These are excerpts from longer presentations delivered in libraries,
+            schools, and community spaces.
           </p>
         </div>
       </div>
 
-          <!-- VIDEO CARD -->
-      <div class="video-card">
-        <div class="video-frame">
-          <iframe
-            src="https://www.youtube.com/embed/KOVwqIiTWCM?si=LyFthKS-EAbzVpD1"
-            title="What Is The CIA Triad and How Can I Use It?"
-            frameborder="0"
-            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
-            referrerpolicy="strict-origin-when-cross-origin"
-            allowfullscreen>
-          </iframe>
+      <div class="video-stack">
+        <div class="video-card">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/6c9Z-iF8cmc?si=N1F_VpBvIE9y3KKq"
+              title="Growth Mindset Versus Mixed Mindset"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-meta">
+            <h3>Growth Mindset Versus Mixed Mindset</h3>
+            <p>A plain-English explanation of what it takes to achieve a growth mindset and capture the best version of yourself.</p>
+            <p>Date Recorded: Dec 5, 2023</p>
+          </div>
         </div>
 
-        <div class="video-meta">
-          <h3>What Is The CIA Triad and How Can I Use It?</h3>
-          <p>
-             Start growing your foundation in cybersecurity today by learning the CIA triad.
-          </p>
-          <p>
-            Date Recorded: Jan 20, 2026
-          </p>
+        <div class="video-card">
+          <div class="video-frame">
+            <iframe
+              src="https://www.youtube.com/embed/KOVwqIiTWCM?si=LyFthKS-EAbzVpD1"
+              title="What Is The CIA Triad and How Can I Use It?"
+              frameborder="0"
+              allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+              referrerpolicy="strict-origin-when-cross-origin"
+              allowfullscreen>
+            </iframe>
+          </div>
+          <div class="video-meta">
+            <h3>What Is The CIA Triad and How Can I Use It?</h3>
+            <p>Start growing your foundation in cybersecurity today by learning the CIA triad.</p>
+            <p>Date Recorded: Jan 20, 2026</p>
+          </div>
         </div>
       </div>
 
+      <p class="muted" style="margin-top:36px; max-width:72ch;">
+        These clips exist to show delivery style, clarity, and tone.
+        Full talks are customized by audience and time length.
+        <br><br>
+        <em>"The prudent man looketh well to his going." — Proverbs 14:15</em>
+      </p>
     </div>
+  </section>
 
-    <p class="muted" style="margin-top:36px; max-width:72ch;">
-      These clips exist to show delivery style, clarity, and tone.
-      Full talks are customized by audience and time length.
-      <br><br>
-      <em>“The prudent man looketh well to his going.” — Proverbs 14:15</em>
-    </p>
+  <!-- ===== HIGHLIGHTED PROJECTS ===== -->
+  <section aria-label="Highlighted projects">
+    <div class="wrap">
+      <h2>Highlighted Projects</h2>
+      <p class="muted">
+        These are deeper, more opinionated tools and workflows.
+        Good starting points before or after a session — try them yourself, then book time to go deeper.
+      </p>
 
-  </div>
-</section>
+      <div class="highlights">
+        <a class="highlight-card" href="https://zavierchambers.com/Business-Analyst-Requirements-Capture/">
+          <div class="highlight-eyebrow">Flagship Workflow</div>
+          <h3>Business Analyst Requirements Capture</h3>
+          <p>Beginner-safe, structured tool for capturing and classifying business requirements. Designed to teach how to think, not just what to write.</p>
+          <div class="highlight-actions">
+            <span class="open"><span>Open Tool</span> →</span>
+          </div>
+        </a>
 
+        <a class="highlight-card" href="https://zavierchambers.com/Business-Analyst-Project-Capture/">
+          <div class="highlight-eyebrow">Flagship Workflow</div>
+          <h3>Business Analyst Overall Project Capture</h3>
+          <p>Beginner-safe, structured tool for capturing and classifying business projects as a whole.</p>
+          <div class="highlight-actions">
+            <span class="open"><span>Open Tool</span> →</span>
+          </div>
+        </a>
 
-
-<section aria-label="Highlighted projects">
-  <div class="wrap">
-    <h2>Highlighted Projects</h2>
-    <p class="muted">
-      These are deeper, more opinionated tools and workflows.
-      If you only look at a few things here, start with these.
-    </p>
-
-    <div class="highlights">
-
-      <a class="highlight-card" href="https://zavierchambers.com/Business-Analyst-Requirements-Capture/">
-        <div class="highlight-eyebrow">Flagship Workflow</div>
-        <h3>Business Analyst Requirements Capture</h3>
-        <p>
-          Beginner-safe, structured tool for capturing and classifying business
-          requirements. Designed to teach how to think, not just what to write.
-        </p>
-        <div class="highlight-actions">
-          <span class="open"><span>Open Tool</span> →</span>
-        </div>
-      </a>
-
-            <a class="highlight-card" href="https://zavierchambers.com/Business-Analyst-Project-Capture/">
-        <div class="highlight-eyebrow">Flagship Workflow</div>
-        <h3>Business Analyst Overall Project Capture</h3>
-        <p>
-          Beginner-safe, structured tool for capturing and classifying business projects as a whole. Designed to teach how to capture projects and their details, not just what the project aims to do. 
-        </p>
-        <div class="highlight-actions">
-          <span class="open"><span>Open Tool</span> →</span>
-        </div>
-      </a>
-
-      <a class="highlight-card" href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html">
-        <div class="highlight-eyebrow">Framework</div>
-        <h3>Consumer ATT&CK-Lite</h3>
-        <p>
-          A simplified attack framework for individuals and creators who want
-          threat modeling without enterprise complexity.
-        </p>
-        <div class="highlight-actions">
-          <span class="open"><span>Explore Framework</span> →</span>
-        </div>
-      </a>
-
+        <a class="highlight-card" href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html">
+          <div class="highlight-eyebrow">Framework</div>
+          <h3>Consumer ATT&CK-Lite</h3>
+          <p>A simplified attack framework for individuals and creators who want threat modeling without enterprise complexity.</p>
+          <div class="highlight-actions">
+            <span class="open"><span>Explore Framework</span> →</span>
+          </div>
+        </a>
+      </div>
     </div>
-  </div>
-</section>
+  </section>
 
-
-
+  <!-- ===== KNOWLEDGE LIBRARY ===== -->
   <section id="library" aria-label="Knowledge library">
     <div class="wrap">
       <div class="headrow">
@@ -612,7 +580,6 @@
           <h2>Knowledge Library</h2>
           <p class="muted">Search once. Grab what you need. Move on.</p>
         </div>
-
         <div class="right" aria-label="Quick actions">
           <a class="pill" href="#about">Why this exists</a>
           <a class="pill" href="#resume">What I do</a>
@@ -622,112 +589,110 @@
       <div class="search-wrap">
         <label class="sr-only" for="search">Search projects</label>
         <input id="search" class="search-input" placeholder="Search tools, frameworks, explainers…" autocomplete="off" />
-        <div class="hint" id="resultHint">Tip: try “security”, “password”, “workflow”, “encryption”.</div>
+        <div class="hint" id="resultHint">Tip: try "security", "password", "workflow", "encryption".</div>
       </div>
 
       <div class="grid" id="grid" aria-label="Project cards">
-
         <a class="card" href="/Projects/CIA%20Triad/index.html" data-tags="explainer security fundamentals cia triad">
           <span class="badge">Explainer</span>
           <h3>CIA Triad</h3>
           <p>Interactive, non-technical breakdown of a core security model.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Consumer ATT&CK‑Lite/Consumer ATT&CK‑Lite.html" data-tags="framework security consumer attack mitre">
           <span class="badge">Framework</span>
           <h3>Consumer ATT&CK-Lite</h3>
           <p>Simplified attack framework for individuals with an online presence.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Daily_Bible_Verse/index.html" data-tags="tool bible verse reflection faith">
           <span class="badge">Tool</span>
           <h3>Daily Bible Verse</h3>
           <p>Small reflection app that saves locally on-device.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Encryption/index.html" data-tags="interactive encryption crypto symmetric asymmetric">
           <span class="badge">Interactive</span>
           <h3>Encryption Demo</h3>
           <p>Live demonstration of symmetric vs asymmetric encryption.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Link_Extracter_For_Books/index.html" data-tags="utility pdf links extractor references">
           <span class="badge">Utility</span>
           <h3>PDF Link Extractor</h3>
           <p>Extract and click references from PDF documents.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-        
         <a class="card" href="https://zavierchambers.com/Business-Analyst-Project-Capture/" data-tags="useful business-analyst helpful">
           <span class="badge">Work Flow</span>
           <h3>Overall Project Capture</h3>
-          <p>Extract important details in a business project</p>
+          <p>Extract important details in a business project.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Maze_Game/index.html" data-tags="game maze chase">
           <span class="badge">Game</span>
           <h3>Maze Game</h3>
           <p>Escape the maze while being chased.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Password_Strength_Checker/index.html" data-tags="security tool password strength brute force">
           <span class="badge">Security Tool</span>
           <h3>Password Strength Checker</h3>
           <p>Visualize brute-force timelines for passwords.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/Password_Vault/index.html" data-tags="security tool password vault manager client only">
           <span class="badge">Security Tool</span>
           <h3>Password Vault</h3>
           <p>Client-only password manager with export functionality.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
         <a class="card" href="/Projects/structured-requirements-capture/index.html" data-tags="workflow business analysis requirements capture">
           <span class="badge">Workflow</span>
           <h3>Structured Requirements Capture</h3>
           <p>Guided workflow for gathering and validating requirements.</p>
           <span class="open"><span>Open</span> →</span>
         </a>
-
       </div>
     </div>
   </section>
 
+  <!-- ===== ABOUT ===== -->
   <section id="about" class="dark" aria-label="About section">
     <div class="wrap section-block">
       <h2>About</h2>
 
       <p class="muted">
-        I’m Zavier Chambers. Online, most people know me as TheeComputerGuy.
-        Same person on this site as on stream: curious, direct, and more interested in understanding systems than chasing hype.
+        I'm Zavier Chambers — online, most people know me as TheeComputerGuy.
+        I offer 1-on-1 sessions for students, career-changers, and professionals who want a real person
+        to explain things clearly — not a course, not a chatbot.
+      </p>
+
+      <p class="muted">
+        Sessions are held via video call in 30- or 60-minute blocks.
+        To book, email <a href="mailto:zavierchambersfreelance@gmail.com" style="color:var(--brand1);font-weight:700">zavierchambersfreelance@gmail.com</a>
+        with the subject you want to cover and your experience level. I'll respond within 24 hours.
       </p>
 
       <p class="muted">
         Professionally, I live at the intersection of <strong>security</strong>, <strong>systems</strong>, and <strong>business analysis</strong>.
         I help turn fuzzy needs into clear requirements, then turn those requirements into work that actually ships.
-        Most “technical problems” start as communication problems.
+        Most "technical problems" start as communication problems.
       </p>
 
       <p class="muted">
-        I don’t worship tools. I care about outcomes and understanding.
+        I don't worship tools. I care about outcomes and understanding.
         I push back on speed-over-quality thinking, overproduction, and performative complexity.
         This site exists as a living library of things meant to be trusted, used, and understood.
       </p>
 
       <p class="muted">
-        If something here helps you think more clearly or build something better, then it’s doing its job.
+        If something here helps you think more clearly or build something better, then it's doing its job.
       </p>
     </div>
   </section>
 
+  <!-- ===== RESUME ===== -->
   <section id="resume" aria-label="Resume section">
     <div class="wrap section-block">
       <h2>Resume</h2>
@@ -790,10 +755,8 @@
   </footer>
 
   <script>
-    // Year
     document.getElementById("year").textContent = new Date().getFullYear();
 
-    // Search
     const search = document.getElementById("search");
     const cards = document.querySelectorAll(".card");
     const hint = document.getElementById("resultHint");
@@ -801,20 +764,18 @@
     function applySearch(){
       const q = (search.value || "").trim().toLowerCase();
       let shown = 0;
-
       cards.forEach(c => {
         const hay = (c.innerText + " " + (c.dataset.tags || "")).toLowerCase();
         const match = hay.includes(q);
         c.classList.toggle("hidden", q.length > 0 && !match);
         if(!c.classList.contains("hidden")) shown++;
       });
-
       if(q.length === 0){
-        hint.textContent = "Tip: try “security”, “password”, “workflow”, “encryption”.";
+        hint.textContent = "Tip: try \u201csecurity\u201d, \u201cpassword\u201d, \u201cworkflow\u201d, \u201cencryption\u201d.";
       } else {
         hint.textContent = shown === 0
           ? "No matches. Try a different term."
-          : `Showing ${shown} result${shown === 1 ? "" : "s"} for “${q}”.`;
+          : `Showing ${shown} result${shown === 1 ? "" : "s"} for \u201c${q}\u201d.`;
       }
     }
 
