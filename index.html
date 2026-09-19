@@ -3,12 +3,12 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>Zavier Chambers | Tech Tutoring & Resources</title>
-  <meta name="description" content="1-on-1 tutoring in AI, cybersecurity, computer science, homelabbing, and business analysis. Plain English. Real sessions." />
+  <title>Zavier Chambers | Remote Tech Support & Website Creation</title>
+  <meta name="description" content="Remote tech support and website creation from Zavier Chambers. Get help with everyday IT problems, websites, software, accounts, and small-business technology." />
   <meta name="theme-color" content="#0b0f14" />
 
-  <meta property="og:title" content="Zavier Chambers | Tech Tutoring & Resources" />
-  <meta property="og:description" content="1-on-1 tutoring in AI, cybersecurity, CS, homelabbing, and business analysis — clarity over hype." />
+  <meta property="og:title" content="Zavier Chambers | Remote Tech Support & Website Creation" />
+  <meta property="og:description" content="Remote tech support and website creation for individuals, professionals, and small businesses." />
   <meta property="og:type" content="website" />
   <meta property="og:url" content="https://zavierchambers.com/" />
   <meta property="og:image" content="https://zavierchambers.com/graphimge.jpg" />
@@ -16,8 +16,8 @@
   <meta property="og:image:height" content="630" />
 
   <meta name="twitter:card" content="summary_large_image" />
-  <meta name="twitter:title" content="Zavier Chambers | Tech Tutoring & Resources" />
-  <meta name="twitter:description" content="1-on-1 tutoring in AI, cybersecurity, CS, homelabbing, and business analysis." />
+  <meta name="twitter:title" content="Zavier Chambers | Remote Tech Support & Website Creation" />
+  <meta name="twitter:description" content="Remote tech support and website creation for individuals, professionals, and small businesses." />
   <meta name="twitter:image" content="https://zavierchambers.com/graphimge.jpg" />
 
   <style>
@@ -256,6 +256,67 @@
     .teach-card h3{font-size:17px;margin:0 0 6px;letter-spacing:-.1px}
     .teach-card p{color:var(--muted);font-size:14px;margin:0;line-height:1.5}
 
+    /* ===== SERVICE REQUEST FORM ===== */
+    .request-box{
+      margin-top:30px;
+      padding:28px;
+      border-radius:var(--radius);
+      background:var(--card);
+      border:1px solid var(--line);
+      box-shadow:var(--shadow);
+    }
+    .request-options{
+      display:grid;
+      grid-template-columns:repeat(3,1fr);
+      gap:14px;
+      margin:22px 0;
+    }
+    .request-option{
+      display:flex;
+      flex-direction:column;
+      align-items:center;
+      justify-content:center;
+      min-height:92px;
+      text-align:center;
+      cursor:pointer;
+      color:var(--text);
+      font:inherit;
+      font-weight:700;
+      padding:16px;
+      border-radius:14px;
+      background:rgba(255,255,255,.06);
+      border:1px solid var(--line);
+      transition:transform .12s ease, background .2s ease, border-color .2s ease;
+    }
+    .request-option:hover{
+      transform:translateY(-2px);
+      background:var(--card2);
+      border-color:rgba(122,162,255,.45);
+    }
+    .request-option span:first-child{font-size:25px;margin-bottom:5px}
+    .request-form-frame{
+      width:100%;
+      overflow:hidden;
+      border-radius:14px;
+      background:#fff;
+      border:1px solid rgba(255,255,255,.14);
+    }
+    .request-form-frame iframe{
+      display:block;
+      width:100%;
+      min-height:850px;
+      border:0;
+    }
+    .form-note{
+      color:var(--muted2);
+      font-size:13px;
+      margin-top:12px;
+    }
+    @media(max-width:720px){
+      .request-options{grid-template-columns:1fr}
+      .request-box{padding:20px}
+    }
+
     /* Library header row */
     .headrow{
       display:flex;align-items:flex-end;justify-content:space-between;gap:16px;
@@ -403,7 +464,7 @@
     <div class="hero-content">
       <h1>Zavier Chambers</h1>
         <hr>
-      <div class="alias"><strong> Web Developer & Cybersecurity Professional </strong> <p style="font-size: 14px; margin-top: 8px; margin-bottom: 3px;">🎓 Cybersecurity & Computer Science Graduate</p></div>
+      <div class="alias"><strong> IT Support Speicalist & Web Developer </strong> <p style="font-size: 14px; margin-top: 8px; margin-bottom: 3px;">🎓 Cybersecurity & Computer Science Graduate</p></div>
      
       <div>
             <p class="contactInfo"><a href="mailto:zavierchambers101@gmail.com">zavierchambers101@gmail.com</a></p>
@@ -412,21 +473,22 @@
       </div>
 
       <p class="micro">
-        Helping small businesses find future clients through websites, clear cybersecurity guidelines, and even AI usage.
+        Remote tech support and website creation for individuals, professionals, and small businesses. Get a real person to help solve the problem or build what you need.
       </p>
 
       <div class="subject-pills">
+          <span class="subject-pill green">Remote Tech Support</span>
+          <span class="subject-pill green">Website Creation</span>
+          <span class="subject-pill">Small Business IT</span>
           <span class="subject-pill">Cybersecurity</span>
-          <span class="subject-pill green">Website Development</span>
-        <span class="subject-pill green">AI Development</span>
-        <span class="subject-pill">Small Bussiness Aid</span>
 
       </div>
       
 
 
       <div class="actions">
-
+        <a class="btn primary" href="#request">🛠️ Request Tech Support</a>
+        <a class="btn" href="#request">🌐 Request a Website</a>
       </div>
 
       <div class="socials">
@@ -467,35 +529,61 @@
     <div class="wrap">
       <h2>What I Can Do</h2>
       <p class="muted">
-        My Skills are communicated clearly to your level and goals. Whether you're a complete beginner,
-        prepping for a new website, or need help with your business IT needs, I got you covered.
+        Need something fixed, configured, explained, or built? I provide practical remote technology support
+        and website creation for individuals, professionals, and small businesses.
       </p>
 
       <div class="teach-grid">
           <div class="teach-card">
-            <span class="teach-icon">🔐</span>
-            <h3>Cybersecurity</h3>
-            <p>Help in identifying your current needs, threat modeling, Penetration Testing, and Network Security</p>
+            <span class="teach-icon">🛠️</span>
+            <h3>Remote Tech Support</h3>
+            <p>Help with computers, Windows, software, accounts, email, troubleshooting, setup, and everyday IT problems.</p>
           </div>
           <div class="teach-card">
             <span class="teach-icon">🌐</span>
-            <h3>Website Development</h3>
-            <p>Create brand new websites using modern styles, forms, and focus on bringing in new clients</p>
+            <h3>Website Creation</h3>
+            <p>Create a professional website with modern styling, contact forms, service information, and a focus on reaching customers.</p>
           </div>
         <div class="teach-card">
-          <span class="teach-icon">🤖</span>
-          <h3>AI Development</h3>
-          <p>Learn how to use AI to aid your company, upgrade your practical daily use, and write prompts that get truly better results.</p>
+          <span class="teach-icon">🔐</span>
+          <h3>Cybersecurity</h3>
+          <p>Practical help understanding security needs, safer configurations, network security, and basic security guidance.</p>
         </div>
         <div class="teach-card">
-          <span class="teach-icon">❓</span>
-          <h3>Etc...</h3>
-          <p>Let me know about what you need to achieve, and your goals will come to life soon</p>
+          <span class="teach-icon">💻</span>
+          <h3>Other IT Requests</h3>
+          <p>If your problem doesn't fit neatly into a category, tell me what is going on and I'll determine how I can help.</p>
         </div>
       </div>
     </div>
   </section>
 
+
+  <!-- ===== SERVICE REQUEST ===== -->
+  <section id="request" aria-label="Request tech support or website">
+    <div class="wrap">
+      <h2>Request Tech Support or a Website</h2>
+      <p class="muted">
+        Tell me what you need help with. Choose a service below, then complete the request form.
+        You don't need to know the technical terminology — just describe the problem or what you want built.
+      </p>
+
+        <!-- Replace YOUR_FORM_ID with the ID from your Google Form. -->
+        <div class="request-form-frame">
+          <iframe
+            id="supportForm"
+            src="https://docs.google.com/forms/d/e/1FAIpQLSfxPtwwV-HtleZ-4ixLCaTkedSWw51CuX6VxzaW3b9bF1X7Vg/viewform?embedded=true"
+            title="Chambers Tech Support Request Form"
+            loading="lazy">
+          </iframe>
+        </div>
+
+        <p class="form-note">
+          Your request will be reviewed before any work begins. I'll contact you to discuss the details and next steps.
+        </p>
+      </div>
+    </div>
+  </section>
 
   <!-- ===== KNOWLEDGE LIBRARY ===== -->
   <section id="library" aria-label="Knowledge library">
@@ -678,6 +766,34 @@
 
   <script>
     document.getElementById("year").textContent = new Date().getFullYear();
+
+    /*
+      Google Forms pre-fill:
+      Put the Service question's entry ID into SERVICE_ENTRY_ID below.
+      Example: entry.123456789
+
+      Then the three buttons above will reload the embedded form with
+      the selected service already filled in.
+    */
+    const supportForm = document.getElementById("supportForm");
+    const requestOptions = document.querySelectorAll(".request-option");
+    const SERVICE_ENTRY_ID = ""; // Example: "entry.123456789"
+
+    requestOptions.forEach(option => {
+      option.addEventListener("click", () => {
+        const service = option.dataset.service;
+        document.getElementById("request").scrollIntoView({
+          behavior: "smooth",
+          block: "start"
+        });
+
+        if (!SERVICE_ENTRY_ID || !supportForm) return;
+
+        const baseUrl = supportForm.src.split("&")[0];
+        supportForm.src =
+          baseUrl + "&" + SERVICE_ENTRY_ID + "=" + encodeURIComponent(service);
+      });
+    });
 
     const search = document.getElementById("search");
     const cards = document.querySelectorAll(".card");
